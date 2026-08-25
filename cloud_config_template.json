@@ -16,8 +16,8 @@
 
   "content_sync": {
     "_说明": "内容同步中心：把最新版 diagnosis_rules.json 和 report_template.html 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新规则或报告模板只需替换云端文件，全团队即时生效，无需重新分发 zip",
-    "diagnosis_rules_url": "",
-    "report_template_url": "",
+    "diagnosis_rules_url": "https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/diagnosis_rules.json",
+    "report_template_url": "https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/report_template.html",
     "latest_content_version": "2.1.0",
     "update_note": ""
   },
