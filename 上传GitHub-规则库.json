@@ -1,0 +1,1008 @@
+{
+  "version": "1.0",
+  "dimensions": {
+    "coverage_gap": {
+      "name": "保障缺口分析",
+      "checks": [
+        {
+          "id": "ci_amount",
+          "label": "重疾保额",
+          "risk_high": {
+            "condition": "< 300000",
+            "color": "#FCEBEB",
+            "text_color": "#791F1F",
+            "message": "重疾保额低于30万，无法覆盖重疾治疗费用（平均30-50万），存在严重缺口"
+          },
+          "risk_medium": {
+            "condition": "300000-500000",
+            "color": "#FAEEDA",
+            "text_color": "#633806",
+            "message": "重疾保额30-50万，基本够用但建议提升至50万以上"
+          },
+          "risk_low": {
+            "condition": ">= 500000",
+            "color": "#E1F5EE",
+            "text_color": "#085041",
+            "message": "重疾保额充足"
+          }
+        },
+        {
+          "id": "life_amount",
+          "label": "身故保额",
+          "risk_high": {
+            "condition": "< annual_income * 5",
+            "color": "#FCEBEB",
+            "text_color": "#791F1F",
+            "message": "身故保额低于年收入5倍，家庭责任保障严重不足"
+          },
+          "risk_medium": {
+            "condition": "annual_income * 5 ~ annual_income * 10",
+            "color": "#FAEEDA",
+            "text_color": "#633806",
+            "message": "身故保额为年收入5-10倍，建议提升至10倍以上"
+          },
+          "risk_low": {
+            "condition": ">= annual_income * 10",
+            "color": "#E1F5EE",
+            "text_color": "#085041",
+            "message": "身故保额充足"
+          }
+        },
+        {
+          "id": "medical_amount",
+          "label": "医疗保额",
+          "risk_high": {
+            "condition": "no_medical_insurance",
+            "color": "#FCEBEB",
+            "text_color": "#791F1F",
+            "message": "未配置医疗险，大额医疗费用需自担"
+          },
+          "risk_medium": {
+            "condition": "< 1000000",
+            "color": "#FAEEDA",
+            "text_color": "#633806",
+            "message": "医疗保额低于100万，建议补充百万医疗险"
+          },
+          "risk_low": {
+            "condition": ">= 1000000",
+            "color": "#E1F5EE",
+            "text_color": "#085041",
+            "message": "医疗保额充足"
+          }
+        },
+        {
+          "id": "accident_amount",
+          "label": "意外保额",
+          "risk_high": {
+            "condition": "no_accident_insurance",
+            "color": "#FCEBEB",
+            "text_color": "#791F1F",
+            "message": "未配置意外险，意外风险无保障"
+          },
+          "risk_medium": {
+            "condition": "< 500000",
+            "color": "#FAEEDA",
+            "text_color": "#633806",
+            "message": "意外保额低于50万，建议提升"
+          },
+          "risk_low": {
+            "condition": ">= 500000",
+            "color": "#E1F5EE",
+            "text_color": "#085041",
+            "message": "意外保额充足"
+          }
+        }
+      ]
+    },
+    "type_gap": {
+      "name": "保障类型缺口",
+      "required_types": [
+        {
+          "type": "寿险",
+          "priority": "high",
+          "message": "有家庭责任者必须配置寿险，覆盖身故风险"
+        },
+        {
+          "type": "重疾险",
+          "priority": "high",
+          "message": "必须配置重疾险，覆盖大病治疗及收入损失"
+        },
+        {
+          "type": "医疗险",
+          "priority": "high",
+          "message": "必须配置医疗险，覆盖大额医疗费用"
+        },
+        {
+          "type": "意外险",
+          "priority": "high",
+          "message": "必须配置意外险，覆盖意外伤害风险"
+        },
+        {
+          "type": "年金险",
+          "priority": "medium",
+          "condition": "age >= 40",
+          "message": "40岁以上建议配置年金险，规划养老"
+        },
+        {
+          "type": "教育金",
+          "priority": "medium",
+          "condition": "has_children",
+          "message": "有子女建议配置教育金"
+        }
+      ]
+    },
+    "premium_burden": {
+      "name": "家庭保费负担率",
+      "formula": "全家年缴保费合计 / 全家年收入合计 * 100",
+      "note": "家庭合并口径：各成员保费与收入均合并计算",
+      "thresholds": {
+        "low": {
+          "max": 10,
+          "color": "#E1F5EE",
+          "text_color": "#085041",
+          "label": "良性",
+          "message": "保费负担合理"
+        },
+        "medium": {
+          "max": 20,
+          "color": "#FAEEDA",
+          "text_color": "#633806",
+          "label": "中等风险",
+          "message": "保费负担偏高，建议控制在年收入10%以内"
+        },
+        "high": {
+          "min": 20,
+          "color": "#FCEBEB",
+          "text_color": "#791F1F",
+          "label": "高风险",
+          "message": "保费负担过重，超过年收入20%，影响生活质量"
+        }
+      }
+    },
+    "beneficiary": {
+      "name": "受益人确权",
+      "rules": [
+        {
+          "condition": "指定受益人",
+          "risk": "low",
+          "color": "#E1F5EE",
+          "text_color": "#085041",
+          "message": "已指定受益人，理赔金不作为遗产处理"
+        },
+        {
+          "condition": "法定受益人",
+          "risk": "medium",
+          "color": "#FAEEDA",
+          "text_color": "#633806",
+          "message": "法定受益人，理赔金作为遗产处理，可能引发继承纠纷，建议确权为指定受益人"
+        },
+        {
+          "condition": "未填写",
+          "risk": "high",
+          "color": "#FCEBEB",
+          "text_color": "#791F1F",
+          "message": "受益人未填写，必须尽快补办确权手续"
+        }
+      ]
+    },
+    "term_gap": {
+      "name": "保障期限缺口",
+      "rules": [
+        {
+          "condition": "终身",
+          "risk": "low",
+          "color": "#E1F5EE",
+          "text_color": "#085041",
+          "message": "终身保障，无期限缺口"
+        },
+        {
+          "condition": "至70岁以上",
+          "risk": "low",
+          "color": "#E1F5EE",
+          "text_color": "#085041",
+          "message": "保障覆盖至70岁以上"
+        },
+        {
+          "condition": "至60-70岁",
+          "risk": "medium",
+          "color": "#FAEEDA",
+          "text_color": "#633806",
+          "message": "保障至60-70岁，退休后保障中断"
+        },
+        {
+          "condition": "至60岁前",
+          "risk": "high",
+          "color": "#FCEBEB",
+          "text_color": "#791F1F",
+          "message": "保障至60岁前结束，养老阶段无保障"
+        },
+        {
+          "condition": "定期(20/30年)",
+          "risk": "medium",
+          "color": "#FAEEDA",
+          "text_color": "#633806",
+          "message": "定期保障，需关注到期后续保问题"
+        }
+      ]
+    },
+    "premium_efficiency": {
+      "name": "保费效率",
+      "checks": [
+        {
+          "id": "duplicate_medical",
+          "label": "重复医疗险",
+          "risk_high": {
+            "condition": ">= 2 medical policies",
+            "message": "存在多份医疗险，可能重复报销浪费保费"
+          },
+          "risk_low": {
+            "condition": "<= 1 medical policy",
+            "message": "医疗险配置合理"
+          }
+        },
+        {
+          "id": "savings_ratio",
+          "label": "理财型保费占比",
+          "risk_medium": {
+            "condition": "savings_premium / total_premium > 0.6",
+            "message": "分红/万能型保费占比超过60%，保障型占比过低"
+          },
+          "risk_low": {
+            "condition": "protection_premium / total_premium >= 0.7",
+            "message": "保障型保费占比合理"
+          }
+        },
+        {
+          "id": "policy_status",
+          "label": "保单状态",
+          "risk_high": {
+            "condition": "停效/失效",
+            "message": "存在停效/失效保单，需尽快复效或重新投保"
+          },
+          "risk_low": {
+            "condition": "全部有效",
+            "message": "所有保单状态正常"
+          }
+        }
+      ]
+    }
+  },
+  "extended_modules": {
+    "asset_allocation": {
+      "name": "客户资产配置分析",
+      "spq_reference": {
+        "要花的钱": {
+          "ratio": 0.1,
+          "desc": "3-6个月生活费，现金/活期",
+          "vehicles": [
+            "现金",
+            "活期存款",
+            "货币基金"
+          ]
+        },
+        "保命的钱": {
+          "ratio": 0.2,
+          "desc": "保障型保险",
+          "vehicles": [
+            "保障型保险保费"
+          ]
+        },
+        "生钱的钱": {
+          "ratio": 0.3,
+          "desc": "进取型投资",
+          "vehicles": [
+            "基金",
+            "股票",
+            "混合型理财"
+          ]
+        },
+        "保本的钱": {
+          "ratio": 0.4,
+          "desc": "稳健增值",
+          "vehicles": [
+            "年金险",
+            "国债",
+            "定期存款",
+            "银行理财"
+          ]
+        }
+      },
+      "checks": [
+        {
+          "id": "protection_ratio",
+          "label": "保障型保费占金融资产比",
+          "risk_high": {
+            "condition": "< 0.005 或 > 0.08",
+            "message": "保障投入严重不足或过度"
+          },
+          "risk_medium": {
+            "condition": "0.005-0.01 或 0.05-0.08",
+            "message": "保障投入比例偏离合理区间"
+          },
+          "risk_low": {
+            "condition": "0.01-0.05",
+            "message": "保障投入比例合理"
+          }
+        },
+        {
+          "id": "liquidity_ratio",
+          "label": "流动性资产占比",
+          "risk_high": {
+            "condition": "< 0.05 或 > 0.50",
+            "message": "流动性严重不足或现金闲置过多"
+          },
+          "risk_medium": {
+            "condition": "0.05-0.10 或 0.30-0.50",
+            "message": "流动性偏低或偏高"
+          },
+          "risk_low": {
+            "condition": "0.10-0.30",
+            "message": "流动性合理"
+          }
+        },
+        {
+          "id": "concentration",
+          "label": "单一资产集中度",
+          "risk_high": {
+            "condition": "> 0.60",
+            "message": "资产过度集中于单一类别"
+          },
+          "risk_medium": {
+            "condition": "0.40-0.60",
+            "message": "资产集中度偏高"
+          },
+          "risk_low": {
+            "condition": "< 0.40",
+            "message": "资产分散度良好"
+          }
+        },
+        {
+          "id": "emergency_fund",
+          "label": "应急备用金覆盖月数",
+          "risk_high": {
+            "condition": "< 3个月",
+            "message": "应急备用金不足，突发支出风险大"
+          },
+          "risk_medium": {
+            "condition": "3-6个月",
+            "message": "应急备用金偏紧"
+          },
+          "risk_low": {
+            "condition": "6-12个月",
+            "message": "应急备用金充足"
+          }
+        }
+      ],
+      "scoring": "均衡度评分 = 100 - (高风险项×25 + 中风险项×10)，满分100"
+    },
+    "family_risk_profile": {
+      "name": "家庭风险画像",
+      "life_stages": [
+        {
+          "stage": "单身期",
+          "age_range": [
+            22,
+            28
+          ],
+          "core_risks": [
+            "意外",
+            "重疾"
+          ],
+          "priority": [
+            "意外险",
+            "重疾险",
+            "医疗险"
+          ]
+        },
+        {
+          "stage": "新婚期",
+          "age_range": [
+            28,
+            32
+          ],
+          "core_risks": [
+            "意外",
+            "重疾",
+            "身故"
+          ],
+          "priority": [
+            "重疾险",
+            "定期寿险",
+            "医疗险"
+          ]
+        },
+        {
+          "stage": "育儿期",
+          "age_range": [
+            32,
+            45
+          ],
+          "core_risks": [
+            "身故",
+            "重疾",
+            "教育"
+          ],
+          "priority": [
+            "定期寿险",
+            "重疾险",
+            "医疗险",
+            "教育金"
+          ]
+        },
+        {
+          "stage": "成熟期",
+          "age_range": [
+            45,
+            55
+          ],
+          "core_risks": [
+            "重疾",
+            "养老"
+          ],
+          "priority": [
+            "重疾险",
+            "年金险",
+            "医疗险"
+          ]
+        },
+        {
+          "stage": "退休期",
+          "age_range": [
+            55,
+            200
+          ],
+          "core_risks": [
+            "医疗",
+            "护理"
+          ],
+          "priority": [
+            "医疗险",
+            "护理险",
+            "年金险"
+          ]
+        }
+      ],
+      "responsibility_factors": {
+        "has_mortgage": "有房贷：身故保额须覆盖贷款余额",
+        "has_children": "有子女：教育金+身故保额须覆盖抚养至成年费用",
+        "has_elderly": "赡养老人：身故保额须考虑老人赡养费用",
+        "dual_income": "双收入家庭：双人保额按收入比例分配"
+      }
+    },
+    "tax_planning": {
+      "name": "税务规划建议",
+      "deduction_policies": [
+        {
+          "policy": "税优健康险",
+          "annual_deduction": 2400,
+          "desc": "每年2400元（200元/月）税前扣除，适合所有纳税人群",
+          "applicable": "所有有个税的客户"
+        },
+        {
+          "policy": "个人养老金",
+          "annual_deduction": 12000,
+          "desc": "每年12000元税前扣除，按边际税率节税（3%档节税360元/年，45%档节税5400元/年）",
+          "applicable": "参加社保的劳动者"
+        }
+      ],
+      "insurance_tax_advantages": [
+        {
+          "item": "身故理赔金",
+          "advantage": "免征个人所得税（《个人所得税法》第四条第五项）"
+        },
+        {
+          "item": "指定受益人理赔金",
+          "advantage": "不作为遗产处理，无需清偿被保险人生前债务"
+        },
+        {
+          "item": "增额终身寿现金价值增长",
+          "advantage": "现金价值增长不受个税影响"
+        }
+      ],
+      "tax_rate_brackets": [
+        {
+          "level": 3,
+          "income_range": "≤36000元/年",
+          "annual_saving_personal_pension": 360
+        },
+        {
+          "level": 10,
+          "income_range": "36000-144000元/年",
+          "annual_saving_personal_pension": 1200
+        },
+        {
+          "level": 20,
+          "income_range": "144000-300000元/年",
+          "annual_saving_personal_pension": 2400
+        },
+        {
+          "level": 25,
+          "income_range": "300000-420000元/年",
+          "annual_saving_personal_pension": 3000
+        },
+        {
+          "level": 30,
+          "income_range": "420000-660000元/年",
+          "annual_saving_personal_pension": 3600
+        },
+        {
+          "level": 35,
+          "income_range": "660000-960000元/年",
+          "annual_saving_personal_pension": 4200
+        },
+        {
+          "level": 45,
+          "income_range": ">960000元/年",
+          "annual_saving_personal_pension": 5400
+        }
+      ]
+    },
+    "rights_inheritance": {
+      "name": "确权传承类健诊",
+      "confirmation_table": {
+        "principle": "确权汇总表仅客观记录保单载明的原始信息，表格内部不写任何风险判断；全部风险结论统一输出到确权风险提示区块与健诊分析章节",
+        "fields": [
+          "保单序号",
+          "险种/产品",
+          "投保人",
+          "被保险人",
+          "受益人（保单载明）",
+          "受益安排（已指定/未指定/—）",
+          "保单贷款（无贷款/贷款余额）",
+          "保单状态"
+        ]
+      },
+      "risk_alerts": {
+        "output_format": "🔴【确权风险提示】——逐项输出确权与传承风险结论，不得写入确权汇总表格",
+        "rules": [
+          {
+            "condition": "受益人为法定",
+            "risk": "medium",
+            "message": "理赔金作为被保险人遗产处理，须办理继承权公证方可支取，多成员家庭继承纠纷风险高，建议确权为指定受益人"
+          },
+          {
+            "condition": "受益人未填写",
+            "risk": "high",
+            "message": "受益人未填写，必须尽快补办确权手续"
+          },
+          {
+            "condition": "保单贷款未结清",
+            "risk": "high",
+            "message": "贷款本息持续累积侵蚀现金价值，本息超过现金价值将导致保单失效、保障中断，建议核实贷款余额与利率并安排还款"
+          },
+          {
+            "condition": "全部保单投保人集中于一人",
+            "risk": "medium",
+            "message": "投保人先于被保险人身故时保单现金价值将作为投保人遗产处理，可能引发分割纠纷并影响后续缴费，建议评估夫妻互保架构"
+          },
+          {
+            "condition": "子女保单投保人为父母",
+            "risk": "low",
+            "message": "架构正确，现金价值控制权在家长手中，建议保持投保人不变更"
+          },
+          {
+            "condition": "经济支柱寿险受益人为配偶/子女",
+            "risk": "low",
+            "message": "理赔金流向与家庭责任匹配"
+          }
+        ],
+        "loan_cautions": [
+          "贷款期间发生理赔可能需先偿还贷款本息",
+          "贷款本息超过现金价值会导致保单失效"
+        ]
+      },
+      "legal_provisions": {
+        "note": "确权与传承相关法律条文（报告10.3章节引用，条文为节选要点，以现行有效版本为准）",
+        "insurance_law": [
+          {
+            "article": "第39条",
+            "text": "人身保险的受益人由被保险人或者投保人指定。投保人指定受益人时须经被保险人同意"
+          },
+          {
+            "article": "第40条",
+            "text": "可指定一人或数人为受益人并确定受益顺序和份额；未确定份额的，按相等份额享有受益权"
+          },
+          {
+            "article": "第41条",
+            "text": "变更受益人须书面通知保险人；投保人变更受益人时须经被保险人同意"
+          },
+          {
+            "article": "第42条",
+            "text": "没有指定受益人/受益人指定不明、受益人先于被保险人死亡且无其他受益人、受益人丧失或放弃受益权且无其他受益人的，保险金作为被保险人遗产处理"
+          },
+          {
+            "article": "第43条",
+            "text": "受益人故意造成被保险人死亡、伤残、疾病或故意杀害未遂的，丧失受益权"
+          },
+          {
+            "article": "第34条",
+            "text": "以死亡为给付条件的保单未经被保险人书面同意不得转让或质押（涉及保单贷款时核实）"
+          }
+        ],
+        "civil_code": [
+          {
+            "article": "第1122条",
+            "text": "遗产是自然人死亡时遗留的个人合法财产"
+          },
+          {
+            "article": "第1123条",
+            "text": "继承顺序：遗赠扶养协议>遗嘱继承/遗赠>法定继承"
+          },
+          {
+            "article": "第1127条",
+            "text": "法定继承第一顺序：配偶、子女、父母；第二顺序：兄弟姐妹、祖父母、外祖父母"
+          },
+          {
+            "article": "第1130条",
+            "text": "同一顺序继承人继承份额一般应当均等"
+          },
+          {
+            "article": "第1153条",
+            "text": "遗产分割时，夫妻共同财产应先分出一半为配偶所有，其余为被继承人遗产"
+          }
+        ],
+        "judicial_interpretation_3": [
+          {
+            "article": "第9条",
+            "text": "投保人指定受益人未经被保险人同意的无效；受益人约定为'法定'的以法定继承人为受益人；约定含姓名和身份关系、事故发生时身份关系变化的，认定为未指定受益人"
+          },
+          {
+            "article": "第10条",
+            "text": "变更受益人自意思表示发出时生效；未通知保险人的对保险人不发生效力；投保人变更未经被保险人同意的无效"
+          },
+          {
+            "article": "第11条",
+            "text": "保险事故发生后变更受益人，变更后的受益人请求给付保险金的，不予支持"
+          },
+          {
+            "article": "第12条",
+            "text": "多受益人情形下部分受益人先亡/放弃/丧失受益权的份额处理规则"
+          }
+        ],
+        "individual_income_tax_law": [
+          {
+            "article": "第4条第（五）项",
+            "text": "保险赔款免征个人所得税"
+          }
+        ]
+      },
+      "three_rights_framework": {
+        "name": "三权分立与定向传承框架",
+        "principle": "保险合同的三个角色对应三类不重叠的权利；将三者填对了，理赔金即可定向、免公证、免税传承",
+        "roles": {
+          "policyholder": {
+            "role_name": "投保人",
+            "rights": "所有权 + 支配权",
+            "description": "交保费的人。掌控保单现金价值、退保权、保单贷款权、受益人指定与变更权（须经被保险人同意）。投保人先于被保险人身故时，现金价值作为投保人遗产处理。",
+            "estate_risk": "投保人集中于一人的保单，其身故后现金价值将作为遗产分割，可能引发纠纷并影响后续缴费"
+          },
+          "insured": {
+            "role_name": "被保险人",
+            "rights": "保障请求权",
+            "description": "受保障的人。享有生存金领取权、理赔请求权，有权指定和变更受益人。其身故触发身故理赔金给付。是保单的'核心人物'。",
+            "key_power": "被保险人对受益人的指定权是定向传承的起点——指定了受益人，理赔金就不作为遗产"
+          },
+          "beneficiary": {
+            "role_name": "受益人",
+            "rights": "受益金请求权",
+            "description": "领取保险金的人。指定受益人的理赔金直接给付受益人，不作为被保险人遗产，免继承公证、免遗产分割纠纷、免征个人所得税。",
+            "core_logic": "受益人'指定' → 理赔金不走遗产分配 → 定向传承成功；受益人'法定/未填写' → 理赔金作为遗产 → 须继承公证 → 易产生纠纷"
+          }
+        },
+        "directed_inheritance_chain": [
+          "投保人行使受益人指定权（须经被保险人同意）",
+          "受益人变更为'指定'（明确姓名+身份证号+份额）",
+          "被保险人身故 → 保险金直接给付指定受益人",
+          "不作为被保险人遗产 → 免继承公证 → 免遗产分割纠纷 → 免征个税"
+        ],
+        "why_statutory_is_risk": "受益人留空或填'法定'时，理赔金依法作为被保险人遗产处理（保险法第42条），须经继承权公证方可支取；多成员家庭中继承顺序与份额均需法定继承规则确定，极易产生纠纷"
+      }
+    }
+  },
+  "family_diagnosis": {
+    "name": "家庭级诊断规则",
+    "principles": [
+      "保单按被保险人归属到家庭成员，投保人仅作缴费参考",
+      "按成员角色（支柱/配偶/子女/老人）确定必需险种与保额基准",
+      "保费负担率按家庭合并口径计算：全家年缴保费 / 全家年收入",
+      "专查家庭保障错配：集中度、配偶零保障、先孩子后大人"
+    ],
+    "member_role_requirements": {
+      "主要经济支柱": {
+        "寿险": {
+          "required": true,
+          "benchmark": "未偿负债 + 子女抚养费 + 家庭年收入×5×收入占比",
+          "message": "支柱身故保额须覆盖家庭刚性责任"
+        },
+        "重疾险": {
+          "required": true,
+          "benchmark": ">= 500000",
+          "message": "支柱重疾保额建议50万以上"
+        },
+        "医疗险": {
+          "required": true,
+          "benchmark": ">= 1000000",
+          "message": "支柱必须有百万医疗"
+        },
+        "意外险": {
+          "required": true,
+          "benchmark": ">= 500000",
+          "message": "支柱必须有意外险"
+        },
+        "年金": {
+          "required": false,
+          "recommend": true
+        }
+      },
+      "有收入配偶": {
+        "寿险": {
+          "required": true,
+          "benchmark": "按收入占比分担家庭责任",
+          "message": "有收入配偶需按收入比例配置寿险"
+        },
+        "重疾险": {
+          "required": true,
+          "benchmark": "300000-500000",
+          "message": "配偶重疾保额建议30-50万"
+        },
+        "医疗险": {
+          "required": true,
+          "benchmark": ">= 1000000",
+          "message": "配偶必须有医疗险"
+        },
+        "意外险": {
+          "required": true,
+          "benchmark": ">= 500000",
+          "message": "配偶必须有意外险"
+        },
+        "年金": {
+          "required": false,
+          "recommend": true
+        }
+      },
+      "无收入配偶": {
+        "寿险": {
+          "required": false,
+          "recommend": true,
+          "benchmark": "覆盖家务与照护责任价值",
+          "message": "无收入配偶建议配置寿险覆盖家务责任"
+        },
+        "重疾险": {
+          "required": true,
+          "benchmark": ">= 300000",
+          "message": "配偶重疾保额建议30万以上"
+        },
+        "医疗险": {
+          "required": true,
+          "benchmark": ">= 1000000",
+          "message": "配偶必须有医疗险"
+        },
+        "意外险": {
+          "required": true,
+          "benchmark": ">= 500000",
+          "message": "配偶必须有意外险"
+        },
+        "年金": {
+          "required": false,
+          "recommend": true
+        }
+      },
+      "子女": {
+        "寿险": {
+          "required": false,
+          "message": "子女无需寿险（无家庭责任，监管对未成年身故保额有限制）"
+        },
+        "重疾险": {
+          "required": false,
+          "recommend": true,
+          "benchmark": "300000-500000",
+          "message": "子女重疾建议30-50万"
+        },
+        "医疗险": {
+          "required": true,
+          "benchmark": ">= 1000000",
+          "message": "子女必须有医疗险"
+        },
+        "意外险": {
+          "required": true,
+          "benchmark": ">= 500000",
+          "message": "子女必须有意外险（学平险可部分覆盖）"
+        },
+        "教育金": {
+          "required": false,
+          "recommend": true,
+          "message": "有子女建议配置教育金"
+        }
+      },
+      "老人": {
+        "寿险": {
+          "required": false,
+          "message": "老人无需寿险"
+        },
+        "重疾险": {
+          "required": false,
+          "message": "多数重疾产品已不可投保，可用防癌险替代"
+        },
+        "医疗险": {
+          "required": false,
+          "recommend": true,
+          "benchmark": "惠民保/防癌医疗",
+          "message": "老人建议配置惠民保或防癌医疗"
+        },
+        "意外险": {
+          "required": false,
+          "recommend": true,
+          "benchmark": "骨折意外险",
+          "message": "老人建议配置骨折意外险"
+        }
+      }
+    },
+    "family_checks": [
+      {
+        "id": "spouse_zero_coverage",
+        "label": "配偶零保障",
+        "risk_high": {
+          "condition": "配偶（无论是否有收入）名下无任何保单",
+          "message": "配偶零保障，重疾/医疗/意外全部暴露，家庭第二风险敞口"
+        }
+      },
+      {
+        "id": "coverage_concentration",
+        "label": "家庭配置集中度",
+        "risk_high": {
+          "condition": "单一成员保费占全家保费 > 80%",
+          "message": "保障偏科：保费集中在一位成员，其余成员暴露"
+        },
+        "risk_medium": {
+          "condition": "子女保费占全家保费 > 50%",
+          "message": "先孩子后大人错配：子女保费占比过高，大人保障不足"
+        }
+      },
+      {
+        "id": "breadwinner_gap",
+        "label": "支柱保障充分性",
+        "risk_high": {
+          "condition": "经济支柱缺寿险/医疗险/意外险任一项",
+          "message": "经济支柱存在必需险种缺口，家庭收入来源暴露"
+        },
+        "risk_medium": {
+          "condition": "支柱身故保额 < 家庭刚性责任（房贷+抚养费）",
+          "message": "支柱身故保额未覆盖家庭刚性责任"
+        }
+      },
+      {
+        "id": "income_dependency",
+        "label": "单支柱依赖度",
+        "risk_medium": {
+          "condition": "单一成员收入占家庭收入 > 70%",
+          "message": "家庭收入高度依赖单一成员，该成员保障须重点加强"
+        }
+      }
+    ],
+    "beneficiary_family_view": {
+      "checks": [
+        "经济支柱寿险受益人应为配偶/子女，理赔金流向与家庭责任匹配",
+        "子女保单建议父母为投保人，掌控现金价值",
+        "多成员家庭中法定受益人的继承纠纷风险更高，确权优先级提升"
+      ]
+    }
+  },
+  "risk_colors": {
+    "high": {
+      "bg": "#FCEBEB",
+      "text": "#791F1F",
+      "border": "#E24B4A",
+      "label": "高风险"
+    },
+    "medium": {
+      "bg": "#FAEEDA",
+      "text": "#633806",
+      "border": "#BA7517",
+      "label": "中等风险"
+    },
+    "low": {
+      "bg": "#E1F5EE",
+      "text": "#085041",
+      "border": "#1D9E75",
+      "label": "良性"
+    },
+    "not_required": {
+      "bg": "#F1EFE8",
+      "text": "#5F5E5A",
+      "border": "#D3D1C7",
+      "label": "该角色不需要"
+    }
+  },
+  "insurance_type_classification": {
+    "重疾险": [
+      "重大疾病",
+      "重疾",
+      "防癌",
+      "康宁",
+      "健康福"
+    ],
+    "医疗险": [
+      "医疗",
+      "费用报销",
+      "百万医疗",
+      "住院",
+      "门急诊"
+    ],
+    "意外险": [
+      "意外",
+      "伤害",
+      "身故残疾"
+    ],
+    "寿险": [
+      "终身寿险",
+      "定期寿险",
+      "寿险",
+      "增额终身寿"
+    ],
+    "年金险": [
+      "年金",
+      "养老",
+      "教育金",
+      "生存金"
+    ],
+    "理财型": [
+      "分红",
+      "万能",
+      "投资连结",
+      "投连",
+      "两全"
+    ]
+  },
+  "default_assumptions": {
+    "note": "未提供家庭信息时的默认假设值，报告中须标注为假设值",
+    "family_structure": {
+      "members": [
+        {
+          "role": "主要经济支柱",
+          "age": 35,
+          "annual_income": 250000
+        },
+        {
+          "role": "有收入配偶",
+          "age": 33,
+          "annual_income": 100000
+        },
+        {
+          "role": "子女",
+          "age": 5,
+          "annual_income": 0
+        }
+      ],
+      "total_annual_income": 350000,
+      "mortgage_balance": 0,
+      "elderly_supported": false
+    }
+  },
+  "report_modules": {
+    "executive_summary": {
+      "name": "首页执行摘要",
+      "position": "封面后、第一章前，独立成页",
+      "components": {
+        "health_score": {
+          "name": "家庭保障健康分",
+          "scale": "0-100",
+          "scoring": {
+            "member_coverage": "权重40% — 成员保障覆盖率（有保障成员数÷应有保障成员数）",
+            "amount_adequacy": "权重30% — 保额充足度（各险种实际保额÷角色基准保额的加权平均）",
+            "rights_completion": "权重15% — 确权完成度（已指定受益人保单数÷总保单数）",
+            "premium_efficiency": "权重15% — 保费效率（保障型保费占比+配置集中度倒分）"
+          },
+          "risk_mapping": {
+            "high": "< 60分（红圈）",
+            "medium": "60-80分（琥珀）",
+            "low": "> 80分（绿圈）"
+          }
+        },
+        "risk_overview": "高/中/低风险项数量三色卡片",
+        "top3_risks": "只列最关键的3条高风险项，每条一句话讲清'谁的风险+损失后果'",
+        "call_to_action": "一句话行动召唤，指向第七章建议方案的最低成本解法"
+      },
+      "principle": "客户对分数敏感、对'维度'无感；看到低分会主动追问怎么提——追问就是转化的起点"
+    }
+  }
+}
