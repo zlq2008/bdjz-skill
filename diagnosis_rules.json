@@ -1,8 +1,7 @@
 {
-  "version": "2.7.0",
+  "version": "2.8.0",
   "framework": "三问九维",
   "framework_note": "三问=保障是否充足（钱够不够用）·资产归属是否清晰（钱归谁）·理赔是否顺畅（钱能否顺利拿到）；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
-
   "terminology_mapping": {
     "principle": "识别阶段用保单原文（险种真名），报告输出统一用去保险化措辞；法条原文引用时保留法律条文原词",
     "mapping": {
@@ -22,10 +21,21 @@
       "身故保额": "责任保障额度",
       "保费": "年存金额（语境允许时）"
     },
-    "forbidden_in_report": ["重疾险", "寿险", "身故", "疾病", "缺口", "加保", "停效（用'需恢复效力'）"],
-    "exceptions": ["法条原文引用", "险种识别与分类环节", "保单原始信息记录表格中的险种真名"]
+    "forbidden_in_report": [
+      "重疾险",
+      "寿险",
+      "身故",
+      "疾病",
+      "缺口",
+      "加保",
+      "停效（用'需恢复效力'）"
+    ],
+    "exceptions": [
+      "法条原文引用",
+      "险种识别与分类环节",
+      "保单原始信息记录表格中的险种真名"
+    ]
   },
-
   "affirmation": {
     "name": "远见之择 · 肯定已有保障",
     "principle": "先肯定、再优化：客户过去买的保障是'对的而不是错的'，诊断输出必须以肯定语序开篇",
@@ -36,25 +46,35 @@
       "禁止使用'买错了''不够''晚了'等否定性表述；只用'当时的前瞻选择+现在的完善机会'框架"
     ]
   },
-
   "three_questions": {
     "Q1": {
       "name": "保障是否充足（钱够不够用）",
-      "dimensions": ["dim1_health_fund", "dim2_breadwinner_protection", "dim3_major_medical"],
+      "dimensions": [
+        "dim1_health_fund",
+        "dim2_breadwinner_protection",
+        "dim3_major_medical"
+      ],
       "report_pages": "P5-P7"
     },
     "Q2": {
       "name": "资产归属是否清晰（钱归谁）",
-      "dimensions": ["dim4_beneficiary", "dim5_policy_loan", "dim6_asset_isolation"],
+      "dimensions": [
+        "dim4_beneficiary",
+        "dim5_policy_loan",
+        "dim6_asset_isolation"
+      ],
       "report_pages": "P8-P9"
     },
     "Q3": {
       "name": "理赔是否顺畅（钱能否顺利拿到）",
-      "dimensions": ["dim7_premium_continuity", "dim8_info_update", "dim9_term_matching"],
+      "dimensions": [
+        "dim7_premium_continuity",
+        "dim8_info_update",
+        "dim9_term_matching"
+      ],
       "report_pages": "P10"
     }
   },
-
   "dimensions": {
     "dim1_health_fund": {
       "name": "健康守护金覆盖",
@@ -307,7 +327,6 @@
       "focus_note": "重点核对顶梁柱退休时点与家庭责任期（房贷结清/子女独立）是否落在保障期内"
     }
   },
-
   "health_colors": {
     "priority": {
       "name": "优先优化",
@@ -349,7 +368,6 @@
       "usage": "P4 肯定卡及各维度中已完善项的金色强调"
     }
   },
-
   "scoring": {
     "name": "综合保障健康度",
     "scale": "0-100",
@@ -359,53 +377,167 @@
       "Q3_dimensions_7_9": "30% — 理赔是否顺畅（维度七八九）"
     },
     "bands": [
-      {"band": ">= 80", "status": "keep", "label": "保持", "stamp": "保持"},
-      {"band": "60 - 79", "status": "stable", "label": "稳定", "stamp": "稳定"},
-      {"band": "50 - 59", "status": "attention", "label": "建议关注", "stamp": "可优化"},
-      {"band": "< 50", "status": "priority", "label": "优先优化", "stamp": "优先优化"}
+      {
+        "band": ">= 80",
+        "status": "keep",
+        "label": "保持",
+        "stamp": "保持"
+      },
+      {
+        "band": "60 - 79",
+        "status": "stable",
+        "label": "稳定",
+        "stamp": "稳定"
+      },
+      {
+        "band": "50 - 59",
+        "status": "attention",
+        "label": "建议关注",
+        "stamp": "可优化"
+      },
+      {
+        "band": "< 50",
+        "status": "priority",
+        "label": "优先优化",
+        "stamp": "优先优化"
+      }
     ],
     "dimension_score_rule": "每维度按'保持=100 / 稳定=75 / 建议关注=55 / 优先优化=30'折算，加权汇总；综合印章与雷达图共用此分值"
   },
-
   "member_role_requirements": {
     "note": "成员角色保障需求基准表（诊断核心依据，输出用去保险化措辞）",
     "主要经济支柱": {
-      "顶梁柱责任保障": {"required": true, "benchmark": "家庭责任总额的5-10倍（责任叠加法测算）", "message": "支柱责任保障须覆盖家庭刚性责任"},
-      "健康守护金": {"required": true, "benchmark": ">= 500000（建议80万含收入中断补偿）", "message": "支柱守护金建议50万以上"},
-      "大额医疗保障": {"required": true, "benchmark": ">= 1000000", "message": "支柱必须有百万级医疗保障"},
-      "意外保障": {"required": true, "benchmark": ">= 500000", "message": "支柱必须有意外保障"},
-      "养老储备": {"required": false, "recommend": true}
+      "顶梁柱责任保障": {
+        "required": true,
+        "benchmark": "家庭责任总额的5-10倍（责任叠加法测算）",
+        "message": "支柱责任保障须覆盖家庭刚性责任"
+      },
+      "健康守护金": {
+        "required": true,
+        "benchmark": ">= 500000（建议80万含收入中断补偿）",
+        "message": "支柱守护金建议50万以上"
+      },
+      "大额医疗保障": {
+        "required": true,
+        "benchmark": ">= 1000000",
+        "message": "支柱必须有百万级医疗保障"
+      },
+      "意外保障": {
+        "required": true,
+        "benchmark": ">= 500000",
+        "message": "支柱必须有意外保障"
+      },
+      "养老储备": {
+        "required": false,
+        "recommend": true
+      }
     },
     "有收入配偶": {
-      "顶梁柱责任保障": {"required": true, "benchmark": "按收入占比分担家庭责任", "message": "有收入配偶需按收入比例配置责任保障"},
-      "健康守护金": {"required": true, "benchmark": "300000-500000", "message": "配偶守护金建议30-50万"},
-      "大额医疗保障": {"required": true, "benchmark": ">= 1000000", "message": "配偶必须有医疗保障"},
-      "意外保障": {"required": true, "benchmark": ">= 500000", "message": "配偶必须有意外保障"},
-      "养老储备": {"required": false, "recommend": true}
+      "顶梁柱责任保障": {
+        "required": true,
+        "benchmark": "按收入占比分担家庭责任",
+        "message": "有收入配偶需按收入比例配置责任保障"
+      },
+      "健康守护金": {
+        "required": true,
+        "benchmark": "300000-500000",
+        "message": "配偶守护金建议30-50万"
+      },
+      "大额医疗保障": {
+        "required": true,
+        "benchmark": ">= 1000000",
+        "message": "配偶必须有医疗保障"
+      },
+      "意外保障": {
+        "required": true,
+        "benchmark": ">= 500000",
+        "message": "配偶必须有意外保障"
+      },
+      "养老储备": {
+        "required": false,
+        "recommend": true
+      }
     },
     "无收入配偶": {
-      "顶梁柱责任保障": {"required": false, "recommend": true, "benchmark": "覆盖家务与照护责任价值", "message": "无收入配偶建议配置责任保障覆盖照护责任"},
-      "健康守护金": {"required": true, "benchmark": ">= 300000", "message": "配偶守护金建议30万以上"},
-      "大额医疗保障": {"required": true, "benchmark": ">= 1000000", "message": "配偶必须有医疗保障"},
-      "意外保障": {"required": true, "benchmark": ">= 500000", "message": "配偶必须有意外保障"},
-      "养老储备": {"required": false, "recommend": true}
+      "顶梁柱责任保障": {
+        "required": false,
+        "recommend": true,
+        "benchmark": "覆盖家务与照护责任价值",
+        "message": "无收入配偶建议配置责任保障覆盖照护责任"
+      },
+      "健康守护金": {
+        "required": true,
+        "benchmark": ">= 300000",
+        "message": "配偶守护金建议30万以上"
+      },
+      "大额医疗保障": {
+        "required": true,
+        "benchmark": ">= 1000000",
+        "message": "配偶必须有医疗保障"
+      },
+      "意外保障": {
+        "required": true,
+        "benchmark": ">= 500000",
+        "message": "配偶必须有意外保障"
+      },
+      "养老储备": {
+        "required": false,
+        "recommend": true
+      }
     },
     "子女": {
-      "顶梁柱责任保障": {"required": false, "message": "子女无需责任保障（无家庭责任，监管对未成年额度有限制）"},
-      "健康守护金": {"required": false, "recommend": true, "benchmark": "300000-500000", "message": "子女守护金建议30-50万"},
-      "大额医疗保障": {"required": true, "benchmark": ">= 1000000", "message": "子女必须有医疗保障"},
-      "意外保障": {"required": true, "benchmark": ">= 500000", "message": "子女必须有意外保障（学平保障可部分覆盖）"},
-      "教育储备": {"required": false, "recommend": true, "message": "有子女建议配置教育储备"}
+      "顶梁柱责任保障": {
+        "required": false,
+        "message": "子女无需责任保障（无家庭责任，监管对未成年额度有限制）"
+      },
+      "健康守护金": {
+        "required": false,
+        "recommend": true,
+        "benchmark": "300000-500000",
+        "message": "子女守护金建议30-50万"
+      },
+      "大额医疗保障": {
+        "required": true,
+        "benchmark": ">= 1000000",
+        "message": "子女必须有医疗保障"
+      },
+      "意外保障": {
+        "required": true,
+        "benchmark": ">= 500000",
+        "message": "子女必须有意外保障（学平保障可部分覆盖）"
+      },
+      "教育储备": {
+        "required": false,
+        "recommend": true,
+        "message": "有子女建议配置教育储备"
+      }
     },
     "老人": {
-      "顶梁柱责任保障": {"required": false, "message": "老人无需责任保障"},
-      "健康守护金": {"required": false, "message": "多数守护金类产品已不可配置，可用防癌类替代"},
-      "大额医疗保障": {"required": false, "recommend": true, "benchmark": "惠民保/防癌医疗", "message": "老人建议配置惠民保或防癌医疗"},
-      "意外保障": {"required": false, "recommend": true, "benchmark": "骨折意外保障", "message": "老人建议配置骨折意外保障"},
-      "养老储备": {"required": false}
+      "顶梁柱责任保障": {
+        "required": false,
+        "message": "老人无需责任保障"
+      },
+      "健康守护金": {
+        "required": false,
+        "message": "多数守护金类产品已不可配置，可用防癌类替代"
+      },
+      "大额医疗保障": {
+        "required": false,
+        "recommend": true,
+        "benchmark": "惠民保/防癌医疗",
+        "message": "老人建议配置惠民保或防癌医疗"
+      },
+      "意外保障": {
+        "required": false,
+        "recommend": true,
+        "benchmark": "骨折意外保障",
+        "message": "老人建议配置骨折意外保障"
+      },
+      "养老储备": {
+        "required": false
+      }
     }
   },
-
   "family_checks": [
     {
       "id": "spouse_zero_coverage",
@@ -443,7 +575,6 @@
       "message": "家庭收入高度依赖单一成员，该成员的保障完善优先级提升"
     }
   ],
-
   "rights_inheritance": {
     "name": "确权传承类健诊",
     "confirmation_table": {
@@ -497,28 +628,76 @@
     "legal_provisions": {
       "note": "确权与传承相关法律条文（报告引用，条文为节选要点，以现行有效版本为准；引用时保留法条原文用词）",
       "insurance_law": [
-        {"article": "第39条", "text": "人身保险的受益人由被保险人或者投保人指定。投保人指定受益人时须经被保险人同意"},
-        {"article": "第40条", "text": "可指定一人或数人为受益人并确定受益顺序和份额；未确定份额的，按相等份额享有受益权"},
-        {"article": "第41条", "text": "变更受益人须书面通知保险人；投保人变更受益人时须经被保险人同意"},
-        {"article": "第42条", "text": "没有指定受益人/受益人指定不明、受益人先于被保险人死亡且无其他受益人、受益人丧失或放弃受益权且无其他受益人的，保险金作为被保险人遗产处理"},
-        {"article": "第43条", "text": "受益人故意造成被保险人死亡、伤残、疾病或故意杀害未遂的，丧失受益权"},
-        {"article": "第34条", "text": "以死亡为给付条件的保单未经被保险人书面同意不得转让或质押（涉及保单贷款时核实）"}
+        {
+          "article": "第39条",
+          "text": "人身保险的受益人由被保险人或者投保人指定。投保人指定受益人时须经被保险人同意"
+        },
+        {
+          "article": "第40条",
+          "text": "可指定一人或数人为受益人并确定受益顺序和份额；未确定份额的，按相等份额享有受益权"
+        },
+        {
+          "article": "第41条",
+          "text": "变更受益人须书面通知保险人；投保人变更受益人时须经被保险人同意"
+        },
+        {
+          "article": "第42条",
+          "text": "没有指定受益人/受益人指定不明、受益人先于被保险人死亡且无其他受益人、受益人丧失或放弃受益权且无其他受益人的，保险金作为被保险人遗产处理"
+        },
+        {
+          "article": "第43条",
+          "text": "受益人故意造成被保险人死亡、伤残、疾病或故意杀害未遂的，丧失受益权"
+        },
+        {
+          "article": "第34条",
+          "text": "以死亡为给付条件的保单未经被保险人书面同意不得转让或质押（涉及保单贷款时核实）"
+        }
       ],
       "civil_code": [
-        {"article": "第1122条", "text": "遗产是自然人死亡时遗留的个人合法财产"},
-        {"article": "第1123条", "text": "继承顺序：遗赠扶养协议>遗嘱继承/遗赠>法定继承"},
-        {"article": "第1127条", "text": "法定继承第一顺序：配偶、子女、父母；第二顺序：兄弟姐妹、祖父母、外祖父母"},
-        {"article": "第1130条", "text": "同一顺序继承人继承份额一般应当均等"},
-        {"article": "第1153条", "text": "遗产分割时，夫妻共同财产应先分出一半为配偶所有，其余为被继承人遗产"}
+        {
+          "article": "第1122条",
+          "text": "遗产是自然人死亡时遗留的个人合法财产"
+        },
+        {
+          "article": "第1123条",
+          "text": "继承顺序：遗赠扶养协议>遗嘱继承/遗赠>法定继承"
+        },
+        {
+          "article": "第1127条",
+          "text": "法定继承第一顺序：配偶、子女、父母；第二顺序：兄弟姐妹、祖父母、外祖父母"
+        },
+        {
+          "article": "第1130条",
+          "text": "同一顺序继承人继承份额一般应当均等"
+        },
+        {
+          "article": "第1153条",
+          "text": "遗产分割时，夫妻共同财产应先分出一半为配偶所有，其余为被继承人遗产"
+        }
       ],
       "judicial_interpretation_3": [
-        {"article": "第9条", "text": "投保人指定受益人未经被保险人同意的无效；受益人约定为'法定'的以法定继承人为受益人；约定含姓名和身份关系、事故发生时身份关系变化的，认定为未指定受益人"},
-        {"article": "第10条", "text": "变更受益人自意思表示发出时生效；未通知保险人的对保险人不发生效力；投保人变更未经被保险人同意的无效"},
-        {"article": "第11条", "text": "保险事故发生后变更受益人，变更后的受益人请求给付保险金的，不予支持"},
-        {"article": "第12条", "text": "多受益人情形下部分受益人先亡/放弃/丧失受益权的份额处理规则"}
+        {
+          "article": "第9条",
+          "text": "投保人指定受益人未经被保险人同意的无效；受益人约定为'法定'的以法定继承人为受益人；约定含姓名和身份关系、事故发生时身份关系变化的，认定为未指定受益人"
+        },
+        {
+          "article": "第10条",
+          "text": "变更受益人自意思表示发出时生效；未通知保险人的对保险人不发生效力；投保人变更未经被保险人同意的无效"
+        },
+        {
+          "article": "第11条",
+          "text": "保险事故发生后变更受益人，变更后的受益人请求给付保险金的，不予支持"
+        },
+        {
+          "article": "第12条",
+          "text": "多受益人情形下部分受益人先亡/放弃/丧失受益权的份额处理规则"
+        }
       ],
       "individual_income_tax_law": [
-        {"article": "第4条第（五）项", "text": "保险赔款免征个人所得税"}
+        {
+          "article": "第4条第（五）项",
+          "text": "保险赔款免征个人所得税"
+        }
       ]
     },
     "three_rights_framework": {
@@ -553,7 +732,6 @@
       "why_statutory_is_attention": "受益人留空或填'法定'时，保障金依法作为被保险人遗产处理（保险法第42条），须经继承权公证方可支取；多成员家庭中继承顺序与份额均需法定继承规则确定，极易产生分歧"
     }
   },
-
   "data_quality_rules": {
     "name": "关键字段复述确认（姓名防错铁律）",
     "rules": [
@@ -563,45 +741,210 @@
       "客户经理纠正过的姓名，后续所有环节（含报告封面、表格、诊断结论）统一使用纠正后写法"
     ]
   },
-
   "insurance_type_classification": {
     "note": "识别分类用保单真名关键词；报告输出时按 display_name 转换为去保险化措辞",
-    "重疾险": {"keywords": ["重大疾病", "重疾", "防癌", "康宁", "健康福"], "display_name": "健康守护金"},
-    "医疗险": {"keywords": ["医疗", "费用报销", "百万医疗", "住院", "门急诊"], "display_name": "大额医疗保障"},
-    "意外险": {"keywords": ["意外", "伤害", "身故残疾"], "display_name": "意外保障"},
-    "寿险": {"keywords": ["终身寿险", "定期寿险", "寿险", "增额终身寿"], "display_name": "顶梁柱责任保障"},
-    "年金险": {"keywords": ["年金", "养老", "教育金", "生存金"], "display_name": "养老/教育储备"},
-    "理财型": {"keywords": ["分红", "万能", "投资连结", "投连", "两全"], "display_name": "稳健储备"}
+    "重疾险": {
+      "keywords": [
+        "重大疾病",
+        "重疾",
+        "防癌",
+        "康宁",
+        "健康福"
+      ],
+      "display_name": "健康守护金"
+    },
+    "医疗险": {
+      "keywords": [
+        "医疗",
+        "费用报销",
+        "百万医疗",
+        "住院",
+        "门急诊"
+      ],
+      "display_name": "大额医疗保障"
+    },
+    "意外险": {
+      "keywords": [
+        "意外",
+        "伤害",
+        "身故残疾"
+      ],
+      "display_name": "意外保障"
+    },
+    "寿险": {
+      "keywords": [
+        "终身寿险",
+        "定期寿险",
+        "寿险",
+        "增额终身寿"
+      ],
+      "display_name": "顶梁柱责任保障"
+    },
+    "年金险": {
+      "keywords": [
+        "年金",
+        "养老",
+        "教育金",
+        "生存金"
+      ],
+      "display_name": "养老/教育储备"
+    },
+    "理财型": {
+      "keywords": [
+        "分红",
+        "万能",
+        "投资连结",
+        "投连",
+        "两全"
+      ],
+      "display_name": "稳健储备"
+    }
   },
-
   "default_assumptions": {
-    "note": "未提供家庭信息时的默认假设值，报告中须标注为假设值",
+    "note": "未提供家庭信息时的默认估算值（可修改），报告中须标注为估算值（可修改）",
     "family_structure": {
       "members": [
-        {"role": "主要经济支柱", "age": 35, "annual_income": 250000},
-        {"role": "有收入配偶", "age": 33, "annual_income": 100000},
-        {"role": "子女", "age": 5, "annual_income": 0}
+        {
+          "role": "主要经济支柱",
+          "age": 35,
+          "annual_income": 250000
+        },
+        {
+          "role": "有收入配偶",
+          "age": 33,
+          "annual_income": 100000
+        },
+        {
+          "role": "子女",
+          "age": 5,
+          "annual_income": 0
+        }
       ],
       "total_annual_income": 350000,
       "mortgage_balance": 0,
       "elderly_supported": false
     }
   },
-
   "report_structure": {
     "note": "14页结构，与 report_template.html 一一对应",
     "pages": [
-      {"page": "P1", "module": "封面（家庭名+报告日期+综合健康度印章）"},
-      {"page": "P2", "module": "目录总览"},
-      {"page": "P3", "module": "家庭保单概览（家庭成员+保单归属+原始信息表）"},
-      {"page": "P4", "module": "远见之择 · 肯定已有保障（金色肯定卡）"},
-      {"page": "P5-P7", "module": "第一问 保障是否充足（维度一/二/三+量化测算面板）"},
-      {"page": "P8-P9", "module": "第二问 资产归属是否清晰（三权拆解+钱怎么流+法条摘录+维度四/五/六）"},
-      {"page": "P10", "module": "第三问 理赔是否顺畅（维度七/八/九）"},
-      {"page": "P11", "module": "综合诊断（九维雷达图+核心发现）"},
-      {"page": "P12", "module": "分阶段优化（本月可办/本季度关注/中长期评估）"},
-      {"page": "P13", "module": "九维雷达图"},
-      {"page": "P14", "module": "建议方向与下一步沟通"}
+      {
+        "page": "P1",
+        "module": "封面（家庭名+报告日期+综合健康度印章）"
+      },
+      {
+        "page": "P2",
+        "module": "目录总览"
+      },
+      {
+        "page": "P3",
+        "module": "家庭保单概览（家庭成员+保单归属+原始信息表）"
+      },
+      {
+        "page": "P4",
+        "module": "远见之择 · 肯定已有保障（金色肯定卡）"
+      },
+      {
+        "page": "P5-P7",
+        "module": "第一问 保障是否充足（维度一/二/三+量化测算面板）"
+      },
+      {
+        "page": "P8-P9",
+        "module": "第二问 资产归属是否清晰（三权拆解+钱怎么流+法条摘录+维度四/五/六）"
+      },
+      {
+        "page": "P10",
+        "module": "第三问 理赔是否顺畅（维度七/八/九）"
+      },
+      {
+        "page": "P11",
+        "module": "综合诊断（九维雷达图+核心发现）"
+      },
+      {
+        "page": "P12",
+        "module": "分阶段优化（本月可办/本季度关注/中长期评估）"
+      },
+      {
+        "page": "P13",
+        "module": "九维雷达图"
+      },
+      {
+        "page": "P14",
+        "module": "建议方向与下一步沟通"
+      }
     ]
+  },
+  "generation_rules": {
+    "note": "以下15条为固定生成规则，每份报告生成时默认遵守，无需用户提示。",
+    "data_consistency": {
+      "global_number_consistency": "同一数字在不同页面出现时，数值、单位、口径必须完全一致；落笔前先算清全部关联数字（责任合计、家庭收入合计、保费占比、可托底比例、需要vs已有），禁止自相矛盾",
+      "family_profile_self_consistent": "成员收入、角色、家庭年收入合计必须互相吻合；任何成员不得因未标注收入导致读者反推出不合常理的数字；若保费缴纳人≠主要经济支柱，须在页内一句话说明",
+      "assumption_labeling": "所有非客户确认的数据一律标注「估算值（可修改）」并注明「以实际确认为准」；禁止使用「假设值」字样",
+      "correction_statement_required": "每份报告必须包含「家庭信息可现场修正，修正后结论自动更新」的说明"
+    },
+    "legacy_policy_handling": {
+      "soothing_sentence_required": "报告列出既有保单时必须包含安抚句：「已购保单权益以保险合同为准，保障效力不受影响；本次体检不是否定过去的配置，而是基于家庭责任变化做加法。」",
+      "forbidden": [
+        "贬低旧保单",
+        "暗示当年买错",
+        "否定过去的配置"
+      ]
+    },
+    "budget_and_sales": {
+      "phased_constraint_required": "引用双十原则等测算方法时必须同时给出：「建议按 12–24 个月分阶段推进，每一步新增保费控制在家庭年收入 3–5% 以内，不挤占日常现金流。」禁止出现方法限10%但方案叠加超10%的矛盾",
+      "optional_first": "所有方案必须给出「可按预算任选其一先行、不必同时启动」的提示，禁止必须一次全买的压力感",
+      "small_denomination_budget": "预算一律用「月缴百元级/数十元级」拆小口径呈现，配生活化类比（如少点几次外卖）降低决策压力；不得虚报到不真实的程度"
+    },
+    "content_scale": {
+      "trust_threshold": "信托/保险金信托/家族信托仅当家庭净资产达数百万级才可提及；普通家庭一律不出现，或仅作「未来资产规模扩大后再评估」的弱化表述",
+      "term_plain_explanation": "专业术语首次出现必须用括号附一句大白话解释（万能型账户→可灵活存取、有保底收益的账户；豁免→出险可免交后续保费；惠民保→政府指导的普惠医疗险）；优先用「钱够不够用/钱归谁/钱能否顺利拿到」式口语化提问"
+    },
+    "tone": {
+      "non_sales_positioning": "全程保持非推销·仅供参考：先肯定→再诊断→后建议；禁止销售要约语气、催促成交语气、贬低同业表述",
+      "chapter_summary_required": "每章必须有一句话小结",
+      "soothing_ending_required": "全文结尾必须有安抚性收尾（例：不求一次到位，按您的节奏来）"
+    },
+    "naming_and_delivery": {
+      "filename_pattern": "家庭保障健康检查报告-{客户家庭名}（HTML同名，打印另存PDF后即 .pdf）",
+      "filename_forbidden": [
+        "测试",
+        "草稿",
+        "内部",
+        "测试vX.X"
+      ],
+      "watermark_rule": "内页可保留「由保障健康检查工具辅助生成」；禁止出现「测试版」水印或占位字样",
+      "qa_handbook_required": "每份客户报告必须同步生成《问答手册》，独立文档不并入报告，模板 templates/qa_handbook_template.md，六段式结构+联动校验"
+    },
+    "self_check_list": [
+      "数字口径全文一致、无自相矛盾",
+      "家庭画像（收入/角色）自洽",
+      "假设值全部标注「估算值（可修改）」",
+      "含旧保单权益安抚句",
+      "含分阶段预算约束",
+      "信托仅在高净值场景出现",
+      "术语首次出现均有白话解释",
+      "全文语气为「非推销」",
+      "文件名无「测试」字样",
+      "问答手册已同步生成"
+    ]
+  },
+  "qa_handbook": {
+    "purpose": "让服务人拿着就能讲、问不倒、能成交",
+    "style": "一页纸能放下的优先，话术口语化、可直接背",
+    "structure": [
+      "开场引导（3句话）",
+      "三条异议标准应答",
+      "数据采集表单",
+      "预算测算表（按家庭月收入分档）",
+      "约见与跟进节奏",
+      "合规红线"
+    ],
+    "linkage_check": [
+      "方向A/B/C与报告第14页一致",
+      "预算分档与报告3-5%分阶段约束一致",
+      "异议应答数字与报告一致",
+      "客户家庭名与健康度与报告封面一致"
+    ],
+    "internal_use_only": "本手册仅供服务人内部使用，不随报告交付客户"
   }
 }

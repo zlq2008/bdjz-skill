@@ -1,6 +1,6 @@
 {
   "tool_id": "family-policy-health-advisor",
-  "config_version": "2026-08-25",
+  "config_version": "2026-08-28",
   "_说明": "这是运营方的云端总控制台。托管到任意可公开只读的地址（GitHub raw / Gitee raw / 腾讯云 COS / 自有服务器）。改完即对全体员工秒级生效，无需重新分发智能体。",
 
   "master_switch": {
@@ -15,13 +15,14 @@
   },
 
   "content_sync": {
-    "_说明": "内容同步中心：把最新版 SKILL.md、diagnosis_rules.json、report_template.html、manual_entry_form.md 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新工作流、规则、报告模板或登记表只需替换云端文件，全团队下次运行即时生效，无需重新分发 zip。SKILL.md 改动下次运行生效（1次延迟），其余文件本次运行即时生效",
+    "_说明": "内容同步中心：把最新版 SKILL.md、diagnosis_rules.json、report_template.html、manual_entry_form.md、qa_handbook_template.md 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新工作流、规则、报告模板、登记表或问答手册模板只需替换云端文件，全团队下次运行即时生效，无需重新分发 zip。SKILL.md 改动下次运行生效（1次延迟），其余文件本次运行即时生效",
     "skill_md_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/SKILL.md",
     "diagnosis_rules_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/diagnosis_rules.json",
     "report_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/report_template.html",
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
-    "latest_content_version": "2.7.0",
-    "update_note": "v2.7.0: 报告模板全面重构为'三问九维'14页结构——去保险化措辞（健康守护金/顶梁柱责任保障/可优化空间）、新增02章'远见之择'肯定已有保障、九维雷达图、分阶段优化建议时间轴、建议方案方向A/B/C；SKILL.md诊断维度从6维升级为三问九维、配色从红黄绿改为金青绿琥珀砖红五色体系"
+    "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
+    "latest_content_version": "2.8.0",
+    "update_note": "v2.8.0: 新增15条固定生成规则（数据口径全文一致/家庭画像自洽/估算值标注/旧保单权益安抚句/预算12-24个月分阶段3-5%约束/任选其一先行/月缴拆小口径/信托高净值门槛/术语白话化/非推销语气/章节小结+安抚收尾/交付命名规范）；新增配套《问答手册》——每份报告必须同步生成（六段式：开场引导/异议应答/数据采集/预算分档/跟进节奏/合规红线），模板 qa_handbook_template.md"
   },
 
   "usage_report": {
