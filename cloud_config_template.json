@@ -15,14 +15,15 @@
   },
 
   "content_sync": {
-    "_说明": "内容同步中心：把最新版 SKILL.md、diagnosis_rules.json、report_template.html、manual_entry_form.md、qa_handbook_template.md 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新工作流、规则、报告模板、登记表或问答手册模板只需替换云端文件，全团队下次运行即时生效，无需重新分发 zip。SKILL.md 改动下次运行生效（1次延迟），其余文件本次运行即时生效",
+    "_说明": "内容同步中心：把最新版 SKILL.md、diagnosis_rules.json、report_template.html、family_data_collection_form.html、manual_entry_form.md、qa_handbook_template.md 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新工作流、规则、报告模板、家庭数据采集表或问答手册模板只需替换云端文件，全团队下次运行即时生效，无需重新分发 zip。SKILL.md 改动下次运行生效（1次延迟），其余文件本次运行即时生效",
     "skill_md_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/SKILL.md",
     "diagnosis_rules_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/diagnosis_rules.json",
     "report_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/report_template.html",
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
-    "latest_content_version": "2.9.0",
-    "update_note": "v2.9.0: 报告模板与生成规则排版优化——封面三卡片去第一/二/三问前缀、目录每条仅主题+页码、第3页家庭画像按收入/负债/支出/家庭结构四组字段逐行盘点并标估算值（可修改）、建议板块统一更名建议优化原则并加先大人后孩子·先保障后储蓄两原则、保额保费缴费节奏一律区间范围、受益人高情商表述（去死亡遗产假设）、本月优先处理仅留受益人确权1处余改近期可办、顾问署名中性占位顾问：XXX"
+    "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
+    "latest_content_version": "2.11.0",
+    "update_note": "v2.11.0: 强化 Step 2.6《家庭数据采集表》弹出机制——改为强制门禁（禁止口头逐条追问替代），按识别缺失程度自动预填已识别字段、未识别留空由服务人员与客户核实；固定字段/顺序/结构保证每次标准一致；提供预填版HTML(带自动计算)与标准文本表双机制。修复上一版\"表没出现、改为口头询问、每次问法不一\"的问题"
   },
 
   "usage_report": {
