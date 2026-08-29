@@ -23,7 +23,7 @@
 <style>
   :root{
     --paper:#FFFFFF; --card:#FFFFFF;
-    --ink:#2C3440; --ink2:#5A6B7A; --ink3:#98A1AC;
+    --ink:#2C3440; --ink2:#5A6B7A; --ink3:#6A7480;
     --line:#E5E2DA; --line2:#EFEDE6;
     --gold:#B08A5A; --gold-deep:#8A6A40; --gold-soft:#F5EFE5;
     --green:#5F8A72;  --green-deep:#43695A;  --green-soft:#EAF1EC;
@@ -38,8 +38,8 @@
 
   /* ═══════════ 页面骨架（A4 页级排版） ═══════════ */
   .page{width:210mm;min-height:296mm;margin:10mm auto;background:var(--paper);box-shadow:0 2px 24px rgba(50,45,35,.14);padding:11mm 14mm 13mm;display:flex;flex-direction:column;position:relative;}
-  .ph{display:flex;justify-content:space-between;font-size:9.5px;color:var(--ink3);letter-spacing:1.5px;border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:6mm;flex-shrink:0;}
-  .pf{margin-top:auto;text-align:center;font-size:9.5px;color:var(--ink3);letter-spacing:3px;padding-top:6px;flex-shrink:0;}
+  .ph{display:flex;justify-content:space-between;font-size:10.5px;color:var(--ink3);letter-spacing:1.5px;border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:6mm;flex-shrink:0;}
+  .pf{margin-top:auto;text-align:center;font-size:10.5px;color:var(--ink3);letter-spacing:3px;padding-top:6px;flex-shrink:0;}
 
   /* ═══════════ 封面 ═══════════ */
   .cover{padding:16mm 15mm;background:
@@ -77,7 +77,7 @@
   .sec-head .en{font-size:10.5px;color:var(--ink3);letter-spacing:3px;margin-left:auto;text-transform:uppercase;}
   .sec-rule{height:2px;background:linear-gradient(90deg,var(--gold) 0 44px,var(--line) 44px);margin-bottom:6px;}
   .sec-lead{font-size:12.2px;color:var(--ink2);margin-bottom:14px;max-width:170mm;}
-  .note{font-size:10.6px;color:var(--ink3);margin-top:7px;line-height:1.7;}
+  .note{font-size:11px;color:var(--ink3);margin-top:7px;line-height:1.7;}
   .quote{background:var(--gold-soft);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:13px 18px;font-size:12.5px;color:var(--gold-deep);line-height:1.95;margin-top:14px;}
   .quote b{font-weight:700;}
 
@@ -321,10 +321,10 @@
   .gauge-band{display:inline-block;margin-top:8px;font-size:12px;font-weight:600;padding:3px 16px;border-radius:14px;background:var(--amber-soft);color:var(--amber);border:1px solid #E4CE9A;letter-spacing:2px;}
 
   /* ═══════════ 尾部 ═══════════ */
-  .disclaim{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;font-size:10.8px;color:var(--ink3);line-height:1.95;}
+  .disclaim{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;font-size:11px;color:var(--ink3);line-height:1.95;}
   .sign{display:flex;justify-content:space-between;margin-top:16px;font-size:11.5px;color:var(--ink2);}
   .sign b{font-weight:600;color:var(--ink);}
-  .footer-line{display:flex;justify-content:space-between;margin-top:18px;font-size:10px;color:var(--ink3);letter-spacing:2px;border-top:2px solid var(--gold);padding-top:10px;}
+  .footer-line{display:flex;justify-content:space-between;margin-top:18px;font-size:10.5px;color:var(--ink3);letter-spacing:2px;border-top:2px solid var(--gold);padding-top:10px;}
 
 
   /* ═══════════ 手机阅读适配（仅手机屏幕生效，不影响A4打印） ═══════════ */
@@ -409,7 +409,8 @@
 
   /* ═══════════ 打印 ═══════════ */
   @media print{
-    body{background:#fff;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .page{box-shadow:none;margin:0;width:auto;min-height:auto;padding:8mm 11mm 10mm;page-break-after:always;}
     .page:last-child{page-break-after:auto;}
     .cover{padding:13mm 14mm;}
@@ -447,7 +448,6 @@
     <span><b>评估对象</b>张伟家庭</span>
     <span><b>报告编号</b>2026-HJ-001</span>
     <span><b>评估日期</b>2026 年 8 月</span>
-    <span><b>顾问</b>：XXX</span>
   </div>
   <div class="cover-note">说明：本报告为保障健康度参考评估，仅供参考，非销售要约；具体保障方案以保险公司核保结果为准。联系电话：［联系电话］</div>
 </div>
@@ -529,29 +529,29 @@
   <div class="fam-profile">
     <div class="fp-col">
       <div class="fp-h">收入</div>
-      <div class="fp-row"><span class="k">家庭年收入</span><span class="v">约 30 万/年</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">收入构成</span><span class="v">工资为主 · 配偶兼职</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">收入稳定性</span><span class="v">较稳定</span><span class="fp-i">估算值（可修改）</span></div>
+      <div class="fp-row"><span class="k">家庭年收入</span><span class="v">30 万/年</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">收入构成</span><span class="v">工资为主 · 配偶兼职</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">收入稳定性</span><span class="v">较稳定</span><span class="fp-i">已确认</span></div>
     </div>
     <div class="fp-col">
       <div class="fp-h">负债</div>
-      <div class="fp-row"><span class="k">房贷（月供 / 余额）</span><span class="v">约 1.0 万 / 150 万</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">车贷（月供 / 余额）</span><span class="v">无</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">其他负债</span><span class="v">约 50 万</span><span class="fp-i">估算值（可修改）</span></div>
+      <div class="fp-row"><span class="k">房贷（月供 / 余额）</span><span class="v">1.0 万 / 150 万</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">车贷（月供 / 余额）</span><span class="v">无</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">其他负债</span><span class="v">50 万</span><span class="fp-i">已确认</span></div>
     </div>
     <div class="fp-col">
       <div class="fp-h">支出</div>
-      <div class="fp-row"><span class="k">固定支出（生活/水电物业）</span><span class="v">约 12 万/年</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">浮动支出（医疗/人情/旅游）</span><span class="v">约 10 万/年</span><span class="fp-i">估算值（可修改）</span></div>
+      <div class="fp-row"><span class="k">固定支出（生活/水电物业）</span><span class="v">12 万/年</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">浮动支出（医疗/人情/旅游）</span><span class="v">10 万/年</span><span class="fp-i">已确认</span></div>
     </div>
     <div class="fp-col">
       <div class="fp-h">家庭结构</div>
-      <div class="fp-row"><span class="k">配偶</span><span class="v">李芳 · 35 岁 · 在职</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">子女</span><span class="v">张一鸣 · 8 岁 · 小学</span><span class="fp-i">估算值（可修改）</span></div>
-      <div class="fp-row"><span class="k">父母</span><span class="v">双方在世 · 需赡养</span><span class="fp-i">估算值（可修改）</span></div>
+      <div class="fp-row"><span class="k">配偶</span><span class="v">李芳 · 35 岁 · 在职</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">子女</span><span class="v">张一鸣 · 8 岁 · 小学</span><span class="fp-i">已确认</span></div>
+      <div class="fp-row"><span class="k">父母</span><span class="v">双方在世 · 需赡养</span><span class="fp-i">已确认</span></div>
     </div>
   </div>
-  <div class="resp-link">以上为家庭画像估算口径，<b>均可现场修正，修正后责任测算与结论自动更新</b>。据此测算：家庭年支出（含房贷）约 <b>22 万</b>、教育金约 <b>100 万</b>、房贷余额 <b>150 万</b>、其他负债 <b>50 万</b>，家庭责任合计约 <b>440 万</b>——即需要被托底的总金额（属规划视角测算，不代表对风险的预测）。</div>
+  <div class="resp-link">以上家庭画像均以<b>采集表确认值</b>为准（信息来自服务人员与客户现场核实）。据此测算：家庭年支出（含房贷）<b>22 万</b>、教育金 <b>100 万</b>、房贷余额 <b>150 万</b>、其他负债 <b>50 万</b>，家庭责任合计 <b>440 万</b>——即需要被托底的总金额（属规划视角测算，不代表对风险的预测）。</div>
 
   <div style="font-size:13.5px;font-weight:600;margin:14px 0 10px;">▶ 现有保单清单<span style="font-size:11px;font-weight:400;color:var(--ink3)">（信息收集）</span></div>
   <div class="tbl-wrap">
@@ -564,7 +564,7 @@
     <tr><td><b>P5</b></td><td>李芳</td><td>养老年金</td><td class="num">待核对</td><td>养老储备</td><td>2021-09</td><td class="num">约 20,000 元/年</td><td>10 年</td><td class="num">5 年</td><td><span class="tag tag-red">法定 · 待指定</span></td></tr>
   </table>
   </div>
-  <div class="note" style="margin-top:8px;">投保日期与缴费信息为顾问整理的示意口径（P4 / P5 以保单原件核对为准），已交年数截至 2026 年 8 月；五张保单投保人均为张伟。</div>
+  <div class="note" style="margin-top:8px;">投保日期与缴费信息为示意口径（P4 / P5 以保单原件核对为准），已交年数截至 2026 年 8 月；五张保单投保人均为张伟。</div>
   <div class="note" style="margin-top:6px;">配置节奏回顾：<b style="color:var(--green-deep)">"先大人、后小孩，先保障、后储蓄"</b>，方向值得肯定；目前唯一尚未配置的板块是顶梁柱责任保障，详见第 03 章量化测算。</div>
   <div class="pf">— 3 —</div>
 </div>
@@ -933,8 +933,8 @@
     </div>
     <div class="chk"><span class="ic warn-t">●</span><span class="ck-t">信托架构现状</span><span class="ck-v">当前保单<em>尚未设置保险金信托或家族信托架构</em></span></div>
     <div class="chk"><span class="ic info-t">●</span><span class="ck-t">后续观察</span><span class="ck-v">如家庭资产规模持续扩大，建议评估资产隔离工具的必要性</span></div>
-    <div class="verdict"><b>建议：</b>本季度与顾问沟通一次，评估是否引入<b>保险金信托</b>等工具，实现资产的<b>定向传承与风险隔离</b>。</div>
-    <span class="act struct">【规划】本季度与顾问沟通，评估保险金信托等隔离工具</span>
+    <div class="verdict"><b>建议：</b>本季度与专业机构沟通一次，评估是否引入<b>保险金信托</b>等工具，实现资产的<b>定向传承与风险隔离</b>。</div>
+  <span class="act struct">【规划】本季度与专业机构沟通，评估保险金信托等隔离工具</span>
   </div>
 
   <div class="note" style="margin-top:6px;">口径说明：归属清晰部分参照《保险法》第 10、12、18、39–42 条及《民法典》继承编评估（法条摘录见上页）；受益人变更须书面通知保险公司并以保险公司核定为准。</div>
@@ -1089,7 +1089,7 @@
       <div class="tl-when">② 本季度关注 · 规划事项</div>
       <div class="tl-what"><b>重点补强方向</b>
         <ol>
-          <li>与顾问沟通顶梁柱责任保障方案（张伟 <b>200 万定期，月缴约 700 元</b>）</li>
+          <li>与专业机构沟通顶梁柱责任保障方案（张伟 <b>200 万定期，月缴约 700 元</b>）</li>
           <li>评估资产隔离工具（保险金信托）的必要性</li>
         </ol>
       </div>
@@ -1192,10 +1192,9 @@
 
   <div class="disclaim">
     <b>免责声明</b>　本报告基于您提供的保单信息及家庭情况进行专业评估，仅供参考。具体保障方案以保险公司核保结果为准；涉及保费为预估金额，实际保费可能因核保结论有所不同。本评估不构成任何保险产品的销售要约。涉及受益人安排的法律提示不构成法律意见，保全变更须书面通知保险公司并以保险公司核定为准；所引法律条文以现行有效版本为准。<br>
-    报告编号 2026-HJ-001 · 本报告由保障健康检查工具辅助生成，评估顾问复核签发
+    报告编号 2026-HJ-001 · 本报告由保障健康检查工具辅助生成
   </div>
   <div class="sign">
-    <span>评估顾问：<b>［顾问姓名］</b></span>
     <span>联系电话：<b>［联系电话］</b></span>
     <span>评估日期：<b>2026 年 8 月</b></span>
   </div>
