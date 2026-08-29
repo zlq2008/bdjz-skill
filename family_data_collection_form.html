@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>保单健诊 · 家庭数据采集表</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#F5F3EE;color:#2C3440;line-height:1.6;padding:20px;}
+  .container{max-width:860px;margin:0 auto;}
+  .header{background:linear-gradient(135deg,#3F4A57,#5A6675);color:#fff;padding:28px 32px;border-radius:12px 12px 0 0;}
+  .header h1{font-size:22px;font-weight:700;margin-bottom:6px;}
+  .header p{font-size:13px;opacity:.85;}
+  .form-body{background:#fff;padding:28px 32px;border-radius:0 0 12px 12px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .section{margin-bottom:28px;}
+  .section-title{font-size:15px;font-weight:700;color:#3F4A57;border-left:4px solid #B08A5A;padding-left:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+  .section-title .hint{font-size:11px;font-weight:400;color:#98A1AC;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 16px;}
+  .field{display:flex;flex-direction:column;}
+  .field label{font-size:12.5px;font-weight:600;color:#5A6675;margin-bottom:4px;}
+  .field label .req{color:#B45F4D;margin-left:2px;}
+  .field input,.field select{padding:8px 10px;border:1px solid #D8D4CC;border-radius:6px;font-size:13.5px;color:#2C3440;background:#fff;transition:border-color .2s;}
+  .field input:focus,.field select:focus{outline:none;border-color:#B08A5A;box-shadow:0 0 0 2px rgba(176,138,90,.15);}
+  .field .unit{position:relative;}
+  .field .unit input{padding-right:36px;}
+  .field .unit span{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:#98A1AC;}
+  .checkbox-group{display:flex;gap:16px;align-items:center;padding:8px 0;}
+  .checkbox-group label{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;cursor:pointer;}
+  .checkbox-group input[type=checkbox]{width:16px;height:16px;accent-color:#B08A5A;}
+  .sub-section{background:#FAF8F4;padding:14px 16px;border-radius:8px;margin-top:10px;}
+  .sub-title{font-size:13px;font-weight:600;color:#5A6675;margin-bottom:10px;}
+  .divider{height:1px;background:#EDEBE4;margin:20px 0;}
+
+  /* 计算结果区 */
+  .result-panel{position:sticky;bottom:0;background:#fff;border:2px solid #B08A5A;border-radius:12px;padding:20px 24px;margin-top:24px;box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+  .result-panel h3{font-size:16px;font-weight:700;color:#3F4A57;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .result-panel h3::before{content:"📊";font-size:18px;}
+  .result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+  .result-item{background:#FAF8F4;border-radius:8px;padding:12px 14px;}
+  .result-item .label{font-size:11.5px;color:#98A1AC;margin-bottom:4px;}
+  .result-item .value{font-size:20px;font-weight:700;color:#3F4A57;font-variant-numeric:tabular-nums;}
+  .result-item .value small{font-size:12px;font-weight:400;color:#98A1AC;}
+  .result-item.highlight{background:linear-gradient(135deg,#B08A5A,#C9A876);color:#fff;}
+  .result-item.highlight .label{color:rgba(255,255,255,.8);}
+  .result-item.highlight .value{color:#fff;}
+  .result-item.highlight .value small{color:rgba(255,255,255,.7);}
+  .calc-detail{font-size:12px;color:#7A8290;background:#F5F3EE;border-radius:6px;padding:10px 12px;margin-bottom:14px;font-family:"SF Mono",Consolas,monospace;line-height:1.8;}
+  .calc-detail b{color:#B08A5A;}
+  .btn-row{display:flex;gap:10px;}
+  .btn{padding:10px 20px;border:none;border-radius:6px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .2s;}
+  .btn-primary{background:#B08A5A;color:#fff;}
+  .btn-primary:hover{background:#9A7748;}
+  .btn-secondary{background:#EDEBE4;color:#5A6675;}
+  .btn-secondary:hover{background:#E0DDD5;}
+  .copy-tip{font-size:12px;color:#5F8A72;margin-top:8px;display:none;}
+  .copy-tip.show{display:block;}
+
+  /* 保单清单 */
+  .policy-list{margin-top:10px;}
+  .policy-item{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;}
+  .policy-item input{padding:6px 8px;font-size:12.5px;}
+  .policy-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr auto;gap:8px;margin-bottom:6px;}
+  .policy-header span{font-size:11px;font-weight:600;color:#98A1AC;text-align:center;}
+  .policy-header span:first-child{text-align:left;}
+  .add-policy{font-size:12.5px;color:#B08A5A;cursor:pointer;font-weight:600;margin-top:6px;display:inline-block;}
+  .add-policy:hover{text-decoration:underline;}
+  .remove-policy{color:#B45F4D;cursor:pointer;font-size:16px;font-weight:700;padding:0 4px;}
+
+  .note{font-size:11.5px;color:#98A1AC;margin-top:6px;line-height:1.5;}
+  .note b{color:#B45F4D;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>保单健诊 · 家庭数据采集表</h1>
+    <p>服务人员边问边填，所有数字来自客户真实情况，不拍脑门。填完自动计算家庭责任总额与建议保额。</p>
+  </div>
+  <div class="form-body">
+
+    <!-- 一、家庭成员 -->
+    <div class="section">
+      <div class="section-title">一、家庭成员 <span class="hint">盘问确认，不估算</span></div>
+      <div class="grid">
+        <div class="field">
+          <label>客户姓名 <span class="req">*</span></label>
+          <input type="text" id="clientName" placeholder="如：李阳">
+        </div>
+        <div class="field">
+          <label>客户年龄 <span class="req">*</span></label>
+          <div class="unit"><input type="number" id="clientAge" placeholder="40"><span>岁</span></div>
+        </div>
+        <div class="field">
+          <label>客户职业</label>
+          <input type="text" id="clientJob" placeholder="如：企业职员">
+        </div>
+        <div class="field">
+          <label>客户年收入 <span class="req">*</span></label>
+          <div class="unit"><input type="number" id="clientIncome" placeholder="10"><span>万元</span></div>
+        </div>
+      </div>
+      <div class="sub-section">
+        <div class="sub-title">配偶信息（未婚则不填）</div>
+        <div class="grid">
+          <div class="field">
+            <label>配偶姓名</label>
+            <input type="text" id="spouseName" placeholder="如：王芳">
+          </div>
+          <div class="field">
+            <label>配偶年龄</label>
+            <div class="unit"><input type="number" id="spouseAge" placeholder="38"><span>岁</span></div>
+          </div>
+          <div class="field">
+            <label>配偶职业</label>
+            <input type="text" id="spouseJob" placeholder="如：公务员">
+          </div>
+          <div class="field">
+            <label>配偶年收入</label>
+            <div class="unit"><input type="number" id="spouseIncome" placeholder="20"><span>万元</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sub-section">
+        <div class="sub-title">子女信息（多子女家庭可逐个添加）</div>
+        <div class="policy-header" style="grid-template-columns:2fr 1fr 1fr auto;">
+          <span style="text-align:left;">子女姓名（选填）</span>
+          <span>年龄</span>
+          <span>性别</span>
+          <span></span>
+        </div>
+        <div id="childList"></div>
+        <span class="add-policy" onclick="addChild()">+ 添加一个子女</span>
+        <div class="grid-3" style="margin-top:12px;">
+          <div class="field">
+            <label>子女经济独立年龄</label>
+            <select id="childIndependent">
+              <option value="22">22岁（本科毕业）</option>
+              <option value="25">25岁（研究生/留学）</option>
+              <option value="18">18岁（高中毕业后）</option>
+            </select>
+          </div>
+          <div class="field" style="grid-column:span 2;">
+            <label>系统自动计算（无需填写）</label>
+            <div style="padding:8px 10px;background:#FAF8F4;border-radius:6px;font-size:12.5px;color:#5A6675;">
+              子女数量：<b id="childCountDisplay">0</b> 个 · 最小子女年龄：<b id="minChildAgeDisplay">—</b> 岁 · 责任年限按最小子女独立年龄计算
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sub-section">
+        <div class="sub-title">父母赡养</div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" id="needSupport"> 需要赡养父母</label>
+        </div>
+        <div class="grid" id="supportFields" style="display:none;">
+          <div class="field">
+            <label>年赡养费</label>
+            <div class="unit"><input type="number" id="annualSupport" placeholder="2"><span>万元</span></div>
+          </div>
+          <div class="field">
+            <label>预期赡养年限</label>
+            <div class="unit"><input type="number" id="supportYears" placeholder="20"><span>年</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 二、家庭收支 -->
+    <div class="section">
+      <div class="section-title">二、家庭收支 <span class="hint">按月问，不含房贷车贷</span></div>
+      <div class="grid">
+        <div class="field">
+          <label>月固定支出 <span class="req">*</span></label>
+          <div class="unit"><input type="number" id="monthlyFixed" placeholder="6000"><span>元/月</span></div>
+          <div class="note">水电物业、伙食、交通、通讯、保险费等，<b>不含房贷车贷月供</b></div>
+        </div>
+        <div class="field">
+          <label>月浮动支出 <span class="req">*</span></label>
+          <div class="unit"><input type="number" id="monthlyVariable" placeholder="4000"><span>元/月</span></div>
+          <div class="note">娱乐、医疗、人情、衣物等非固定开销</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 三、房贷 -->
+    <div class="section">
+      <div class="section-title">三、房贷信息 <span class="hint">让客户查手机银行，四项必填</span></div>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="hasMortgage" checked> 有房贷</label>
+      </div>
+      <div id="mortgageFields">
+        <div class="grid-3">
+          <div class="field">
+            <label>贷款总额</label>
+            <div class="unit"><input type="number" id="mortgageTotal" placeholder="50"><span>万元</span></div>
+          </div>
+          <div class="field">
+            <label>贷款年限</label>
+            <div class="unit"><input type="number" id="mortgageYears" placeholder="30"><span>年</span></div>
+          </div>
+          <div class="field">
+            <label>已还年限</label>
+            <div class="unit"><input type="number" id="mortgagePaid" placeholder="5"><span>年</span></div>
+          </div>
+          <div class="field">
+            <label>月供金额 <span class="req">*</span></label>
+            <div class="unit"><input type="number" id="mortgageMonthly" placeholder="3000"><span>元/月</span></div>
+          </div>
+          <div class="field">
+            <label>剩余本金（选填）</label>
+            <div class="unit"><input type="number" id="mortgageBalance" placeholder="28"><span>万元</span></div>
+          </div>
+        </div>
+        <div class="note">剩余还款总额 = 月供 × 剩余月数（含利息），比剩余本金更真实反映客户负债</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 四、车贷 -->
+    <div class="section">
+      <div class="section-title">四、车贷信息 <span class="hint">无车贷则取消勾选</span></div>
+      <div class="checkbox-group">
+        <label><input type="checkbox" id="hasCarLoan"> 有车贷</label>
+      </div>
+      <div id="carLoanFields" style="display:none;">
+        <div class="grid-3">
+          <div class="field">
+            <label>贷款总额</label>
+            <div class="unit"><input type="number" id="carTotal" placeholder="15"><span>万元</span></div>
+          </div>
+          <div class="field">
+            <label>贷款年限</label>
+            <div class="unit"><input type="number" id="carYears" placeholder="3"><span>年</span></div>
+          </div>
+          <div class="field">
+            <label>已还年限</label>
+            <div class="unit"><input type="number" id="carPaid" placeholder="1"><span>年</span></div>
+          </div>
+          <div class="field">
+            <label>月供金额</label>
+            <div class="unit"><input type="number" id="carMonthly" placeholder="2000"><span>元/月</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 五、子女教育 -->
+    <div class="section">
+      <div class="section-title">五、子女教育规划 <span class="hint">问客户预期，选档位</span></div>
+      <div class="field">
+        <label>预期教育路径</label>
+        <select id="educationPath">
+          <option value="25">公立路径（约25万/孩，从小学到大学）</option>
+          <option value="60">私立路径（约60万/孩，含私立中小学）</option>
+          <option value="120">含留学（约120万/孩，本科或研究生留学）</option>
+          <option value="custom">自定义金额</option>
+        </select>
+      </div>
+      <div class="field" id="customEduField" style="display:none;margin-top:10px;">
+        <label>自定义教育金（每个子女）</label>
+        <div class="unit"><input type="number" id="customEdu" placeholder="40"><span>万元/孩</span></div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 六、现有保单 -->
+    <div class="section">
+      <div class="section-title">六、现有保单清单 <span class="hint">拍照录入，受益人状态必填</span></div>
+      <div class="policy-header">
+        <span>险种/产品名</span>
+        <span>被保人</span>
+        <span>保额(万)</span>
+        <span>年缴(元)</span>
+        <span>缴费期</span>
+        <span>已交(年)</span>
+        <span></span>
+      </div>
+      <div id="policyList"></div>
+      <span class="add-policy" onclick="addPolicy()">+ 添加一份保单</span>
+      <div class="note" style="margin-top:10px;">受益人状态在健诊报告中单独标注（指定/法定），如为法定则触发确权建议</div>
+    </div>
+
+    <!-- 计算结果 -->
+    <div class="result-panel">
+      <h3>实时计算结果</h3>
+      <div class="calc-detail" id="calcDetail">
+        填写左侧数据后自动计算...
+      </div>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="label">年生活支出</div>
+          <div class="value" id="rAnnualExpense">—<small> 万</small></div>
+        </div>
+        <div class="result-item">
+          <div class="label">责任年限</div>
+          <div class="value" id="rResponsibilityYears">—<small> 年</small></div>
+        </div>
+        <div class="result-item">
+          <div class="label">房贷剩余还款</div>
+          <div class="value" id="rMortgage">—<small> 万</small></div>
+        </div>
+        <div class="result-item">
+          <div class="label">车贷剩余还款</div>
+          <div class="value" id="rCarLoan">—<small> 万</small></div>
+        </div>
+        <div class="result-item">
+          <div class="label">子女教育金</div>
+          <div class="value" id="rEducation">—<small> 万</small></div>
+        </div>
+        <div class="result-item">
+          <div class="label">赡养预留</div>
+          <div class="value" id="rSupport">—<small> 万</small></div>
+        </div>
+      </div>
+      <div class="result-grid" style="grid-template-columns:1fr 1fr;">
+        <div class="result-item highlight">
+          <div class="label">家庭责任总额</div>
+          <div class="value" id="rTotal">—<small> 万元</small></div>
+        </div>
+        <div class="result-item highlight">
+          <div class="label">建议保额（核心底线，约70%）</div>
+          <div class="value" id="rSuggested">—<small> 万元</small></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="copyResult()">一键复制计算结果</button>
+        <button class="btn btn-secondary" onclick="copyAllData()">复制完整采集数据</button>
+      </div>
+      <div class="copy-tip" id="copyTip">✓ 已复制到剪贴板，粘贴到健诊报告模板中即可</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// 保单清单管理
+let policyCount = 0;
+function addPolicy() {
+  policyCount++;
+  const list = document.getElementById('policyList');
+  const item = document.createElement('div');
+  item.className = 'policy-item';
+  item.id = 'policy-' + policyCount;
+  item.innerHTML = `
+    <input type="text" placeholder="如：天安人寿吉祥树">
+    <input type="text" placeholder="被保人">
+    <input type="number" placeholder="28">
+    <input type="number" placeholder="6000">
+    <input type="text" placeholder="20年">
+    <input type="number" placeholder="9">
+    <span class="remove-policy" onclick="removePolicy(${policyCount})">×</span>
+  `;
+  list.appendChild(item);
+}
+function removePolicy(id) {
+  const el = document.getElementById('policy-' + id);
+  if (el) el.remove();
+}
+// 默认添加一份保单
+addPolicy();
+
+// ===== 子女动态添加 =====
+let childCount = 0;
+function addChild() {
+  childCount++;
+  const list = document.getElementById('childList');
+  const item = document.createElement('div');
+  item.className = 'policy-item child-item';
+  item.id = 'child-' + childCount;
+  item.style.gridTemplateColumns = '2fr 1fr 1fr auto';
+  item.innerHTML = `
+    <input type="text" placeholder="如：小明（选填）" class="child-name">
+    <input type="number" placeholder="6" class="child-age" min="0">
+    <select class="child-gender">
+      <option value="">性别</option>
+      <option value="男">男</option>
+      <option value="女">女</option>
+    </select>
+    <span class="remove-policy" onclick="removeChild(${childCount})">×</span>
+  `;
+  list.appendChild(item);
+  // 绑定输入事件
+  item.querySelectorAll('input, select').forEach(function(el) {
+    el.addEventListener('input', calculate);
+    el.addEventListener('change', calculate);
+  });
+  calculate();
+}
+function removeChild(id) {
+  const el = document.getElementById('child-' + id);
+  if (el) el.remove();
+  calculate();
+}
+function getChildInfo() {
+  const items = document.querySelectorAll('.child-item');
+  let count = 0;
+  let minAge = Infinity;
+  const children = [];
+  items.forEach(function(item) {
+    const age = parseFloat(item.querySelector('.child-age').value);
+    const name = item.querySelector('.child-name').value;
+    const gender = item.querySelector('.child-gender').value;
+    if (!isNaN(age) && age >= 0) {
+      count++;
+      if (age < minAge) minAge = age;
+    }
+    if (name || !isNaN(age)) {
+      children.push({name: name || '未填写', age: isNaN(age) ? '未填' : age, gender: gender || '未填'});
+    }
+  });
+  return {count: count, minAge: minAge === Infinity ? 0 : minAge, children: children};
+}
+// 默认添加一个子女
+addChild();
+
+// 显示/隐藏字段
+document.getElementById('needSupport').addEventListener('change', function() {
+  document.getElementById('supportFields').style.display = this.checked ? 'grid' : 'none';
+  calculate();
+});
+document.getElementById('hasMortgage').addEventListener('change', function() {
+  document.getElementById('mortgageFields').style.display = this.checked ? 'block' : 'none';
+  calculate();
+});
+document.getElementById('hasCarLoan').addEventListener('change', function() {
+  document.getElementById('carLoanFields').style.display = this.checked ? 'block' : 'none';
+  calculate();
+});
+document.getElementById('educationPath').addEventListener('change', function() {
+  document.getElementById('customEduField').style.display = this.value === 'custom' ? 'block' : 'none';
+  calculate();
+});
+
+// 所有输入框绑定计算
+document.querySelectorAll('input, select').forEach(function(el) {
+  el.addEventListener('input', calculate);
+  el.addEventListener('change', calculate);
+});
+
+function num(id) {
+  const v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) ? 0 : v;
+}
+
+function calculate() {
+  // 年生活支出
+  const monthlyFixed = num('monthlyFixed');
+  const monthlyVariable = num('monthlyVariable');
+  const annualExpense = (monthlyFixed + monthlyVariable) * 12 / 10000; // 万元
+
+  // 责任年限（从动态子女列表获取）
+  const clientAge = num('clientAge');
+  const childIndependent = num('childIndependent');
+  const childInfo = getChildInfo();
+  const childCountNum = childInfo.count;
+  const minChildAge = childInfo.minAge;
+  const yearsToChildIndependent = childCountNum > 0 && minChildAge > 0 ? (childIndependent - minChildAge) : 0;
+  const yearsTo60 = clientAge > 0 ? (60 - clientAge) : 0;
+  const responsibilityYears = Math.max(yearsToChildIndependent, yearsTo60);
+  // 更新自动计算显示
+  document.getElementById('childCountDisplay').textContent = childCountNum;
+  document.getElementById('minChildAgeDisplay').textContent = childCountNum > 0 && minChildAge > 0 ? minChildAge : '—';
+
+  // 房贷剩余还款总额
+  let mortgageRemaining = 0;
+  if (document.getElementById('hasMortgage').checked) {
+    const mortgageMonthly = num('mortgageMonthly');
+    const mortgageYears = num('mortgageYears');
+    const mortgagePaid = num('mortgagePaid');
+    const remainingMonths = Math.max(0, (mortgageYears - mortgagePaid) * 12);
+    mortgageRemaining = mortgageMonthly * remainingMonths / 10000; // 万元
+  }
+
+  // 车贷剩余还款总额
+  let carLoanRemaining = 0;
+  if (document.getElementById('hasCarLoan').checked) {
+    const carMonthly = num('carMonthly');
+    const carYears = num('carYears');
+    const carPaid = num('carPaid');
+    const remainingMonths = Math.max(0, (carYears - carPaid) * 12);
+    carLoanRemaining = carMonthly * remainingMonths / 10000;
+  }
+
+  // 子女教育金
+  let eduPerChild = 0;
+  const eduPath = document.getElementById('educationPath').value;
+  if (eduPath === 'custom') {
+    eduPerChild = num('customEdu');
+  } else {
+    eduPerChild = parseFloat(eduPath);
+  }
+  const educationTotal = eduPerChild * childCountNum;
+
+  // 赡养预留
+  let supportTotal = 0;
+  if (document.getElementById('needSupport').checked) {
+    supportTotal = num('annualSupport') * num('supportYears');
+  }
+
+  // 家庭责任总额
+  const total = annualExpense * responsibilityYears + mortgageRemaining + carLoanRemaining + educationTotal + supportTotal;
+
+  // 建议保额（核心底线70%）
+  const suggested = Math.round(total * 0.7 / 10) * 10; // 取整到10万
+
+  // 更新显示
+  document.getElementById('rAnnualExpense').innerHTML = annualExpense.toFixed(1) + '<small> 万</small>';
+  document.getElementById('rResponsibilityYears').innerHTML = (responsibilityYears > 0 ? responsibilityYears : '—') + '<small> 年</small>';
+  document.getElementById('rMortgage').innerHTML = mortgageRemaining.toFixed(1) + '<small> 万</small>';
+  document.getElementById('rCarLoan').innerHTML = carLoanRemaining.toFixed(1) + '<small> 万</small>';
+  document.getElementById('rEducation').innerHTML = educationTotal.toFixed(0) + '<small> 万</small>';
+  document.getElementById('rSupport').innerHTML = supportTotal.toFixed(0) + '<small> 万</small>';
+  document.getElementById('rTotal').innerHTML = total.toFixed(0) + '<small> 万元</small>';
+  document.getElementById('rSuggested').innerHTML = suggested + '<small> 万元</small>';
+
+  // 计算过程
+  document.getElementById('calcDetail').innerHTML =
+    `年支出 = (${monthlyFixed}+${monthlyVariable})×12 = <b>${annualExpense.toFixed(1)}万</b>；` +
+    `责任年限 = max(${yearsToChildIndependent}, ${yearsTo60}) = <b>${responsibilityYears}年</b><br>` +
+    `房贷剩余 = ${num('mortgageMonthly')}×${Math.max(0,(num('mortgageYears')-num('mortgagePaid'))*12)}期 = <b>${mortgageRemaining.toFixed(1)}万</b>；` +
+    `车贷剩余 = <b>${carLoanRemaining.toFixed(1)}万</b><br>` +
+    `教育金 = ${eduPerChild}万×${childCountNum}孩 = <b>${educationTotal}万</b>；` +
+    `赡养预留 = <b>${supportTotal}万</b><br>` +
+    `<b>责任总额 = ${annualExpense.toFixed(1)}×${responsibilityYears} + ${mortgageRemaining.toFixed(1)} + ${carLoanRemaining.toFixed(1)} + ${educationTotal} + ${supportTotal} = ${total.toFixed(0)}万</b>`;
+}
+
+function copyResult() {
+  const total = document.getElementById('rTotal').textContent.replace('万元','').trim();
+  const suggested = document.getElementById('rSuggested').textContent.replace('万元','').trim();
+  const annual = document.getElementById('rAnnualExpense').textContent.replace('万','').trim();
+  const years = document.getElementById('rResponsibilityYears').textContent.replace('年','').trim();
+  const mortgage = document.getElementById('rMortgage').textContent.replace('万','').trim();
+  const car = document.getElementById('rCarLoan').textContent.replace('万','').trim();
+  const edu = document.getElementById('rEducation').textContent.replace('万','').trim();
+  const support = document.getElementById('rSupport').textContent.replace('万','').trim();
+
+  const text = `【健诊采集计算结果】
+客户：${document.getElementById('clientName').value || '未填写'}
+年生活支出：${annual}万（月固定${num('monthlyFixed')}+月浮动${num('monthlyVariable')}）
+责任年限：${years}年
+房贷剩余还款：${mortgage}万（月供${num('mortgageMonthly')}元）
+车贷剩余还款：${car}万
+子女教育金：${edu}万
+赡养预留：${support}万
+家庭责任总额：${total}万
+建议保额（核心底线）：${suggested}万`;
+
+  navigator.clipboard.writeText(text).then(function() {
+    document.getElementById('copyTip').classList.add('show');
+    setTimeout(function(){ document.getElementById('copyTip').classList.remove('show'); }, 3000);
+  });
+}
+
+function copyAllData() {
+  const data = {
+    家庭成员: {
+      客户: {姓名: document.getElementById('clientName').value, 年龄: num('clientAge'), 职业: document.getElementById('clientJob').value, 年收入: num('clientIncome')+'万'},
+      配偶: {姓名: document.getElementById('spouseName').value, 年龄: num('spouseAge'), 职业: document.getElementById('spouseJob').value, 年收入: num('spouseIncome')+'万'},
+      子女: getChildInfo(),
+      父母赡养: {需要: document.getElementById('needSupport').checked, 年赡养费: num('annualSupport')+'万', 年限: num('supportYears')+'年'}
+    },
+    家庭收支: {月固定: num('monthlyFixed')+'元', 月浮动: num('monthlyVariable')+'元', 年支出: (num('monthlyFixed')+num('monthlyVariable'))*12/10000+'万'},
+    房贷: {有: document.getElementById('hasMortgage').checked, 月供: num('mortgageMonthly')+'元', 剩余年限: (num('mortgageYears')-num('mortgagePaid'))+'年', 剩余还款: (num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000)+'万'},
+    车贷: {有: document.getElementById('hasCarLoan').checked, 月供: num('carMonthly')+'元', 剩余年限: (num('carYears')-num('carPaid'))+'年'},
+    教育: {路径: document.getElementById('educationPath').selectedOptions[0].text, 教育金: document.getElementById('rEducation').textContent}
+  };
+  navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(function() {
+    document.getElementById('copyTip').classList.add('show');
+    setTimeout(function(){ document.getElementById('copyTip').classList.remove('show'); }, 3000);
+  });
+}
+
+// 初始计算
+calculate();
+</script>
+</body>
+</html>
