@@ -21,8 +21,8 @@
     "report_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/report_template.html",
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
-    "latest_content_version": "2.8.0",
-    "update_note": "v2.8.0: 新增15条固定生成规则（数据口径全文一致/家庭画像自洽/估算值标注/旧保单权益安抚句/预算12-24个月分阶段3-5%约束/任选其一先行/月缴拆小口径/信托高净值门槛/术语白话化/非推销语气/章节小结+安抚收尾/交付命名规范）；新增配套《问答手册》——每份报告必须同步生成（六段式：开场引导/异议应答/数据采集/预算分档/跟进节奏/合规红线），模板 qa_handbook_template.md"
+    "latest_content_version": "2.9.0",
+    "update_note": "v2.9.0: 报告模板与生成规则排版优化——封面三卡片去第一/二/三问前缀、目录每条仅主题+页码、第3页家庭画像按收入/负债/支出/家庭结构四组字段逐行盘点并标估算值（可修改）、建议板块统一更名建议优化原则并加先大人后孩子·先保障后储蓄两原则、保额保费缴费节奏一律区间范围、受益人高情商表述（去死亡遗产假设）、本月优先处理仅留受益人确权1处余改近期可办、顾问署名中性占位顾问：XXX"
   },
 
   "usage_report": {
