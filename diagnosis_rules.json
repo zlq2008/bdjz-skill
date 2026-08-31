@@ -1,7 +1,7 @@
 {
-  "version": "2.12.0",
+  "version": "2.12.3",
   "framework": "三问九维",
-  "framework_note": "三问=保障是否充足（钱够不够用）·资产归属是否清晰（钱归谁）·理赔是否顺畅（钱能否顺利拿到）；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
+  "framework_note": "三问=保障是否充足（钱够不够用）·资产归属是否清晰（钱归谁）·保险权益申领是否顺畅（钱能否顺利拿到）；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
   "terminology_mapping": {
     "principle": "识别阶段用保单原文（险种真名），报告输出统一用去保险化措辞；法条原文引用时保留法律条文原词",
     "mapping": {
@@ -66,7 +66,7 @@
       "report_pages": "P8-P9"
     },
     "Q3": {
-      "name": "理赔是否顺畅（钱能否顺利拿到）",
+      "name": "保险权益申领是否顺畅（钱能否顺利拿到）",
       "dimensions": [
         "dim7_premium_continuity",
         "dim8_info_update",
@@ -244,7 +244,7 @@
     },
     "dim7_premium_continuity": {
       "name": "缴费连续性",
-      "question": "Q3 理赔是否顺畅",
+      "question": "Q3 保险权益申领是否顺畅",
       "radar_max": 100,
       "rules": [
         {
@@ -288,7 +288,7 @@
     },
     "dim8_info_update": {
       "name": "信息更新时效",
-      "question": "Q3 理赔是否顺畅",
+      "question": "Q3 保险权益申领是否顺畅",
       "radar_max": 100,
       "rules": [
         {
@@ -305,7 +305,7 @@
     },
     "dim9_term_matching": {
       "name": "保障期限匹配",
-      "question": "Q3 理赔是否顺畅",
+      "question": "Q3 保险权益申领是否顺畅",
       "radar_max": 100,
       "rules": [
         {
@@ -374,7 +374,7 @@
     "weights": {
       "Q1_dimensions_1_3": "40% — 保障是否充足（维度一二三）",
       "Q2_dimensions_4_6": "30% — 资产归属是否清晰（维度四五六）",
-      "Q3_dimensions_7_9": "30% — 理赔是否顺畅（维度七八九）"
+      "Q3_dimensions_7_9": "30% — 保险权益申领是否顺畅（维度七八九）"
     },
     "bands": [
       {
@@ -854,7 +854,7 @@
       },
       {
         "page": "P10",
-        "module": "第三问 理赔是否顺畅（维度七/八/九）"
+        "module": "第三问 保险权益申领是否顺畅（维度七/八/九）"
       },
       {
         "page": "P11",
