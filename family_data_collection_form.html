@@ -628,8 +628,9 @@ function confirmResult(){
   var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
   var box=document.getElementById('confirmBox');
   box.style.display='block';
-  box.innerHTML='<div class="cb-title">✓ 已整理以下采集数据（系统已按识别结果预填，含你在表内的修正）。请检查：若只是核对无误，直接在本对话回复「确认」，我立即出报告；若你在表里改过某项，把这段已自动复制的回传数据发我，或直接说「X改为Y」即可，无需重填整个表。</div><pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
-  try{window.parent.postMessage(payload,'*');}catch(e){}
+  box.innerHTML='<div class="cb-title">⚠️ 提醒：表内改动不会自动传回智能体（本平台浏览器与对话不互通）。</div>'+
+    '<div class="cb-body">请回到对话，直接告诉我你要改的项（如「房贷余额50万、张立强年收入20万」），或都对了就回「确认」，我立即用数据出报告。下方数据已复制到剪贴板供参考，<b>无需手动粘贴</b>。</div>'+
+    '<pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
   try{
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(JSON.stringify(payload,null,2));}
     else{var ta=document.createElement('textarea');ta.value=JSON.stringify(payload,null,2);ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
