@@ -33,7 +33,25 @@
   .divider{height:1px;background:#EDEBE4;margin:20px 0;}
 
   /* 计算结果区 */
-  .result-panel{position:sticky;bottom:0;background:#fff;border:2px solid #B08A5A;border-radius:12px;padding:20px 24px;margin-top:24px;box-shadow:0 -4px 20px rgba(0,0,0,.08);}
+  .result-panel{background:#fff;border:2px solid #B08A5A;border-radius:12px;padding:14px 18px;margin-top:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+  .result-panel h3{cursor:pointer;}
+  .result-panel .toggle{font-size:12px;font-weight:400;color:#B08A5A;margin-left:auto;user-select:none;letter-spacing:0;}
+  .compact-summary{display:none;gap:16px;align-items:center;margin-bottom:2px;}
+  .result-panel.collapsed .compact-summary{display:flex;}
+  .result-panel.collapsed .calc-detail,
+  .result-panel.collapsed .result-grid{display:none;}
+  .result-panel.collapsed .btn-secondary{display:none;}
+  .c-item{background:#FAF8F4;border-radius:8px;padding:8px 14px;display:flex;flex-direction:column;min-width:120px;}
+  .c-item.hl{background:linear-gradient(135deg,#B08A5A,#C9A876);}
+  .c-label{font-size:11.5px;color:#98A1AC;}
+  .c-item.hl .c-label{color:rgba(255,255,255,.85);}
+  .c-value{font-size:19px;font-weight:700;color:#3F4A57;font-variant-numeric:tabular-nums;}
+  .c-item.hl .c-value{color:#fff;}
+  .c-value small{font-size:12px;font-weight:400;color:#98A1AC;}
+  .c-item.hl .c-value small{color:rgba(255,255,255,.7);}
+  .confirm-box{margin-top:12px;background:#F3F8F4;border:1px solid #BFE0CC;border-radius:8px;padding:12px 14px;display:none;}
+  .confirm-box .cb-title{font-size:13px;font-weight:700;color:#2E7D4F;margin-bottom:6px;}
+  .confirm-box pre{margin:0;font-size:11.5px;white-space:pre-wrap;word-break:break-all;color:#3F4A57;max-height:180px;overflow:auto;}
   .result-panel h3{font-size:16px;font-weight:700;color:#3F4A57;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
   .result-panel h3::before{content:"📊";font-size:18px;}
   .result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
@@ -290,8 +308,12 @@
     </div>
 
     <!-- 计算结果 -->
-    <div class="result-panel">
-      <h3>实时计算结果</h3>
+    <div class="result-panel collapsed" id="resultPanel">
+      <h3 onclick="toggleResult()">实时计算结果 <span class="toggle" id="resultToggle">▸ 展开</span></h3>
+      <div class="compact-summary">
+        <div class="c-item"><span class="c-label">家庭责任总额</span><span class="c-value" id="cTotal">—<small> 万元</small></span></div>
+        <div class="c-item hl"><span class="c-label">建议保额</span><span class="c-value" id="cSuggested">—<small> 万元</small></span></div>
+      </div>
       <div class="calc-detail" id="calcDetail">
         填写左侧数据后自动计算...
       </div>
@@ -332,9 +354,10 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="copyResult()">一键复制计算结果</button>
-        <button class="btn btn-secondary" onclick="copyAllData()">复制完整采集数据</button>
+        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认结果（自动回传）</button>
+        <button class="btn btn-secondary" onclick="copyAllData()">复制完整数据</button>
       </div>
+      <div class="confirm-box" id="confirmBox"></div>
       <div class="copy-tip" id="copyTip">✓ 已复制到剪贴板，粘贴到健诊报告模板中即可</div>
     </div>
 
@@ -521,6 +544,8 @@ function calculate() {
   document.getElementById('rSupport').innerHTML = supportTotal.toFixed(0) + '<small> 万</small>';
   document.getElementById('rTotal').innerHTML = total.toFixed(0) + '<small> 万元</small>';
   document.getElementById('rSuggested').innerHTML = suggested + '<small> 万元</small>';
+  document.getElementById('cTotal').innerHTML = total.toFixed(0) + '<small> 万元</small>';
+  document.getElementById('cSuggested').innerHTML = suggested + '<small> 万元</small>';
 
   // 计算过程
   document.getElementById('calcDetail').innerHTML =
@@ -577,6 +602,35 @@ function copyAllData() {
     document.getElementById('copyTip').classList.add('show');
     setTimeout(function(){ document.getElementById('copyTip').classList.remove('show'); }, 3000);
   });
+}
+
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function toggleResult(){
+  var p=document.getElementById('resultPanel');
+  p.classList.toggle('collapsed');
+  document.getElementById('resultToggle').textContent=p.classList.contains('collapsed')?'▸ 展开':'▾ 收起';
+}
+
+function confirmResult(){
+  var data={
+    家庭成员:{客户:{姓名:document.getElementById('clientName').value,年龄:num('clientAge'),职业:document.getElementById('clientJob').value,年收入:num('clientIncome')+'万'},
+      配偶:{姓名:document.getElementById('spouseName').value,年龄:num('spouseAge'),职业:document.getElementById('spouseJob').value,年收入:num('spouseIncome')+'万'},
+      子女:getChildInfo(),
+      父母赡养:{需要:document.getElementById('needSupport').checked,年赡养费:num('annualSupport')+'万',年限:num('supportYears')+'年'}},
+    家庭收支:{月固定:num('monthlyFixed')+'元',月浮动:num('monthlyVariable')+'元',年支出:((num('monthlyFixed')+num('monthlyVariable'))*12/10000).toFixed(1)+'万'},
+    房贷:{有:document.getElementById('hasMortgage').checked,月供:num('mortgageMonthly')+'元',剩余年限:(num('mortgageYears')-num('mortgagePaid'))+'年',剩余还款:(num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000).toFixed(1)+'万'},
+    车贷:{有:document.getElementById('hasCarLoan').checked,月供:num('carMonthly')+'元',剩余年限:(num('carYears')-num('carPaid'))+'年'},
+    教育:{路径:document.getElementById('educationPath').selectedOptions[0].text,教育金:document.getElementById('rEducation').textContent}
+  };
+  var result={年生活支出:document.getElementById('rAnnualExpense').textContent,责任年限:document.getElementById('rResponsibilityYears').textContent,房贷剩余还款:document.getElementById('rMortgage').textContent,车贷剩余还款:document.getElementById('rCarLoan').textContent,子女教育金:document.getElementById('rEducation').textContent,赡养预留:document.getElementById('rSupport').textContent,家庭责任总额:document.getElementById('rTotal').textContent,建议保额:document.getElementById('rSuggested').textContent};
+  var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
+  var box=document.getElementById('confirmBox');
+  box.style.display='block';
+  box.innerHTML='<div class="cb-title">✓ 已确认并回传以下数据（无需再复制粘贴）</div><pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
+  try{window.parent.postMessage(payload,'*');}catch(e){}
+  try{navigator.clipboard.writeText(JSON.stringify(payload,null,2));}catch(e){}
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 // 初始计算
