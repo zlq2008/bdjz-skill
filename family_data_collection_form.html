@@ -11,6 +11,13 @@
   .header{background:linear-gradient(135deg,#3F4A57,#5A6675);color:#fff;padding:28px 32px;border-radius:12px 12px 0 0;}
   .header h1{font-size:22px;font-weight:700;margin-bottom:6px;}
   .header p{font-size:13px;opacity:.85;}
+  .transfer-banner{background:#FFF8E8;border:1.5px solid #C8A45C;border-radius:10px;padding:16px 20px;margin-bottom:18px;}
+  .tb-title{font-size:14.5px;font-weight:700;color:#8A6D2F;margin-bottom:10px;}
+  .tb-steps{margin:0 0 10px;padding-left:20px;}
+  .tb-steps li{font-size:13px;color:#5C4A20;line-height:1.85;}
+  .tb-steps li b{color:#8A6D2F;}
+  .tb-warn{font-size:12.5px;color:#A33A2A;background:#FDEDEC;border-radius:6px;padding:9px 12px;line-height:1.7;}
+  .tb-warn b{color:#A33A2A;}
   .form-body{background:#fff;padding:28px 32px;border-radius:0 0 12px 12px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
   .section{margin-bottom:28px;}
   .section-title{font-size:15px;font-weight:700;color:#3F4A57;border-left:4px solid #B08A5A;padding-left:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
@@ -95,6 +102,17 @@
     <h1>保单健诊 · 家庭数据采集表</h1>
     <p>服务人员边问边填，所有数字来自客户真实情况，不拍脑门。填完自动计算家庭责任总额与建议保额。</p>
   </div>
+
+  <div class="transfer-banner">
+    <div class="tb-title">📤 填完后如何把数据交回智能体出报告（任选其一）</div>
+    <ol class="tb-steps">
+      <li><b>最省事</b>：点下方「✓ 确认并提交」→ 会自动下载一个数据文件 → <b>把它拖回对话发送</b>，智能体直接读取出报告。</li>
+      <li><b>最随意</b>：直接在对话里回复数值，例如「子女1个、房贷余额50万、张立强年收入20万、月支出8000」，智能体同步后出报告。</li>
+      <li><b>确认无误</b>：都填对了，直接在对话里回「确认」，智能体立即出报告。</li>
+    </ol>
+    <div class="tb-warn">⚠️ 本平台浏览器与对话不互通：仅在表内填写或点击「确认」，数据<b>不会</b>自动传给智能体，必须走上面任一步骤。</div>
+  </div>
+
   <div class="form-body">
 
     <!-- 一、家庭成员 -->
@@ -366,8 +384,9 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认提交</button>
-        <button class="btn btn-secondary" onclick="copyAllData()">复制完整数据</button>
+        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认并提交（下载数据文件）</button>
+        <button class="btn btn-secondary" onclick="downloadData()">⬇ 下载采集数据文件</button>
+        <button class="btn btn-secondary" onclick="copyAllData()">复制文本</button>
       </div>
       <div class="confirm-box" id="confirmBox"></div>
       <div class="copy-tip" id="copyTip">✓ 已复制到剪贴板，粘贴到健诊报告模板中即可</div>
@@ -454,6 +473,29 @@ function getChildInfo() {
     }
   });
   return {count: count, minAge: minAge === Infinity ? 0 : minAge, children: children};
+}
+// 提取保单清单（每行：险种/被保人/保额万/年缴元/缴费期/已交年）
+function getPolicyInfo() {
+  const items = document.querySelectorAll('#policyList .policy-item');
+  const policies = [];
+  items.forEach(function(item) {
+    const ins = item.querySelectorAll('input');
+    if (ins.length < 6) return;
+    const name = ins[0].value.trim();
+    const insured = ins[1].value.trim();
+    const amount = parseFloat(ins[2].value);
+    const annual = parseFloat(ins[3].value);
+    if (!name && !insured && isNaN(amount) && isNaN(annual)) return; // 整行空则跳过
+    policies.push({
+      险种: name || '未填写',
+      被保人: insured || '未填写',
+      保额: (isNaN(amount) ? 0 : amount) + '万',
+      年缴: (isNaN(annual) ? 0 : annual) + '元',
+      缴费期: ins[4].value.trim() || '未填',
+      已交: (isNaN(parseFloat(ins[5].value)) ? '未填' : parseFloat(ins[5].value)) + '年'
+    });
+  });
+  return policies;
 }
 // 默认添加一个子女
 addChild();
@@ -630,8 +672,9 @@ function toggleResult(){
   document.getElementById('resultToggle').textContent=p.classList.contains('collapsed')?'▸ 展开':'▾ 收起';
 }
 
-function confirmResult(){
-  var data={
+// ===== 统一采集数据构建（下载与确认共用，确保两处数据完全一致）=====
+function buildCollectedData(){
+  return {
     家庭成员:{客户:{姓名:document.getElementById('clientName').value,年龄:num('clientAge'),职业:document.getElementById('clientJob').value,年收入:num('clientIncome')+'万'},
       配偶:{姓名:document.getElementById('spouseName').value,年龄:num('spouseAge'),职业:document.getElementById('spouseJob').value,年收入:num('spouseIncome')+'万'},
       子女:getChildInfo(),
@@ -640,18 +683,65 @@ function confirmResult(){
     房贷:{有:document.getElementById('hasMortgage').checked,月供:num('mortgageMonthly')+'元',剩余年限:(num('mortgageYears')-num('mortgagePaid'))+'年',剩余还款:(num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000).toFixed(1)+'万'},
     车贷:{有:document.getElementById('hasCarLoan').checked,月供:num('carMonthly')+'元',剩余年限:(num('carYears')-num('carPaid'))+'年'},
     其他收入:num('otherIncome')+'万/年',其他负债:num('otherDebt')+'万',
-    教育:{路径:document.getElementById('educationPath').selectedOptions[0].text,教育金:document.getElementById('rEducation').textContent}
+    教育:{路径:document.getElementById('educationPath').selectedOptions[0].text,教育金:document.getElementById('rEducation').textContent},
+    保单:getPolicyInfo()
   };
-  var result={年生活支出:document.getElementById('rAnnualExpense').textContent,责任年限:document.getElementById('rResponsibilityYears').textContent,房贷剩余还款:document.getElementById('rMortgage').textContent,车贷剩余还款:document.getElementById('rCarLoan').textContent,子女教育金:document.getElementById('rEducation').textContent,赡养预留:document.getElementById('rSupport').textContent,家庭责任总额:document.getElementById('rTotal').textContent,建议保额:document.getElementById('rSuggested').textContent};
+}
+function buildCalcResult(){
+  return {年生活支出:document.getElementById('rAnnualExpense').textContent,责任年限:document.getElementById('rResponsibilityYears').textContent,房贷剩余还款:document.getElementById('rMortgage').textContent,车贷剩余还款:document.getElementById('rCarLoan').textContent,子女教育金:document.getElementById('rEducation').textContent,赡养预留:document.getElementById('rSupport').textContent,家庭责任总额:document.getElementById('rTotal').textContent,建议保额:document.getElementById('rSuggested').textContent};
+}
+// 紧凑回传串：一行，便于在对话里直接粘贴或口述
+function buildCompactLine(d,r){
+  var parts=[];
+  parts.push('客户'+d.家庭成员.客户.姓名+'（'+d.家庭成员.客户.年龄+'岁，年收入'+d.家庭成员.客户.年收入+'）');
+  if(d.家庭成员.配偶.姓名) parts.push('配偶'+d.家庭成员.配偶.姓名+'（'+d.家庭成员.配偶.年龄+'岁，年收入'+d.家庭成员.配偶.年收入+'）');
+  if(d.家庭成员.子女&&d.家庭成员.子女.children&&d.家庭成员.子女.children.length) parts.push('子女'+d.家庭成员.子女.children.length+'个');
+  parts.push('月固定支出'+d.家庭收支.月固定);
+  parts.push('月浮动支出'+d.家庭收支.月浮动);
+  parts.push(d.房贷.有?('房贷月供'+d.房贷.月供+'，剩余'+d.房贷.剩余年限+'，剩余还款'+d.房贷.剩余还款):'无房贷');
+  parts.push(d.车贷.有?('车贷月供'+d.车贷.月供+'，剩余'+d.车贷.剩余年限):'无车贷');
+  parts.push('其他收入'+d.其他收入);
+  parts.push('其他负债'+d.其他负债);
+  if(d.家庭成员.父母赡养.需要) parts.push('需赡养父母，年'+d.家庭成员.父母赡养.年赡养费+'，共'+d.家庭成员.父母赡养.年限);
+  parts.push('家庭责任总额'+r.家庭责任总额+'，建议保额'+r.建议保额);
+  return parts.join('；');
+}
+// 触发浏览器下载数据文件（用户拖回对话即可让智能体读取）
+function downloadData(){
+  var d=buildCollectedData(), r=buildCalcResult();
+  var payload={source:'family_data_collection_form',type:'家庭采集数据',data:d,result:r,time:new Date().toISOString()};
+  var name=(d.家庭成员.客户.姓名||'家庭').replace(/[\\/:*?"<>|]/g,'');
+  var blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download='家庭采集数据_'+name+'.json';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url);},2000);
+  showTip('✓ 数据文件已下载，请把它拖回对话发送，智能体即可读取出报告');
+}
+function showTip(msg){
+  var t=document.getElementById('copyTip');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},4000);
+}
+function confirmResult(){
+  var data=buildCollectedData();
+  var result=buildCalcResult();
   var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
+  var compact=buildCompactLine(data,result);
   var box=document.getElementById('confirmBox');
   box.style.display='block';
-  box.innerHTML='<div class="cb-title">⚠️ 提醒：表内改动不会自动传回智能体（本平台浏览器与对话不互通）。</div>'+
-    '<div class="cb-body">请回到对话，直接告诉我你要改的项（如「房贷余额50万、张立强年收入20万」），或都对了就回「确认」，我立即用数据出报告。下方数据已复制到剪贴板供参考，<b>无需手动粘贴</b>。</div>'+
-    '<pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
+  box.innerHTML='<div class="cb-title">✅ 已采集完成，请按下面任一步骤交回智能体：</div>'+
+    '<div class="cb-body"><b>① 推荐</b>：下方若已自动下载数据文件，请<b>把它拖回对话发送</b>，智能体直接读取出报告。<br>'+
+    '<b>② 或</b>：在对话里直接回复下面这行（已复制，可直接粘贴）：<br>'+
+    '<b>③ 或</b>：口述要改的项（如「房贷余额50万、张立强年收入20万」）。</div>'+
+    '<pre>'+escapeHtml(compact)+'</pre>';
+  // 自动下载数据文件
+  try{ downloadData(); }catch(e){}
+  // 同时复制紧凑回传串，便于直接粘贴
   try{
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(JSON.stringify(payload,null,2));}
-    else{var ta=document.createElement('textarea');ta.value=JSON.stringify(payload,null,2);ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(compact);}
+    else{var ta=document.createElement('textarea');ta.value=compact;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
   }catch(e){}
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
