@@ -20,7 +20,7 @@
   .field{display:flex;flex-direction:column;}
   .field label{font-size:12.5px;font-weight:600;color:#5A6675;margin-bottom:4px;}
   .field label .req{color:#B45F4D;margin-left:2px;}
-  .field input,.field select{padding:8px 10px;border:1px solid #D8D4CC;border-radius:6px;font-size:13.5px;color:#2C3440;background:#fff;transition:border-color .2s;}
+  .field input,.field select{padding:8px 10px;border:1px solid #D8D4CC;border-radius:6px;font-size:13.5px;color:#2C3440;background:#fff;transition:border-color .2s;direction:ltr;text-align:left;}
   .field input:focus,.field select:focus{outline:none;border-color:#B08A5A;box-shadow:0 0 0 2px rgba(176,138,90,.15);}
   .field .unit{position:relative;}
   .field .unit input{padding-right:36px;}
@@ -77,7 +77,7 @@
   /* 保单清单 */
   .policy-list{margin-top:10px;}
   .policy-item{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;}
-  .policy-item input{padding:6px 8px;font-size:12.5px;}
+  .policy-item input{padding:6px 8px;font-size:12.5px;direction:ltr;text-align:left;}
   .policy-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr auto;gap:8px;margin-bottom:6px;}
   .policy-header span{font-size:11px;font-weight:600;color:#98A1AC;text-align:center;}
   .policy-header span:first-child{text-align:left;}
@@ -200,6 +200,10 @@
           <div class="unit"><input type="number" id="monthlyVariable" placeholder="4000"><span>元/月</span></div>
           <div class="note">娱乐、医疗、人情、衣物等非固定开销</div>
         </div>
+        <div class="field">
+          <label>其他收入（房租/理财等，选填）</label>
+          <div class="unit"><input type="number" id="otherIncome" placeholder="0"><span>万元/年</span></div>
+        </div>
       </div>
     </div>
 
@@ -265,6 +269,14 @@
             <div class="unit"><input type="number" id="carMonthly" placeholder="2000"><span>元/月</span></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">其他负债 <span class="hint">如有网贷、亲友借款、经营负债等，选填</span></div>
+      <div class="field" style="max-width:240px;">
+        <label>其他负债总额</label>
+        <div class="unit"><input type="number" id="otherDebt" placeholder="0"><span>万元</span></div>
       </div>
     </div>
 
@@ -530,8 +542,11 @@ function calculate() {
     supportTotal = num('annualSupport') * num('supportYears');
   }
 
+  // 其他负债
+  let otherDebt = num('otherDebt');
+
   // 家庭责任总额
-  const total = annualExpense * responsibilityYears + mortgageRemaining + carLoanRemaining + educationTotal + supportTotal;
+  const total = annualExpense * responsibilityYears + mortgageRemaining + carLoanRemaining + educationTotal + supportTotal + otherDebt;
 
   // 建议保额（核心底线70%）
   const suggested = Math.round(total * 0.7 / 10) * 10; // 取整到10万
@@ -556,7 +571,8 @@ function calculate() {
     `车贷剩余 = <b>${carLoanRemaining.toFixed(1)}万</b><br>` +
     `教育金 = ${eduPerChild}万×${childCountNum}孩 = <b>${educationTotal}万</b>；` +
     `赡养预留 = <b>${supportTotal}万</b><br>` +
-    `<b>责任总额 = ${annualExpense.toFixed(1)}×${responsibilityYears} + ${mortgageRemaining.toFixed(1)} + ${carLoanRemaining.toFixed(1)} + ${educationTotal} + ${supportTotal} = ${total.toFixed(0)}万</b>`;
+    `其他负债 = <b>${otherDebt}万</b><br>` +
+    `<b>责任总额 = ${annualExpense.toFixed(1)}×${responsibilityYears} + ${mortgageRemaining.toFixed(1)} + ${carLoanRemaining.toFixed(1)} + ${educationTotal} + ${supportTotal} + ${otherDebt} = ${total.toFixed(0)}万</b>`;
 }
 
 function copyResult() {
@@ -597,6 +613,7 @@ function copyAllData() {
     家庭收支: {月固定: num('monthlyFixed')+'元', 月浮动: num('monthlyVariable')+'元', 年支出: (num('monthlyFixed')+num('monthlyVariable'))*12/10000+'万'},
     房贷: {有: document.getElementById('hasMortgage').checked, 月供: num('mortgageMonthly')+'元', 剩余年限: (num('mortgageYears')-num('mortgagePaid'))+'年', 剩余还款: (num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000)+'万'},
     车贷: {有: document.getElementById('hasCarLoan').checked, 月供: num('carMonthly')+'元', 剩余年限: (num('carYears')-num('carPaid'))+'年'},
+    其他收入: num('otherIncome')+'万/年', 其他负债: num('otherDebt')+'万',
     教育: {路径: document.getElementById('educationPath').selectedOptions[0].text, 教育金: document.getElementById('rEducation').textContent}
   };
   navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(function() {
@@ -622,6 +639,7 @@ function confirmResult(){
     家庭收支:{月固定:num('monthlyFixed')+'元',月浮动:num('monthlyVariable')+'元',年支出:((num('monthlyFixed')+num('monthlyVariable'))*12/10000).toFixed(1)+'万'},
     房贷:{有:document.getElementById('hasMortgage').checked,月供:num('mortgageMonthly')+'元',剩余年限:(num('mortgageYears')-num('mortgagePaid'))+'年',剩余还款:(num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000).toFixed(1)+'万'},
     车贷:{有:document.getElementById('hasCarLoan').checked,月供:num('carMonthly')+'元',剩余年限:(num('carYears')-num('carPaid'))+'年'},
+    其他收入:num('otherIncome')+'万/年',其他负债:num('otherDebt')+'万',
     教育:{路径:document.getElementById('educationPath').selectedOptions[0].text,教育金:document.getElementById('rEducation').textContent}
   };
   var result={年生活支出:document.getElementById('rAnnualExpense').textContent,责任年限:document.getElementById('rResponsibilityYears').textContent,房贷剩余还款:document.getElementById('rMortgage').textContent,车贷剩余还款:document.getElementById('rCarLoan').textContent,子女教育金:document.getElementById('rEducation').textContent,赡养预留:document.getElementById('rSupport').textContent,家庭责任总额:document.getElementById('rTotal').textContent,建议保额:document.getElementById('rSuggested').textContent};
@@ -690,6 +708,7 @@ function applyPrefill(){
   set('carTotal',d.carTotal);set('carYears',d.carYears);set('carPaid',d.carPaid);set('carMonthly',d.carMonthly);
   if(d.educationPath!==undefined){const sel=document.getElementById('educationPath'); if(sel){sel.value=d.educationPath; document.getElementById('customEduField').style.display=d.educationPath==='custom'?'block':'none';}}
   set('customEdu',d.customEdu);
+  set('otherIncome',d.otherIncome); set('otherDebt',d.otherDebt);
   if(d.policies&&d.policies.length){document.getElementById('policyList').innerHTML=''; d.policies.forEach(addPolicyPrefilled);}
 }
 applyPrefill();

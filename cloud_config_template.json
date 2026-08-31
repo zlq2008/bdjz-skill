@@ -22,7 +22,7 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.12.9",
+    "latest_content_version": "2.13.0",
     "update_note": "v2.12.0: 精算优先·彻底去除估算值。家庭财务（年收入/支出/负债/成员）一律以《家庭数据采集表》服务人员填写的精算值为唯一权威源，报告中直接呈现、禁止出现估算值（可修改）/估算/约 等字样；缺失字段主动回问服务人员补填（询问为主），不再用 default_assumptions 自动估算；P3 家庭画像字段统一标注已确认（来自采集表）。default_assumptions 仅限保单技术性缺省字段兜底"
   },
 
