@@ -354,7 +354,7 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认结果（自动回传）</button>
+        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认结果</button>
         <button class="btn btn-secondary" onclick="copyAllData()">复制完整数据</button>
       </div>
       <div class="confirm-box" id="confirmBox"></div>
@@ -627,9 +627,12 @@ function confirmResult(){
   var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
   var box=document.getElementById('confirmBox');
   box.style.display='block';
-  box.innerHTML='<div class="cb-title">✓ 已确认并回传以下数据（无需再复制粘贴）</div><pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
+  box.innerHTML='<div class="cb-title">✓ 已整理以下采集数据（系统已按识别结果预填）。请直接在本对话回复「确认」即可生成报告；如需修改，直接告诉我具体项，无需复制粘贴。</div><pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
   try{window.parent.postMessage(payload,'*');}catch(e){}
-  try{navigator.clipboard.writeText(JSON.stringify(payload,null,2));}catch(e){}
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(JSON.stringify(payload,null,2));}
+    else{var ta=document.createElement('textarea');ta.value=JSON.stringify(payload,null,2);ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
+  }catch(e){}
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 

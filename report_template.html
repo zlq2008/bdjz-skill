@@ -53,12 +53,15 @@
   .cover-badge{font-size:12.4px;color:var(--ink2);border:1px solid var(--line);background:#fff;border-radius:20px;padding:3px 14px;letter-spacing:2px;}
   .cover-main{display:flex;gap:38px;align-items:center;margin-top:17mm;position:relative;z-index:1;}
   .cover-title{flex:1;}
-  .cover h1{font-size:45.6px;font-weight:600;letter-spacing:5px;line-height:1.35;text-align:center;}
-  .cover-rule{width:56mm;height:2px;margin:7mm auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+  .cover h1{font-size:45.6px;font-weight:600;letter-spacing:5px;line-height:1.35;text-align:left;}
   .cover-sub{margin-top:7mm;font-size:15.5px;color:var(--gold-deep);letter-spacing:2px;font-weight:600;text-align:right;}
-  .cover-lead{margin-top:8mm;font-size:15.3px;color:var(--ink2);max-width:none;text-align:justify;line-height:2.0;text-justify:inter-character;}
+  .cover-lead-wrap{margin-top:9mm;max-width:132mm;padding-left:16px;border-left:3px solid var(--gold);position:relative;z-index:1;}
+  .cover-lead{font-size:15.3px;color:var(--ink2);text-align:justify;text-justify:inter-character;line-height:2.1;}
+  .lead-open{display:block;font-weight:600;color:var(--ink);margin-bottom:7px;}
+  .lead-q{color:var(--gold-deep);font-weight:700;}
+  .lead-em{color:var(--gold-deep);font-weight:600;}
   .cover-head{margin-top:14mm;position:relative;z-index:1;}
-  .cover-questions{display:flex;flex-wrap:wrap;justify-content:center;gap:11px 16px;margin-top:12mm;position:relative;z-index:1;}
+  .cover-questions{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:11px 16px;margin-top:12mm;position:relative;z-index:1;}
   .cover-score{display:flex;justify-content:center;margin-top:8mm;position:relative;z-index:1;}
   .cover-foot{margin-top:auto;position:relative;z-index:1;}
   .cover-tri{display:flex;gap:10px;margin-top:8mm;}
@@ -434,7 +437,6 @@
   </div>
   <div class="cover-head">
     <h1 class="serif">家庭保障健康检查报告</h1>
-    <div class="cover-rule"></div>
     <div class="cover-sub serif">张伟家庭·保障健康报告</div>
   </div>
   <div class="cover-questions">
@@ -443,7 +445,7 @@
     <div class="tri-chip">保险权益申领是否顺畅</div>
   </div>
   <div class="cover-lead-wrap">
-    <p class="cover-lead">本报告旨在帮助您更清晰地了解现有保障情况，而非推销任何产品。我们以"保障是否充足 · 资产归属是否清晰 · 保险权益申领是否顺畅"三个核心问题为线索，对家庭现有保单做一次全面"体检"：先确认已经做对的事，再一起看看下一步如何做得更周全。</p>
+    <p class="cover-lead"><span class="lead-open">本报告旨在帮助您更清晰地了解现有保障情况，而非推销任何产品。</span>我们以<span class="lead-q">保障是否充足 · 资产归属是否清晰 · 保险权益申领是否顺畅</span>三个核心问题为线索，对家庭现有保单做一次全面<span class="lead-em">"体检"</span>：先确认已经做对的事，再一起看看下一步如何做得更周全。</p>
   </div>
   <div class="cover-score">
     <div class="cover-seal">
