@@ -693,8 +693,9 @@ function buildCalcResult(){
 // 紧凑回传串：一行，便于在对话里直接粘贴或口述
 function buildCompactLine(d,r){
   var parts=[];
-  parts.push('客户'+d.家庭成员.客户.姓名+'（'+d.家庭成员.客户.年龄+'岁，年收入'+d.家庭成员.客户.年收入+'）');
-  if(d.家庭成员.配偶.姓名) parts.push('配偶'+d.家庭成员.配偶.姓名+'（'+d.家庭成员.配偶.年龄+'岁，年收入'+d.家庭成员.配偶.年收入+'）');
+  function _pseg(label,p){var inner=[];if(p.年龄)inner.push(p.年龄+'岁');if(p.年收入&&p.年收入!=='0万')inner.push('年收入'+p.年收入);return label+p.姓名+(inner.length?'（'+inner.join('，')+'）':'');}
+  parts.push(_pseg('客户',d.家庭成员.客户));
+  if(d.家庭成员.配偶.姓名) parts.push(_pseg('配偶',d.家庭成员.配偶));
   if(d.家庭成员.子女&&d.家庭成员.子女.children&&d.家庭成员.子女.children.length) parts.push('子女'+d.家庭成员.子女.children.length+'个');
   parts.push('月固定支出'+d.家庭收支.月固定);
   parts.push('月浮动支出'+d.家庭收支.月浮动);
