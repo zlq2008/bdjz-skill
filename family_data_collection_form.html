@@ -354,7 +354,7 @@
         </div>
       </div>
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认结果</button>
+        <button class="btn btn-primary" onclick="confirmResult()">✓ 确认提交</button>
         <button class="btn btn-secondary" onclick="copyAllData()">复制完整数据</button>
       </div>
       <div class="confirm-box" id="confirmBox"></div>
@@ -365,6 +365,7 @@
 </div>
 
 <script>
+window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
 function addPolicy() {
@@ -627,7 +628,7 @@ function confirmResult(){
   var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
   var box=document.getElementById('confirmBox');
   box.style.display='block';
-  box.innerHTML='<div class="cb-title">✓ 已整理以下采集数据（系统已按识别结果预填）。请直接在本对话回复「确认」即可生成报告；如需修改，直接告诉我具体项，无需复制粘贴。</div><pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
+  box.innerHTML='<div class="cb-title">✓ 已整理以下采集数据（系统已按识别结果预填，含你在表内的修正）。请检查：若只是核对无误，直接在本对话回复「确认」，我立即出报告；若你在表里改过某项，把这段已自动复制的回传数据发我，或直接说「X改为Y」即可，无需重填整个表。</div><pre>'+escapeHtml(JSON.stringify(payload,null,2))+'</pre>';
   try{window.parent.postMessage(payload,'*');}catch(e){}
   try{
     if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(JSON.stringify(payload,null,2));}
@@ -635,6 +636,62 @@ function confirmResult(){
   }catch(e){}
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
+
+// ===== 预填注入（agent 在生成副本时把识别值以 JSON 注入 window.__PREFILL__）=====
+function _pv(x){return (x===undefined||x===null)?'':x;}
+function addPolicyPrefilled(p){
+  policyCount++;
+  const list=document.getElementById('policyList');
+  const item=document.createElement('div');
+  item.className='policy-item'; item.id='policy-'+policyCount;
+  item.innerHTML=`
+    <input type="text" placeholder="如：天安人寿吉祥树" value="${_pv(p.name)}">
+    <input type="text" placeholder="被保人" value="${_pv(p.insured)}">
+    <input type="number" placeholder="28" value="${_pv(p.amount)}">
+    <input type="number" placeholder="6000" value="${_pv(p.annual)}">
+    <input type="text" placeholder="20年" value="${_pv(p.period)}">
+    <input type="number" placeholder="9" value="${_pv(p.paid)}">
+    <span class="remove-policy" onclick="removePolicy(${policyCount})">×</span>`;
+  list.appendChild(item);
+}
+function addChildPrefilled(c){
+  childCount++;
+  const list=document.getElementById('childList');
+  const item=document.createElement('div');
+  item.className='policy-item child-item'; item.id='child-'+childCount;
+  item.style.gridTemplateColumns='2fr 1fr 1fr auto';
+  item.innerHTML=`
+    <input type="text" placeholder="如：小明（选填）" class="child-name" value="${_pv(c.name)}">
+    <input type="number" placeholder="6" class="child-age" min="0" value="${_pv(c.age)}">
+    <select class="child-gender">
+      <option value="">性别</option>
+      <option value="男" ${c.gender==='男'?'selected':''}>男</option>
+      <option value="女" ${c.gender==='女'?'selected':''}>女</option>
+    </select>
+    <span class="remove-policy" onclick="removeChild(${childCount})">×</span>`;
+  list.appendChild(item);
+  item.querySelectorAll('input, select').forEach(function(el){el.addEventListener('input',calculate);el.addEventListener('change',calculate);});
+}
+function applyPrefill(){
+  const d=window.__PREFILL__;
+  if(!d) return;
+  const set=function(id,val){const el=document.getElementById(id); if(el&&val!==undefined&&val!==null&&val!=='') el.value=val;};
+  const chk=function(id,val){const el=document.getElementById(id); if(el) el.checked=!!val;};
+  if(d.client){set('clientName',d.client.name);set('clientAge',d.client.age);set('clientJob',d.client.job);set('clientIncome',d.client.income);}
+  if(d.spouse){set('spouseName',d.spouse.name);set('spouseAge',d.spouse.age);set('spouseJob',d.spouse.job);set('spouseIncome',d.spouse.income);}
+  if(d.children&&d.children.length){document.getElementById('childList').innerHTML=''; d.children.forEach(addChildPrefilled);}
+  if(d.needSupport!==undefined){chk('needSupport',d.needSupport); document.getElementById('supportFields').style.display=d.needSupport?'grid':'none';}
+  set('annualSupport',d.annualSupport); set('supportYears',d.supportYears);
+  set('monthlyFixed',d.monthlyFixed); set('monthlyVariable',d.monthlyVariable);
+  if(d.hasMortgage!==undefined){chk('hasMortgage',d.hasMortgage); document.getElementById('mortgageFields').style.display=d.hasMortgage?'block':'none';}
+  set('mortgageTotal',d.mortgageTotal);set('mortgageYears',d.mortgageYears);set('mortgagePaid',d.mortgagePaid);set('mortgageMonthly',d.mortgageMonthly);set('mortgageBalance',d.mortgageBalance);
+  if(d.hasCarLoan!==undefined){chk('hasCarLoan',d.hasCarLoan); document.getElementById('carLoanFields').style.display=d.hasCarLoan?'block':'none';}
+  set('carTotal',d.carTotal);set('carYears',d.carYears);set('carPaid',d.carPaid);set('carMonthly',d.carMonthly);
+  if(d.educationPath!==undefined){const sel=document.getElementById('educationPath'); if(sel){sel.value=d.educationPath; document.getElementById('customEduField').style.display=d.educationPath==='custom'?'block':'none';}}
+  set('customEdu',d.customEdu);
+  if(d.policies&&d.policies.length){document.getElementById('policyList').innerHTML=''; d.policies.forEach(addPolicyPrefilled);}
+}
+applyPrefill();
 
 // 初始计算
 calculate();
