@@ -22,8 +22,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.18.1",
-    "update_note": "v2.18.1: 采集流程简化——识别保单后自动预填《家庭数据采集表》并直接弹出（无任何确认门禁，不确认识别准确度），服务人员在表内修正识别错误+补填未识别项后点「确认提交」回传数据文件，agent 收到后直接出报告。删除 Step 2.7 弹表后的对话追问清单（改为静默等待提交），Step 2.6 引导语简化为一句、回传通道聚焦数据文件。v2.18.0: 报告模板整体更换为「家的三笔钱」交互式模板——连续长页+.brk打印分节（非14页固定页），contenteditable 可编辑字段现场改写客户信息，06章9个dim-input评分输入由内置JS自动联动封面仪表盘/三问进度条/KPI卡/九维雷达图/分档统计；附二服务人员手册与浮动工具条打印自动隐藏；暖纸色系四档配色（安心绿/稳健青/可优化琥珀/优先完善橘）与模板BANDS一致；SKILL.md Step 5.5/Step 6 门禁与绑定表已同步适配（示例值整体替换，禁止残留张伟/440万等模板示例）；diagnosis_rules 配色分档与报告结构同步更新。v2.12.0 精算优先规则继续有效"
+    "latest_content_version": "2.18.2",
+    "update_note": "v2.18.2: 修复数据断链——用户点「确认提交」后只在对话回复「确认」等表态性文字、未回传数据文件时，agent 会误判为已提交并直接出报告（报告无用户数据）。新增 Step 2.7 B4 护栏：表态性文字不算数据到达，只回固定话术引导拖回数据文件或粘贴回传串；新增 B5 出报告前置核验：未真正收到任何数据回传前，严禁用 PREFILL 识别值或空值出报告；「收到即出报告」中的收到明确定义为数据文件/回传串/口述数值。v2.18.1: 采集流程简化——识别保单后自动预填《家庭数据采集表》并直接弹出（无任何确认门禁，不确认识别准确度），服务人员在表内修正识别错误+补填未识别项后点「确认提交」回传数据文件，agent 收到后直接出报告。删除 Step 2.7 弹表后的对话追问清单（改为静默等待提交），Step 2.6 引导语简化为一句、回传通道聚焦数据文件。v2.18.0: 报告模板整体更换为「家的三笔钱」交互式模板——连续长页+.brk打印分节（非14页固定页），contenteditable 可编辑字段现场改写客户信息，06章9个dim-input评分输入由内置JS自动联动封面仪表盘/三问进度条/KPI卡/九维雷达图/分档统计；附二服务人员手册与浮动工具条打印自动隐藏；暖纸色系四档配色（安心绿/稳健青/可优化琥珀/优先完善橘）与模板BANDS一致；SKILL.md Step 5.5/Step 6 门禁与绑定表已同步适配（示例值整体替换，禁止残留张伟/440万等模板示例）；diagnosis_rules 配色分档与报告结构同步更新。v2.12.0 精算优先规则继续有效"
   },
 
   "usage_report": {
