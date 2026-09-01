@@ -1,1268 +1,708 @@
 <!DOCTYPE html>
-<!--
-  ══════════════════════════════════════════════════════════════════
-  家庭保障健康检查报告 · 【家庭称谓】 · 最终优化版
-  ─────────────────────────────────────────────────────────────────
-  本版本以「最终版」PDF 为基准重构，白底 A4 打印版，目录编号严格对应：
-  · 01 家庭与保单信息概览（P.03）· 含投保日期 / 缴费金额 / 缴费年限 / 已交年数
-  · 02 远见之择 · 爱与责任（P.04）
-  · 03 保障是否充足（钱够不够用）（P.05–06）· 开篇配「需要多少 vs 已有多少」量化测算面板
-  · 04 资产归属是否清晰（钱归谁）（P.07–08）· 上页投保人/被保险人/受益人三权拆解＋钱怎么流＋法条摘录；下页维度四至六
-  · 05 保险权益申领是否顺畅（钱能否顺利拿到）（P.09）
-  · 06 综合诊断 · 核心发现 · 优化建议（P.10–11）
-  · 附 九维健康度一览 · 雷达图（P.12）· 建议方案参考（方向 A / B / C，仅方向不涉具体产品）（P.13）
-  · 措辞原则：不使用「缺口」等压力性表述，统一以「重点关注 / 可优化空间」表达；
-  · 打印：浏览器 Ctrl+P → 另存为 PDF → 纸张 A4（白底）。
-  ══════════════════════════════════════════════════════════════════
--->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>家庭保障健康检查报告 · 【家庭称谓】 · 最终优化版</title>
+<title>家的三笔钱 · 家庭保障健康体检报告</title>
 <style>
-  :root{
-    --paper:#FFFFFF; --card:#FFFFFF;
-    --ink:#2C3440; --ink2:#5A6B7A; --ink3:#6A7480;
-    --line:#E5E2DA; --line2:#EFEDE6;
-    --gold:#B08A5A; --gold-deep:#8A6A40; --gold-soft:#F5EFE5;
-    --green:#5F8A72;  --green-deep:#43695A;  --green-soft:#EAF1EC;
-    --teal:#5B7E96;   --teal-soft:#EAF0F4;
-    --amber:#A87F35;  --amber-soft:#F8F1DF;
-    --red:#B45F4D;    --red-deep:#8F4636;    --red-soft:#F8ECE8;
-    --slate:#3F4A57;  --slate-soft:#ECEFF2;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{font-family:"PingFang SC","Microsoft YaHei","Source Han Sans SC",sans-serif;color:var(--ink);background:#FFFFFF;line-height:1.68;font-size:15.0px;}
-  .serif{font-family:"Noto Serif SC","Source Han Serif SC","STSong","SimSun",Georgia,serif;}
+:root{
+  --ink:#2f2b26;--muted:#8d8778;--paper:#faf8f3;--card:#fff;--line:#e7e0d3;
+  --teal:#1f4e45;--gold:#b08d57;--gold-soft:#f7f1e4;
+  --green:#41937a;--amber:#d9930d;--orange:#c9664a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:#edeae3;color:var(--ink);line-height:1.75;font-size:14px}
+.serif{font-family:'Noto Serif SC','Source Han Serif SC','Songti SC','STSong',serif}
+.page{max-width:900px;margin:0 auto;background:var(--paper);box-shadow:0 2px 30px rgba(0,0,0,.08)}
+section{padding:44px 54px}
+a{color:var(--teal);text-decoration:none}
 
-  /* ═══════════ 页面骨架（A4 页级排版） ═══════════ */
-  .page{width:210mm;min-height:296mm;margin:10mm auto;background:var(--paper);box-shadow:0 2px 24px rgba(50,45,35,.14);padding:11mm 14mm 13mm;display:flex;flex-direction:column;position:relative;}
-  .ph{display:flex;justify-content:space-between;font-size:12.4px;color:var(--ink3);letter-spacing:1.5px;border-bottom:1px solid var(--line);padding-bottom:5px;margin-bottom:6mm;flex-shrink:0;}
-  .pf{margin-top:auto;text-align:center;font-size:12.4px;color:var(--ink3);letter-spacing:3px;padding-top:6px;flex-shrink:0;}
+/* 顶部条 */
+.topstrip{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;padding:12px 54px;border-bottom:1px solid var(--line);font-size:10.5px;letter-spacing:2px;color:var(--muted)}
 
-  /* ═══════════ 封面 ═══════════ */
-  .cover{padding:16mm 15mm;background:
-    radial-gradient(ellipse 900px 420px at 85% -8%, rgba(176,138,90,.10), transparent 60%),
-    radial-gradient(ellipse 700px 380px at -5% 105%, rgba(91,126,150,.08), transparent 60%),
-    var(--paper);}
-  .cover::after{content:"";position:absolute;inset:7mm;border:1px solid rgba(176,138,90,.35);pointer-events:none;}
-  .cover::before{content:"";position:absolute;inset:8.5mm;border:1px solid rgba(176,138,90,.18);pointer-events:none;}
-  .cover-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1;}
-  .cover-kicker{font-size:13.6px;letter-spacing:5px;color:var(--gold-deep);font-weight:600;}
-  .cover-badge{font-size:12.4px;color:var(--ink2);border:1px solid var(--line);background:#fff;border-radius:20px;padding:3px 14px;letter-spacing:2px;}
-  .cover-main{display:flex;gap:38px;align-items:center;margin-top:17mm;position:relative;z-index:1;}
-  .cover-title{flex:1;}
-  .cover h1{font-size:45.6px;font-weight:600;letter-spacing:5px;line-height:1.35;text-align:left;}
-  .cover-sub{margin-top:7mm;font-size:15.5px;color:var(--gold-deep);letter-spacing:2px;font-weight:600;text-align:right;}
-  .cover-lead-wrap{margin-top:9mm;max-width:132mm;padding-left:16px;border-left:3px solid var(--gold);position:relative;z-index:1;}
-  .cover-lead{font-size:15.3px;color:var(--ink2);text-align:justify;text-justify:inter-character;line-height:2.1;}
-  .lead-open{display:block;font-weight:600;color:var(--ink);margin-bottom:7px;}
-  .lead-q{color:var(--gold-deep);font-weight:700;}
-  .lead-em{color:var(--gold-deep);font-weight:600;}
-  .cover-head{margin-top:14mm;position:relative;z-index:1;}
-  .cover-questions{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:11px 16px;margin-top:12mm;position:relative;z-index:1;}
-  .cover-score{display:flex;justify-content:center;margin-top:8mm;position:relative;z-index:1;}
-  .cover-foot{margin-top:auto;position:relative;z-index:1;}
-  .cover-tri{display:flex;gap:10px;margin-top:8mm;}
-  .tri-chip{background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 20px;font-size:19px;font-weight:700;letter-spacing:1px;position:relative;}
-  .tri-chip b{color:var(--gold-deep);font-weight:600;}
-  .tri-chip+.tri-chip::before{content:"→";position:absolute;left:-14px;top:50%;transform:translateY(-50%);color:var(--gold);font-size:15.3px;}
-  .cover-seal{width:50mm;height:50mm;border-radius:50%;background:#fff;border:1px solid var(--line);box-shadow:0 6px 22px rgba(50,45,35,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;position:relative;}
-  .cover-seal::before{content:"";position:absolute;inset:9px;border-radius:50%;border:1px dashed rgba(176,138,90,.55);}
-  .seal-score{font-size:63.7px;font-weight:700;line-height:1;color:var(--slate);font-variant-numeric:tabular-nums;}
-  .seal-score small{font-size:17.7px;font-weight:400;color:var(--ink3);}
-  .seal-band{margin-top:8px;font-size:15.3px;font-weight:600;color:var(--gold-deep);letter-spacing:3px;}
-  .seal-cap{font-size:12.4px;color:var(--ink3);margin-top:4px;letter-spacing:2px;}
-  .cover-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 18px;margin-top:15mm;padding-top:20px;border-top:1px solid var(--line);font-size:14.8px;color:var(--ink2);position:relative;z-index:1;}
-  .cover-meta b{color:var(--ink);font-weight:600;margin-right:8px;}
-  .cover-note{margin-top:14px;font-size:13.0px;color:var(--ink3);position:relative;z-index:1;}
+/* 封面 */
+.cover{padding:54px 54px 40px;text-align:center}
+.cover-en{font-size:11px;letter-spacing:6px;color:var(--gold);margin-bottom:14px}
+.cover h1{font-size:42px;letter-spacing:8px;color:var(--teal);margin-bottom:6px}
+.cover h1 small{display:block;font-size:16px;letter-spacing:5px;color:var(--ink);font-weight:400;margin-top:10px}
+.threeq{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:22px 0 8px}
+.threeq span{background:var(--gold-soft);border:1px solid #e6d9bd;color:#7a6233;border-radius:999px;padding:4px 16px;font-size:13px}
+.meta{margin:14px 0 26px;font-size:13px;color:var(--muted)}
+.meta b{color:var(--ink);font-weight:600}
 
-  /* ═══════════ 章节标题 ═══════════ */
-  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px;}
-  .sec-no{font-size:33.0px;font-weight:700;color:var(--gold);line-height:1;letter-spacing:1px;}
-  .sec-head h2{font-size:24.8px;font-weight:600;letter-spacing:2px;}
-  .sec-head .en{font-size:12.4px;color:var(--ink3);letter-spacing:3px;margin-left:auto;text-transform:uppercase;}
-  .sec-rule{height:2px;background:linear-gradient(90deg,var(--gold) 0 44px,var(--line) 44px);margin-bottom:6px;}
-  .sec-lead{font-size:14.4px;color:var(--ink2);margin-bottom:14px;max-width:170mm;}
-  .note{font-size:13.0px;color:var(--ink3);margin-top:7px;line-height:1.7;}
-  .quote{background:var(--gold-soft);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:13px 18px;font-size:14.8px;color:var(--gold-deep);line-height:1.95;margin-top:14px;}
-  .quote b{font-weight:700;}
+/* 仪表盘 */
+.dash{display:flex;gap:34px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 30px;flex-wrap:wrap;justify-content:center}
+.tbwrap{text-align:center;margin-top:6px;font-size:13px}
+.tb{display:inline-block;padding:1px 14px;border-radius:999px;font-weight:600}
+.qrows{flex:1;min-width:300px}
+.qrow{display:grid;grid-template-columns:112px 1fr 42px auto;gap:10px;align-items:center;margin:10px 0}
+.qn{font-size:13.5px;font-weight:600}
+.qtrack{height:12px;background:#efe9dc;border-radius:99px;overflow:hidden}
+.qfill{display:block;height:100%;border-radius:99px}
+.qfill.band-green{background:var(--green)}.qfill.band-teal{background:var(--teal)}
+.qfill.band-amber{background:var(--amber)}.qfill.band-orange{background:var(--orange)}
+.qv{font-size:18px;font-family:'Noto Serif SC',serif;text-align:right}
+.legend{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:18px 0 0;font-size:12px;color:var(--muted)}
+#chipCounts{text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
+.covernote{max-width:560px;margin:18px auto 0;font-size:13.5px;color:#5c574c}
+.toc{margin-top:22px;font-size:12.5px;color:var(--muted);letter-spacing:1px}
 
-  /* ═══════════ 目录 + 总览 ═══════════ */
-  .toc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
-  .toc-item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;display:flex;gap:11px;align-items:center;}
-  .toc-no{font-size:24.8px;font-weight:700;color:var(--gold);line-height:1;min-width:30px;}
-  .toc-item .tt{font-size:14.8px;font-weight:600;}
-  .toc-item .tp{font-size:12.4px;color:var(--ink3);}
-  .overview{display:grid;grid-template-columns:78mm 1fr;gap:22px;margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 22px;align-items:center;}
-  .q-row{display:flex;flex-direction:column;gap:13px;}
-  .q-item{display:flex;align-items:center;gap:11px;}
-  .q-tag{width:104px;font-size:13.6px;font-weight:600;color:var(--ink2);flex-shrink:0;line-height:1.5;}
-  .q-tag small{display:block;font-size:11.9px;color:var(--ink3);font-weight:400;letter-spacing:1px;}
-  .q-barwrap{flex:1;height:8px;border-radius:5px;background:#EEECE6;overflow:hidden;}
-  .q-barfill{height:100%;border-radius:5px;}
-  .q-val{font-size:18.9px;font-weight:700;font-variant-numeric:tabular-nums;width:44px;text-align:right;}
-  .legend-bands{display:flex;gap:12px;margin-top:14px;font-size:12.4px;color:var(--ink2);flex-wrap:wrap;}
-  .legend-bands i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:-1px;}
-  .ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
-  .ov-cell{border-radius:10px;padding:10px 13px;border:1px solid var(--line);background:var(--card);}
-  .ov-cell .sc{font-size:28.3px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;}
-  .ov-cell .nm{font-size:14.2px;font-weight:600;margin-top:2px;}
-  .ov-cell .ds{font-size:12.4px;color:var(--ink2);margin-top:1px;line-height:1.6;}
-  .ov-sum{margin-top:9px;font-size:13.0px;color:var(--ink2);text-align:center;letter-spacing:.5px;}
-  .ov-sum b{color:var(--ink);}
+/* 章节头 */
+.sec-no{font-family:'Noto Serif SC',serif;font-size:34px;color:var(--gold);line-height:1}
+.sec-en{font-size:10px;letter-spacing:4px;color:var(--muted);margin-top:2px}
+h2{font-family:'Noto Serif SC',serif;font-size:24px;color:var(--teal);letter-spacing:2px;margin-bottom:4px}
+.sec-head{display:flex;align-items:flex-end;gap:16px;border-bottom:2px solid var(--gold-soft);padding-bottom:14px;margin-bottom:22px}
+.sec-lead{font-size:13.5px;color:#5c574c;margin:-10px 0 20px}
+.qcore{background:var(--teal);color:#fff;border-radius:12px;padding:12px 20px;font-size:14px;margin-bottom:22px}
+.qcore b{color:#e8d5a8}
 
-  /* ═══════════ 肯定卡 ═══════════ */
-  .praise-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;}
-  .praise{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 17px;display:flex;gap:13px;align-items:flex-start;}
-  .praise .ck{width:29px;height:29px;border-radius:50%;background:var(--green-soft);border:1px solid #CDE2D6;color:var(--green-deep);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16.5px;flex-shrink:0;}
-  .praise b{font-size:15.3px;font-weight:600;display:block;margin-bottom:3px;}
-  .praise p{font-size:14.2px;color:var(--ink2);line-height:1.8;}
-  .praise.wide{grid-column:span 2;}
+/* 卡片与徽章 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 24px;margin-bottom:16px;box-shadow:0 1px 4px rgba(60,50,30,.04)}
+.dim-hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.dim-hd h3{font-family:'Noto Serif SC',serif;font-size:17px;color:var(--ink)}
+.dim-no{color:var(--gold);margin-right:6px}
+.dim-sub{font-size:12.5px;color:var(--muted);margin-top:2px}
+.dim-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dim-score b{font-family:'Noto Serif SC',serif;font-size:26px;color:var(--teal)}
+.dim-score{font-size:12px;color:var(--muted)}
+.chip{display:inline-block;padding:2px 11px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap}
+.band-green{background:#e9f4ef;color:#2f7c5f;border:1px solid #bfe0d2}
+.band-teal{background:#ecf2f0;color:#1f4e45;border:1px solid #c3d8d3}
+.band-amber{background:#fbf3de;color:#a06a08;border:1px solid #efd9a8}
+.band-orange{background:#faece5;color:#b5532f;border:1px solid #f2d3c5}
+.ptag{font-size:11px;padding:1px 9px;border-radius:999px}
+.pt-m{background:#faece5;color:#b5532f;border:1px solid #f2d3c5}
+.pt-q{background:#fbf3de;color:#a06a08;border:1px solid #efd9a8}
+.pt-k{background:#e9f4ef;color:#2f7c5f;border:1px solid #bfe0d2}
+.dim-act{margin-top:14px;background:var(--gold-soft);border-left:3px solid var(--gold);padding:9px 14px;border-radius:0 8px 8px 0;font-weight:600;color:#6b5636;font-size:13.5px}
 
-  /* ═══════════ 家庭画像 + 表格 ═══════════ */
-  .family-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-bottom:10px;}
-  .fam{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 13px;position:relative;overflow:hidden;}
-  .fam::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);}
-  .fam .fn{font-size:12.4px;color:var(--ink3);}
-  .fam .fv{font-size:22.4px;font-weight:700;font-variant-numeric:tabular-nums;margin-top:3px;letter-spacing:.5px;white-space:nowrap;}
-  .fam .fv small{font-size:12.4px;font-weight:400;color:var(--ink3);margin-left:1px;}
-  .fam .fd{font-size:11.8px;color:var(--ink2);margin-top:2px;line-height:1.55;}
-  .fam.hl{border-color:#E2D2B8;background:var(--gold-soft);}
-  .fam.hl .fv{color:var(--gold-deep);}
-  /* ═══════════ 家庭画像·按字段盘点（每项已确认） ═══════════ */
-  .fam-profile{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;margin:10px 0 12px;}
-  .fp-col{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:9px 12px;}
-  .fp-h{font-size:14.2px;font-weight:700;color:var(--gold-deep);letter-spacing:1px;margin-bottom:4px;}
-  .fp-row{display:flex;align-items:baseline;gap:6px;font-size:13.2px;padding:3px 0;border-bottom:1px dashed var(--line);}
-  .fp-row:last-child{border-bottom:none;}
-  .fp-row .k{flex:1;color:var(--ink3);}
-  .fp-row .v{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap;}
-  .fp-i{display:inline-block;font-size:11.2px;color:var(--amber);background:var(--amber-soft);border-radius:8px;padding:0 6px;white-space:nowrap;}
-  .resp-link{font-size:13.5px;background:var(--gold-soft);border:1px solid #E2D2B8;border-radius:10px;padding:7px 11px;line-height:1.65;}
-  .resp-link b{color:var(--gold-deep);}
-  .hook-principles{display:flex;flex-direction:column;gap:5px;margin:8px 0 4px;}
-  .hp{font-size:13.0px;font-weight:600;color:var(--ink);background:#F7F5F0;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:4px 10px;line-height:1.5;}
-  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);}
-  th{background:#F1EFE9;color:var(--ink2);font-weight:600;text-align:left;padding:5.5px 9px;border-bottom:2px solid var(--gold);white-space:nowrap;font-size:13.0px;letter-spacing:.5px;}
-  td{padding:5.5px 9px;border-bottom:1px solid var(--line2);vertical-align:top;}
-  tr:last-child td{border-bottom:none;}
-  .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap;}
-  .tbl-wrap{border:1px solid var(--line);border-radius:12px;overflow:hidden;}
-  tr.row-total td{background:var(--gold-soft);font-weight:700;border-top:2px solid var(--gold);}
-  tr.row-zero td{background:var(--red-soft);}
-  tr.row-zero td:first-child{font-weight:700;}
-  .risk-t{color:var(--red);font-weight:600;} .warn-t{color:var(--amber);font-weight:600;} .ok-t{color:var(--green);font-weight:600;} .info-t{color:var(--teal);font-weight:600;}
-  .tag{display:inline-block;font-size:11.8px;font-weight:600;padding:1px 9px;border-radius:10px;white-space:nowrap;}
-  .tag-red{background:var(--red-soft);color:var(--red);} .tag-amber{background:var(--amber-soft);color:var(--amber);}
-  .tag-green{background:var(--green-soft);color:var(--green);} .tag-gold{background:var(--gold-soft);color:var(--gold-deep);}
+/* 已有/需要 对比条 */
+.vs{margin:10px 0 4px}
+.vs-row{display:grid;grid-template-columns:44px 1fr 120px;gap:10px;align-items:center;margin:6px 0;font-size:13px}
+.vs-l{color:var(--muted)}
+.vs-track{height:10px;background:#efe9dc;border-radius:99px;overflow:hidden}
+.vs-track i{display:block;height:100%;border-radius:99px}
+.vs-have{background:var(--teal)}.vs-need{background:#d9c491}
+.vs-v{text-align:right;font-weight:600}
 
-  /* ═══════════ 三问横幅 ═══════════ */
-  .q-banner{display:flex;align-items:center;gap:14px;background:var(--slate);color:#fff;border-radius:12px;padding:11px 18px;margin:0 0 11px;position:relative;overflow:hidden;}
-  .q-banner::after{content:"";position:absolute;right:0;top:0;bottom:0;width:120px;background:linear-gradient(90deg,transparent,rgba(200,169,138,.18));}
-  .q-banner .qb-no{font-size:13.6px;letter-spacing:3px;color:#D8BC94;border:1px solid rgba(216,188,148,.5);padding:2px 12px;border-radius:14px;white-space:nowrap;}
-  .q-banner b{font-size:17.7px;font-weight:600;letter-spacing:1px;}
-  .q-banner span{font-size:13.6px;color:#B9C4CE;margin-left:auto;text-align:right;max-width:92mm;line-height:1.7;position:relative;z-index:1;}
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+th{background:#f3efe6;color:#6b6557;font-weight:600;text-align:left;padding:8px 10px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:8px 10px;vertical-align:top}
+tfoot td,tr.note td{border-bottom:none;color:var(--muted);font-size:12px}
+.dim-input{width:3em;text-align:center;border:none;border-bottom:1px dashed #b9ae97;background:#fbf9f4;border-radius:4px 4px 0 0;font:inherit;font-size:15px;font-weight:700;color:var(--teal)}
 
-  /* ═══════════ 三权拆解（第二问） ═══════════ */
-  .tri-right{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:8px 0 9px;}
-  .rcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:10px 13px;position:relative;overflow:hidden;display:flex;flex-direction:column;}
-  .rcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
-  .rcard.r1::before{background:var(--teal);} .rcard.r2::before{background:var(--gold);} .rcard.r3::before{background:var(--green);}
-  .rcard .rt{font-size:16.5px;font-weight:700;letter-spacing:.5px;}
-  .rcard .rt small{font-size:11.9px;color:var(--ink3);font-weight:400;letter-spacing:1px;margin-left:6px;}
-  .rcard .rsub{font-size:11.8px;font-weight:700;color:var(--gold-deep);margin-top:1px;letter-spacing:.5px;}
-  .rcard.r1 .rsub{color:#44647A;} .rcard.r3 .rsub{color:var(--green-deep);}
-  .rcard p{font-size:12.6px;color:var(--ink2);line-height:1.68;margin-top:4px;}
-  .rcard p b{color:var(--ink);}
-  .law-cite{margin-top:auto;border-top:1px dashed var(--line);padding-top:4px;font-size:11.6px;color:var(--ink3);line-height:1.52;}
-  .law-cite b{color:#7C8894;font-weight:600;}
+/* 自查卡 */
+.selfcheck{border:1.5px dashed #cfc4ac;background:#fffdf7;border-radius:14px;padding:16px 22px;margin:20px 0}
+.sc-head{font-weight:700;color:#7a6233;margin-bottom:8px}
+.sc-head .hint{font-weight:400;font-size:12px;color:var(--muted)}
+.sc-row{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px dotted #e8e0cd;font-size:13.5px}
+.sc-row:last-child{border-bottom:none}
+.sc-opts{white-space:nowrap;color:var(--muted);font-size:13px}
 
-  /* ═══════════ 钱的流向图 ═══════════ */
-  .flow{background:var(--slate);border-radius:13px;padding:9px 14px 10px;color:#fff;margin-bottom:9px;}
-  .flow-title{font-size:12.2px;font-weight:700;color:#D8BC94;letter-spacing:2.5px;margin-bottom:5px;}
-  .flow-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:12.5px;}
-  .fnode{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:3px 9px;white-space:nowrap;}
-  .fnode b{color:#E8D5B5;font-weight:600;}
-  .farr{color:#D8BC94;font-size:12.4px;white-space:nowrap;}
-  .flow-split{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:6px;}
-  .fsplit{border-radius:9px;padding:6px 10px;font-size:12.3px;line-height:1.55;}
-  .fsplit.a{background:rgba(95,138,114,.30);border:1px solid rgba(143,190,166,.45);}
-  .fsplit.b{background:rgba(180,95,77,.26);border:1px solid rgba(214,148,133,.45);}
-  .fsplit b{display:block;font-size:12.5px;margin-bottom:1px;}
-  .fsplit.a b{color:#BFE0CE;} .fsplit.b b{color:#F0C9BF;}
+/* 钱流图 */
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin:14px 0}
+.flow-node{background:#ecf2f0;border:1px solid #c3d8d3;border-radius:10px;padding:9px 13px;text-align:center;font-size:13px;align-self:center}
+.flow-node b{color:var(--teal)}
+.flow-node small{color:var(--muted);font-size:11.5px}
+.flow-arrow{align-self:center;color:var(--muted);font-size:11.5px;white-space:nowrap}
+.flow-split{display:flex;flex-direction:column;gap:6px;justify-content:center}
+.flow-branch{border-radius:10px;padding:8px 13px;font-size:12.5px}
+.flow-branch.ok{background:#e9f4ef;border:1px solid #bfe0d2}
+.flow-branch.warn{background:#fbf3de;border:1px solid #efd9a8}
 
-  /* ═══════════ 现有保单清单（紧凑十列） ═══════════ */
-  .policy-tbl{font-size:12.5px;}
-  .policy-tbl th{padding:6px 6px;font-size:12.3px;letter-spacing:0;}
-  .policy-tbl td{padding:6px 6px;line-height:1.55;}
-  .policy-tbl .tag{font-size:11.9px;padding:1px 7px;}
+/* 三个权 */
+.rights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.rights .card{margin:0;padding:16px 18px}
+.rights h4{font-family:'Noto Serif SC',serif;color:var(--teal);font-size:15px;margin-bottom:4px}
+.rights .law{font-size:11px;color:var(--muted);margin-top:8px;border-top:1px dotted var(--line);padding-top:6px}
 
-  /* ═══════════ 量化测算面板（第一问） ═══════════ */
-  .quant{background:var(--card);border:1.5px solid var(--gold);border-radius:14px;padding:12px 18px 10px;margin-bottom:10px;box-shadow:0 3px 14px rgba(176,138,90,.09);position:relative;overflow:hidden;}
-  .quant::after{content:"";position:absolute;right:-26px;top:-26px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(176,138,90,.09),transparent 70%);}
-  .quant-title{font-size:16.5px;font-weight:700;color:var(--gold-deep);letter-spacing:.5px;margin-bottom:2px;}
-  .quant-title small{font-size:12.4px;color:var(--ink3);font-weight:400;margin-left:8px;letter-spacing:1px;}
-  .quant-row{display:grid;grid-template-columns:160px 1fr 88px;gap:15px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--line2);position:relative;z-index:1;}
-  .quant-row:last-of-type{border-bottom:none;}
-  .qi b{font-size:14.8px;display:block;line-height:1.4;}
-  .qi span{font-size:11.6px;color:var(--ink3);line-height:1.62;display:block;margin-top:2px;}
-  .qbar-label{display:flex;justify-content:space-between;font-size:11.8px;color:var(--ink2);margin-bottom:3px;}
-  .qbar-label b{font-variant-numeric:tabular-nums;}
-  .qbar{height:13px;border-radius:7px;background:#EEECE6;overflow:hidden;}
-  .qbar i{display:block;height:100%;border-radius:7px;}
-  .qgap{text-align:center;font-size:13.6px;font-weight:700;border-radius:10px;padding:6px 4px;line-height:1.5;}
-  .qgap small{display:block;font-size:11.2px;font-weight:400;}
+/* 法条转述 */
+.lawbox{background:#f4f6f4;border:1px solid #d8e2dc;border-radius:12px;padding:14px 20px;font-size:12.5px;color:#4c5854;margin-top:12px}
+.lawbox b{color:var(--teal)}
 
-  /* ═══════════ 法定继承成本提示条 ═══════════ */
-  .inherit-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:7px;}
-  .inh{border-radius:10px;padding:6px 10px;font-size:11.9px;line-height:1.48;border:1px solid #EED6CE;background:var(--red-soft);color:#7A4A3F;}
-  .inh b{display:block;font-size:12.4px;color:var(--red);margin-bottom:1px;}
-  .inh.dim{border-color:var(--line);background:#F7F5F0;color:var(--ink2);}
-  .inh.dim b{color:var(--slate);}
+/* 数据卡 */
+.bignum{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0}
+.stat{flex:1;min-width:150px;background:#faf7ef;border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-align:center}
+.stat .n{font-family:'Noto Serif SC',serif;font-size:26px;color:var(--teal)}
+.stat .t{font-size:12px;color:var(--muted)}
+.lever{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0;font-size:13px}
+.lever .arr{color:var(--gold);font-weight:700}
 
-  /* ═══════════ 维度块 ═══════════ */
-  .dim-block{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 15px;margin-bottom:10px;position:relative;overflow:hidden;}
-  .dim-block::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
-  .dp-q1::before{background:var(--teal);} .dp-q2::before{background:var(--gold);} .dp-q3::before{background:var(--green);}
-  .dim-head{display:flex;align-items:center;gap:11px;margin-bottom:7px;padding-bottom:6px;border-bottom:1px solid var(--line2);}
-  .dim-no{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17.7px;font-weight:700;color:#fff;flex-shrink:0;}
-  .dn-q1{background:var(--teal);} .dn-q2{background:var(--gold);} .dn-q3{background:var(--green);}
-  .dim-head .dt{flex:1;}
-  .dim-head .dt b{font-size:16.5px;font-weight:600;letter-spacing:.5px;}
-  .dim-head .dt .core{font-size:13.0px;color:var(--ink3);margin-top:2px;}
-  .dim-score{display:flex;align-items:center;gap:11px;flex-shrink:0;}
-  .score-ring{position:relative;width:44px;height:44px;}
-  .score-ring .sv{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16.5px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;}
-  .st{font-size:12.4px;font-weight:600;padding:3px 10px;border-radius:12px;white-space:nowrap;letter-spacing:.5px;}
-  .st-green{background:var(--green-soft);color:var(--green-deep);}
-  .st-teal{background:var(--teal-soft);color:#44647A;}
-  .st-amber{background:var(--amber-soft);color:var(--amber);}
-  .st-red{background:var(--red-soft);color:var(--red);}
-  .pr-tag{font-size:11.8px;font-weight:600;letter-spacing:1px;color:var(--gold-deep);background:var(--gold-soft);border-radius:10px;padding:2px 10px;white-space:nowrap;}
-  .chk{display:flex;gap:11px;padding:4px 0;border-bottom:1px dashed var(--line2);font-size:13.9px;}
-  .chk:last-of-type{border-bottom:none;}
-  .chk .ic{flex-shrink:0;font-weight:700;width:16px;text-align:center;}
-  .chk .ck-t{color:var(--ink2);width:168px;flex-shrink:0;}
-  .chk .ck-v{flex:1;}
-  .chk .ck-v em{font-style:normal;color:var(--ink);}
-  .evid{margin-top:9px;border-radius:10px;padding:9px 13px;font-size:13.0px;line-height:1.72;}
-  .evid .et{font-size:11.8px;font-weight:700;letter-spacing:2px;display:block;margin-bottom:3px;}
-  .evid.sci{background:var(--gold-soft);color:#6E5A3C;} .evid.sci .et{color:var(--gold-deep);}
-  .evid.law{background:var(--green-soft);color:#3E5C4E;} .evid.law .et{color:var(--green-deep);}
-  .evid b{font-weight:700;}
-  .verdict{margin-top:7px;font-size:13.7px;background:#F7F5F0;border-left:3px solid var(--slate);border-radius:0 8px 8px 0;padding:5px 11px;color:var(--ink2);line-height:1.52;}
-  .verdict b{color:var(--ink);font-weight:600;}
-  .act{display:inline-flex;align-items:center;gap:7px;margin-top:6px;font-size:13.2px;font-weight:600;padding:4px 12px;border-radius:9px;letter-spacing:.5px;}
-  .act.fix{background:var(--slate-soft);color:var(--slate);}
-  .act.struct{background:var(--gold-soft);color:var(--gold-deep);}
-  .act.add{background:var(--green-soft);color:var(--green-deep);}
-  .act::before{content:"➔";font-weight:700;font-size:13.0px;}
-  .vs-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:2px;}
-  .vs-cell{border-radius:10px;padding:7px 10px;font-size:13.0px;line-height:1.5;border:1px solid var(--line);}
-  .vs-cell b{display:block;font-size:13.7px;margin-bottom:2px;}
-  .vs-a{background:var(--green-soft);border-color:#CDE2D6;} .vs-a b{color:var(--green-deep);}
-  .vs-b{background:var(--red-soft);border-color:#EED6CE;} .vs-b b{color:var(--red);}
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 10px;text-align:center}
+.kpi-n{font-family:'Noto Serif SC',serif;font-size:30px;color:var(--teal);line-height:1.1}
+.kpi-n small{font-size:12px;color:var(--muted)}
+.kpi-t{font-size:13px;font-weight:600;margin-top:2px}
+.kpi-p{font-size:11.5px;color:var(--muted)}
 
-  /* ═══════════ 优先建议方向横幅 ═══════════ */
-  .hook{background:var(--card);border:1.5px solid var(--gold);border-radius:14px;padding:13px 18px;margin-bottom:10px;box-shadow:0 4px 18px rgba(176,138,90,.10);position:relative;overflow:hidden;}
-  .hook::after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(176,138,90,.10),transparent 70%);}
-  .hook-title{font-size:17.1px;font-weight:700;color:var(--gold-deep);letter-spacing:1px;display:flex;align-items:center;gap:8px;}
-  .hook-title::before{content:"◆";font-size:13.0px;color:var(--gold);}
-  .hook-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:9px 0 8px;}
-  .hook-stat{border:1px solid var(--line);border-radius:12px;padding:8px 11px;text-align:center;background:linear-gradient(180deg,#FFFDF9,#F7F2E9);}
-  .hook-stat .hv{font-size:23.6px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.15;letter-spacing:.5px;}
-  .hook-stat .hv small{font-size:13.0px;font-weight:400;color:var(--ink3);margin-left:1px;}
-  .hook-stat .hn{font-size:12.4px;color:var(--ink2);margin-top:2px;line-height:1.6;}
-  .hook p{font-size:13.6px;color:var(--ink2);line-height:1.72;}
-  .hook p b{color:var(--ink);}
-  .cmp{display:flex;flex-direction:column;gap:7px;margin:9px 0 2px;}
-  .cmp-row{display:flex;align-items:center;gap:12px;font-size:13.6px;color:var(--ink2);}
-  .cmp-row .cl{width:88px;flex-shrink:0;}
-  .cmp-row .cb{flex:1;height:10px;border-radius:6px;background:#EEECE6;overflow:hidden;}
-  .cmp-row .cf{height:100%;border-radius:6px;}
-  .cmp-row .cv{width:52px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;font-size:15.3px;}
+/* 发现 & 行动 */
+.findings{display:grid;gap:12px;margin:16px 0}
+.find{display:flex;gap:14px;align-items:flex-start}
+.find .fn{font-family:'Noto Serif SC',serif;font-size:22px;color:var(--gold);line-height:1.2;white-space:nowrap}
+.find b{color:var(--teal)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:18px 0}
+.step{border-radius:14px;padding:18px 20px}
+.step1{background:#e9f4ef;border:1px solid #bfe0d2}
+.step2{background:#fbf3de;border:1px solid #efd9a8}
+.step3{background:#f1efea;border:1px solid #ddd6c8}
+.step h4{font-family:'Noto Serif SC',serif;font-size:15.5px;margin-bottom:2px}
+.step .st{font-size:11.5px;color:var(--muted);margin-bottom:10px}
+.step label{display:flex;gap:8px;font-size:13px;padding:6px 0;border-bottom:1px dotted rgba(0,0,0,.08);cursor:pointer}
+.step label:last-of-type{border-bottom:none}
+.dirs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.dir{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:12.5px}
+.dir b{display:block;color:var(--teal);font-size:13.5px;margin-bottom:4px}
+.dir.first{border-color:var(--gold);background:#fdfaf2}
+.quote{font-family:'Noto Serif SC',serif;background:var(--gold-soft);border-left:4px solid var(--gold);border-radius:0 12px 12px 0;padding:18px 24px;font-size:15px;color:#5f4e2e;line-height:2;margin-top:20px}
 
-  /* ═══════════ 核心发现 ═══════════ */
-  .findings{display:flex;flex-direction:column;gap:12px;}
-  .find{border:1px solid var(--line);border-radius:13px;padding:15px 18px;background:var(--card);display:flex;gap:14px;align-items:flex-start;position:relative;overflow:hidden;}
-  .find::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
-  .find.f-red::before{background:var(--red);} .find.f-amber::before{background:var(--amber);} .find.f-green::before{background:var(--green);}
-  .find-no{font-size:14.2px;font-weight:700;color:#fff;border-radius:9px;padding:3px 10px;white-space:nowrap;margin-top:2px;}
-  .fn-red{background:var(--red);} .fn-amber{background:var(--amber);} .fn-green{background:var(--green);}
-  .find b.t{font-size:16.5px;font-weight:600;display:block;margin-bottom:4px;}
-  .find p{font-size:14.5px;color:var(--ink2);line-height:1.9;}
-  .find p b{color:var(--ink);}
+/* 词典 */
+.gloss{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px}
+.gloss div{padding:7px 0;border-bottom:1px dotted var(--line);font-size:13px}
+.gloss dt{font-weight:700;color:var(--teal);display:inline}
+.gloss dd{display:inline;color:#5c574c;margin-left:6px}
 
-  /* ═══════════ 时间轴 ═══════════ */
-  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:6px;}
-  .tl-item{position:relative;padding:0 20px 0 0;}
-  .tl-item::before{content:"";position:absolute;top:6px;left:2px;width:13px;height:13px;border-radius:50%;background:var(--gold);border:3px solid var(--paper);box-shadow:0 0 0 2px var(--gold);}
-  .tl-item:nth-child(2)::before{background:var(--slate);box-shadow:0 0 0 2px var(--slate);}
-  .tl-item:nth-child(3)::before{background:var(--green);box-shadow:0 0 0 2px var(--green);}
-  .tl-item::after{content:"";position:absolute;top:12px;left:15px;right:0;height:2px;background:var(--line);}
-  .tl-item:last-child::after{display:none;}
-  .tl-when{font-size:13.6px;font-weight:700;color:var(--gold-deep);letter-spacing:1px;margin:0 0 8px 26px;}
-  .tl-item:nth-child(2) .tl-when{color:var(--slate);}
-  .tl-item:nth-child(3) .tl-when{color:var(--green-deep);}
-  .tl-what{margin-left:26px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-size:14.2px;color:var(--ink2);line-height:1.9;}
-  .tl-what b{color:var(--ink);display:block;font-size:15.3px;margin-bottom:5px;}
-  .tl-what ol{margin-left:16px;}
-  .tl-what li{margin-bottom:3px;}
+/* 内部手册 */
+details.internal{background:#f2f0ea;border:1.5px dashed #c6bda9;border-radius:14px;padding:16px 22px;margin-top:26px}
+details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
+.script{background:#fff;border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:10px 16px;margin:10px 0;font-size:13.5px}
+.script b{color:var(--teal)}
+.tips li{margin:6px 0 6px 20px;font-size:13.5px}
 
-  /* ═══════════ 附录方案 ═══════════ */
-  .plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
-  .plan{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:17px 17px;position:relative;}
-  .plan.rec{border-color:var(--gold);box-shadow:0 4px 18px rgba(176,138,90,.12);}
-  .plan .rec-badge{position:absolute;top:-11px;right:14px;background:var(--gold);color:#fff;font-size:12.4px;font-weight:600;letter-spacing:2px;border-radius:12px;padding:2px 12px;}
-  .plan h4{font-size:16.5px;font-weight:600;letter-spacing:.5px;line-height:1.5;}
-  .plan .pd{font-size:12.4px;color:var(--ink3);margin-top:2px;line-height:1.6;}
-  .plan-a .p{color:var(--gold-deep);} .plan-b .p{color:var(--slate);} .plan-c .p{color:var(--green-deep);}
-  .plan ul{margin-left:15px;font-size:13.3px;color:var(--ink2);line-height:1.95;}
-  .plan ul b{color:var(--ink);}
+/* 页脚 */
+.foot{padding:26px 54px 40px;font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);line-height:1.9}
 
-  /* ═══════════ 雷达 + 仪表盘 ═══════════ */
-  .radar-wrap{display:grid;grid-template-columns:74mm 1fr;gap:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;align-items:center;}
-  .gauge-side{text-align:center;border-right:1px dashed var(--line);padding-right:20px;}
-  .gauge-cap{font-size:14.2px;color:var(--ink2);margin-top:6px;}
-  .gauge-band{display:inline-block;margin-top:8px;font-size:14.2px;font-weight:600;padding:3px 16px;border-radius:14px;background:var(--amber-soft);color:var(--amber);border:1px solid #E4CE9A;letter-spacing:2px;}
+/* 工具条 */
+.toolbar{position:fixed;bottom:14px;right:14px;z-index:99;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 4px 18px rgba(0,0,0,.12);padding:10px 14px;font-size:12.5px;color:#5c574c;max-width:330px}
+.toolbar button{display:block;width:100%;margin-top:8px;background:var(--teal);color:#fff;border:none;border-radius:8px;padding:7px 0;font-size:13px;cursor:pointer}
 
-  /* ═══════════ 尾部 ═══════════ */
-  .disclaim{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;font-size:13.0px;color:var(--ink3);line-height:1.95;}
-  .sign{display:flex;justify-content:space-between;margin-top:16px;font-size:13.6px;color:var(--ink2);}
-  .sign b{font-weight:600;color:var(--ink);}
-  .footer-line{display:flex;justify-content:space-between;margin-top:18px;font-size:12.4px;color:var(--ink3);letter-spacing:2px;border-top:2px solid var(--gold);padding-top:10px;}
+/* 可编辑提示 */
+[contenteditable="true"]{border-bottom:1px dashed #cfc7b8;cursor:text;min-width:20px;display:inline-block}
+[contenteditable="true"]:hover,[contenteditable="true"]:focus{background:#f3eee2;outline:none}
 
-
-  /* ═══════════ 手机阅读适配（仅手机屏幕生效，不影响A4打印） ═══════════ */
-  @media screen and (max-width: 768px){
-    body{font-size:16.5px;background:#F5F3EE;line-height:1.7;}
-    .page{width:100%!important;min-height:auto!important;margin:0!important;padding:14px 16px 20px!important;box-shadow:none!important;border-radius:0;border-bottom:8px solid #F5F3EE;}
-    .cover{padding:20px 18px!important;min-height:auto!important;}
-    .cover::after,.cover::before{inset:4mm!important;}
-    .cover-main{flex-direction:column!important;gap:20px!important;margin-top:10mm!important;}
-    .cover h1{font-size:33.0px!important;letter-spacing:2px!important;}
-    .cover-sub{font-size:16.5px!important;}
-    .cover-lead{font-size:15.3px!important;line-height:1.8!important;max-width:100%!important;}
-    .cover-tri{flex-direction:column!important;gap:8px!important;}
-    .tri-chip{width:100%!important;text-align:center!important;}
-    .tri-chip+.tri-chip::before{left:50%!important;top:-12px!important;transform:translateX(-50%)!important;}
-    .cover-seal{width:120px!important;height:120px!important;margin:0 auto!important;}
-    .seal-score{font-size:47.2px!important;}
-    .cover-meta{flex-direction:column!important;gap:6px!important;}
-    .ph{font-size:13.0px!important;flex-wrap:wrap!important;gap:4px!important;}
-    .sec-head{flex-wrap:wrap!important;gap:8px!important;}
-    .sec-no{font-size:26.0px!important;}
-    .sec-head h2{font-size:20.1px!important;}
-    .sec-head .en{margin-left:0!important;width:100%!important;}
-    .toc-grid{grid-template-columns:1fr 1fr!important;gap:7px!important;}
-    .toc-item{padding:8px 10px!important;}
-    .overview{grid-template-columns:1fr!important;gap:14px!important;padding:14px!important;}
-    .ov-grid{grid-template-columns:1fr 1fr!important;}
-    .q-barwrap{height:10px!important;}
-    .q-val{font-size:21.2px!important;}
-    .praise-grid{grid-template-columns:1fr!important;}
-    .praise.wide{grid-column:span 1!important;}
-    .family-cards{grid-template-columns:1fr 1fr!important;}
-    .fam-profile{grid-template-columns:1fr!important;}
-    .fam .fv{font-size:18.9px!important;}
-    .tbl-wrap{overflow-x:auto!important;-webkit-overflow-scrolling:touch;}
-    table{min-width:480px!important;font-size:14.2px!important;}
-    .policy-tbl{min-width:600px!important;}
-    th{font-size:13.0px!important;}
-    td{padding:7px 8px!important;}
-    .q-banner{flex-direction:column!important;align-items:flex-start!important;gap:6px!important;text-align:left!important;}
-    .q-banner span{margin-left:0!important;max-width:100%!important;text-align:left!important;}
-    .quant{padding:10px 14px 8px!important;}
-    .quant-row{grid-template-columns:1fr!important;gap:6px!important;}
-    .qbar{height:16px!important;}
-    .dim-block{padding:10px 12px!important;}
-    .dim-head{flex-wrap:wrap!important;gap:8px!important;}
-    .dim-no{width:32px!important;height:32px!important;font-size:15.3px!important;}
-    .dim-head .dt b{font-size:15.3px!important;}
-    .score-ring{width:38px!important;height:38px!important;}
-    .score-ring .sv{font-size:14.2px!important;}
-    .tri-right{grid-template-columns:1fr!important;}
-    .rcard{padding:10px 12px!important;}
-    .flow{padding:8px 12px!important;}
-    .flow-row{flex-direction:column!important;align-items:flex-start!important;gap:6px!important;}
-    .fnode{width:100%!important;}
-    .farr{display:none!important;}
-    .flow-split{grid-template-columns:1fr!important;}
-    .vs-grid{grid-template-columns:1fr!important;}
-    .inherit-strip{grid-template-columns:1fr!important;}
-    .hook{padding:10px 14px!important;}
-    .hook-stats{grid-template-columns:1fr 1fr 1fr!important;gap:6px!important;}
-    .hook-stat{padding:6px 8px!important;}
-    .hook-stat .hv{font-size:18.9px!important;}
-    .cmp-row .cl{width:70px!important;font-size:11.8px!important;}
-    .findings{gap:10px!important;}
-    .find{padding:12px 14px!important;flex-direction:column!important;gap:8px!important;}
-    .timeline{grid-template-columns:1fr!important;gap:14px!important;}
-    .tl-item{padding:0 0 0 0!important;}
-    .tl-item::after{display:none!important;}
-    .tl-what{margin-left:0!important;}
-    .plan-grid{grid-template-columns:1fr!important;}
-    .radar-wrap{grid-template-columns:1fr!important;gap:14px!important;padding:14px!important;}
-    .gauge-side{border-right:none!important;border-bottom:1px dashed var(--line)!important;padding-right:0!important;padding-bottom:14px!important;}
-    .radar-wrap svg{max-width:100%!important;}
-    .quote{padding:10px 14px!important;font-size:14.8px!important;line-height:1.8!important;}
-    .verdict{font-size:14.2px!important;line-height:1.65!important;}
-    .evid{font-size:13.0px!important;padding:8px 12px!important;}
-    .disclaim{font-size:13.0px!important;}
-    .sign{flex-direction:column!important;gap:6px!important;}
-    .footer-line{flex-direction:column!important;gap:4px!important;text-align:center!important;}
-  }
-
-  /* ═══════════ 打印 ═══════════ */
-  @page{size:A4;margin:0;}
-  @media print{
-    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    body{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-    .page{box-shadow:none;margin:0;width:auto;min-height:297mm;padding:9mm 12mm 11mm;page-break-after:always;display:flex;flex-direction:column;}
-    .page:last-child{page-break-after:auto;}
-    .cover{padding:14mm 14mm;min-height:297mm;}
-    .dim-block,.find,.plan,.tl-what,.praise,.toc-item,.hook{page-break-inside:avoid;}
-  }
+@media (max-width:680px){
+  section{padding:26px 18px}.topstrip{padding:10px 18px}
+  .cover h1{font-size:30px;letter-spacing:4px}
+  .kpis,.rights,.steps,.dirs,.gloss{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff;font-size:12.5px}
+  .page{box-shadow:none;max-width:none}
+  .toolbar,.hint,.no-print{display:none!important}
+  [contenteditable]{border-bottom:none!important}
+  .dim-input{background:transparent;border-bottom:none}
+  .card,.selfcheck,.kpi,.step,.dim,.find{page-break-inside:avoid}
+  .brk{page-break-before:always}
+}
+/* v2.18.0 打印增补（屏幕视觉不变）：压缩呼吸使各章尽量收进单页 */
+@media print{
+  section{padding:34px 46px}
+  .cover{padding:40px 46px 30px}
+  .topstrip{padding:10px 46px}
+  .foot{padding:20px 46px 30px}
+  .card{padding:16px 20px;margin-bottom:12px}
+  table td,table th{padding:6px 9px}
+  .dash{padding:20px 24px}
+  .selfcheck{padding:12px 18px;margin:14px 0}
+  .gloss{gap:8px 22px}
+  h2{font-size:22px}
+  .sec-head{padding-bottom:10px;margin-bottom:16px}
+  .qcore{padding:10px 16px;margin-bottom:16px}
+  .flow-node{padding:7px 11px}
+  #s1 .card{padding:14px 18px;margin-bottom:10px}
+  #s1 table td,#s1 table th{padding:5px 8px}
+  #s1 .bignum{padding:10px 14px}
+  #s1 .sec-lead{margin-bottom:10px}
+  #s4 .card{padding:13px 17px;margin-bottom:9px}
+  #s4 .dim-hd{margin-bottom:8px}
+  #s4 .dim-act{margin-top:9px;padding:7px 12px}
+  #s4 .selfcheck{padding:10px 16px;margin:10px 0 0}
+  #s4 .sc-row{padding:4px 0}
+}
 </style>
 </head>
 <body>
+<div class="page">
 
-<!-- ═══════════════════ P1 封面 ═══════════════════ -->
-<div class="page cover">
-  <div class="cover-top">
-    <div class="cover-kicker serif">FAMILY INSURANCE HEALTH CHECK</div>
-    <div class="cover-badge">仅供参考 · 非销售要约</div>
-  </div>
-  <div class="cover-head">
-    <h1 class="serif">家庭保障健康检查报告</h1>
-    <div class="cover-sub serif">【家庭称谓】·保障健康报告</div>
-  </div>
-  <div class="cover-questions">
-    <div class="tri-chip">保障是否充足</div>
-    <div class="tri-chip">资产归属是否清晰</div>
-    <div class="tri-chip">保险权益申领是否顺畅</div>
-  </div>
-  <div class="cover-lead-wrap">
-    <p class="cover-lead"><span class="lead-open">本报告旨在帮助您更清晰地了解现有保障情况，而非推销任何产品。</span>我们以<span class="lead-q">保障是否充足 · 资产归属是否清晰 · 保险权益申领是否顺畅</span>三个核心问题为线索，对家庭现有保单做一次全面<span class="lead-em">"体检"</span>：先确认已经做对的事，再一起看看下一步如何做得更周全。</p>
-  </div>
-  <div class="cover-score">
-    <div class="cover-seal">
-      <div class="seal-score serif">58<small> / 100</small></div>
-      <div class="seal-band">可优化级</div>
-      <div class="seal-cap">综合保障健康度</div>
-    </div>
-  </div>
-  <div class="cover-foot">
-    <div class="cover-meta">
-      <span><b>评估对象</b>【家庭称谓】</span>
-      <span><b>报告编号</b>2026-HJ-001</span>
-      <span><b>评估日期</b>2026 年 8 月</span>
-    </div>
-    <div class="cover-note">说明：本报告为保障健康度参考评估，仅供参考，非销售要约；具体保障方案以保险公司核保结果为准。</div>
-  </div>
+<!-- ═══════ 封面 ═══════ -->
+<div class="topstrip">
+  <span>FAMILY PROTECTION HEALTH CHECK</span>
+  <span>增值服务 · 非销售要约 · 仅供参考</span>
 </div>
 
-<!-- ═══════════════════ P2 目录 · 健康度总览 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">目录</span><h2>目录 · 健康度总览</h2><span class="en">Contents</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">先看整体"体检分数"，再按章节逐项解读。</p>
-
-  <div class="toc-grid">
-    <div class="toc-item"><span class="toc-no serif">01</span><div><div class="tt">家庭与保单信息概览</div><div class="tp">P.03</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">02</span><div><div class="tt">远见之择 · 爱与责任</div><div class="tp">P.04</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">03</span><div><div class="tt">保障是否充足</div><div class="tp">P.05–07</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">04</span><div><div class="tt">资产归属是否清晰</div><div class="tp">P.08–09</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">05</span><div><div class="tt">保险权益申领是否顺畅</div><div class="tp">P.10</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">06</span><div><div class="tt">综合诊断 · 优化建议</div><div class="tp">P.10–11</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">附</span><div><div class="tt">九维健康度一览</div><div class="tp">P.13</div></div></div>
-    <div class="toc-item"><span class="toc-no serif">附</span><div><div class="tt">建议优化原则</div><div class="tp">P.13</div></div></div>
+<section class="cover">
+  <div class="cover-en">FAMILY&nbsp;PROTECTION&nbsp;HEALTH&nbsp;CHECK</div>
+  <h1 class="serif">家的三笔钱<small>家庭保障健康体检报告</small></h1>
+  <div class="threeq">
+    <span>① 钱够不够用</span><span>② 钱到时候归谁</span><span>③ 钱顺不顺利拿到</span>
   </div>
+  <div class="meta">评估对象 <b class="ed" contenteditable="true">张伟家庭</b> ｜ 报告编号 <b contenteditable="true">2026-HJ-001</b> ｜ 评估日期 <b contenteditable="true">2026年8月</b></div>
 
-  <div class="overview">
-    <div class="q-row">
-      <div style="font-size:13.5px;font-weight:600;margin-bottom:2px;">三问得分速览 <span style="font-size:11px;font-weight:400;color:var(--ink3)">· 满分 100</span></div>
-      <div class="q-item">
-        <div class="q-tag">① 保障是否充足<small>钱够不够用</small></div>
-        <div class="q-barwrap"><div class="q-barfill" style="width:【第一问条宽百分比】%;background:var(--teal)"></div></div>
-        <div class="q-val" style="color:var(--teal)">【第一问得分】</div>
-      </div>
-      <div class="q-item">
-        <div class="q-tag">② 资产归属是否清晰<small>钱归谁</small></div>
-        <div class="q-barwrap"><div class="q-barfill" style="width:【第二问条宽百分比】%;background:var(--gold)"></div></div>
-        <div class="q-val" style="color:var(--gold-deep)">【第二问得分】</div>
-      </div>
-      <div class="q-item">
-        <div class="q-tag">③ 保险权益申领是否顺畅<small>能否顺利拿到</small></div>
-        <div class="q-barwrap"><div class="q-barfill" style="width:【第三问条宽百分比】%;background:var(--green)"></div></div>
-        <div class="q-val" style="color:var(--green-deep)">【第三问得分】</div>
-      </div>
-      <div class="legend-bands">
-        <span><i style="background:var(--green)"></i>≥80 保持</span>
-        <span><i style="background:var(--teal)"></i>60–79 稳定</span>
-        <span><i style="background:var(--amber)"></i>50–59 建议关注</span>
-        <span><i style="background:var(--red)"></i>&lt;50 优先优化</span>
-      </div>
-    </div>
+  <div class="dash">
     <div>
-      <div style="font-size:13.5px;font-weight:600;margin-bottom:8px;">四项重点维度 <span style="font-size:11px;font-weight:400;color:var(--ink3)">· 家庭保障健康度 【综合健康度】 / 100（【健康度等级】）</span></div>
-      <div class="ov-grid">
-        <div class="ov-cell" style="background:var(--red-soft);border-color:#EED6CE;"><div class="sc" style="color:var(--red)">【维度二得分】<small style="font-size:11px;color:var(--ink3)"> 分</small></div><div class="nm">顶梁柱责任保障</div><div class="ds">待重点补强</div></div>
-        <div class="ov-cell" style="background:var(--teal-soft);border-color:#D3DEE7;"><div class="sc" style="color:#44647A">【维度一得分】<small style="font-size:11px;color:var(--ink3)"> 分</small></div><div class="nm">健康守护金覆盖</div><div class="ds">基本有，可加厚</div></div>
-        <div class="ov-cell" style="background:var(--green-soft);border-color:#CDE2D6;"><div class="sc" style="color:var(--green-deep)">【维度三得分】<small style="font-size:11px;color:var(--ink3)"> 分</small></div><div class="nm">大额医疗保障</div><div class="ds">已较完善</div></div>
-        <div class="ov-cell" style="background:var(--red-soft);border-color:#EED6CE;"><div class="sc" style="color:var(--red)">【维度四得分】<small style="font-size:11px;color:var(--ink3)"> 分</small></div><div class="nm">受益人安排</div><div class="ds">建议本月优化</div></div>
-      </div>
-      <div class="ov-sum">近期优先优化 <b>1 项</b> · 本季度关注 <b>4 项</b> · 保持 <b>2 项</b></div>
+      <svg viewBox="0 0 150 150" width="146" height="146">
+        <circle cx="75" cy="75" r="64" fill="none" stroke="#ece6d9" stroke-width="9"/>
+        <circle id="ring" cx="75" cy="75" r="64" fill="none" stroke="#d9930d" stroke-width="9" stroke-linecap="round"
+                stroke-dasharray="402" stroke-dashoffset="173" transform="rotate(-90 75 75)"/>
+        <text x="75" y="74" text-anchor="middle" font-size="34" font-weight="700" fill="#2f2b26" id="totalNum" font-family="serif">57</text>
+        <text x="75" y="96" text-anchor="middle" font-size="11" fill="#8d8778">综合健康度</text>
+      </svg>
+      <div class="tbwrap">综合评级：<span class="tb band-amber" id="totalBand">可优化</span></div>
     </div>
-  </div>
-
-  <div class="quote" style="margin-top:16px;">采用<b>"三问九维"模型</b>全面体检。【综合健康度】 分不代表"买错"，而是意味着：【综合健康度解读一句话：先肯定已有保障，再点出主要完善空间】。下面我们一项项来看。</div>
-  <div class="note"><b style="color:var(--gold-deep)">阅读建议：</b>本报告先带你盘清"家底"——从家庭与保单信息概览出发，再一起看见已经做对的"远见之择"，最后从容决定下一步。仪表盘口径：≥80 保持 ／ 60–79 稳定 ／ 50–59 建议关注 ／ ＜50 优先优化。</div>
-  <div class="pf">— 2 —</div>
-</div>
-
-<!-- ═══════════════════ P3 01 家庭与保单信息概览 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">01</span><h2>家庭与保单信息概览</h2><span class="en">Family &amp; Policy Profile</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">先看清"家底"，后续每一项判断才有据可依。以下为本次评估所依据的家庭画像与保单清单。</p>
-
-  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
-    <span class="tag tag-gold">【支柱成员标签】</span>
-    <span class="tag tag-gold">【配偶成员标签】</span>
-    <span class="tag tag-gold">【子女成员标签】</span>
-  </div>
-
-  <!-- 家庭画像·按字段盘点（每项均已确认） -->
-  <div class="fam-profile">
-    <div class="fp-col">
-      <div class="fp-h">收入</div>
-      <div class="fp-row"><span class="k">家庭年收入</span><span class="v">【家庭年收入】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">收入构成</span><span class="v">【收入构成】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">收入稳定性</span><span class="v">【收入稳定性】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">其他收入</span><span class="v">【其他收入】</span><span class="fp-i">已确认</span></div>
-    </div>
-    <div class="fp-col">
-      <div class="fp-h">负债</div>
-      <div class="fp-row"><span class="k">房贷（月供 / 余额）</span><span class="v">【房贷月供】 / 【房贷余额】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">车贷（月供 / 余额）</span><span class="v">【车贷月供】 / 【车贷余额】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">其他负债</span><span class="v">【其他负债】</span><span class="fp-i">已确认</span></div>
-    </div>
-    <div class="fp-col">
-      <div class="fp-h">支出</div>
-      <div class="fp-row"><span class="k">固定支出（生活/水电物业）</span><span class="v">【固定支出】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">浮动支出（医疗/人情/旅游）</span><span class="v">【浮动支出】</span><span class="fp-i">已确认</span></div>
-    </div>
-    <div class="fp-col">
-      <div class="fp-h">家庭结构</div>
-      <div class="fp-row"><span class="k">配偶</span><span class="v">【配偶信息】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">子女</span><span class="v">【子女信息】</span><span class="fp-i">已确认</span></div>
-      <div class="fp-row"><span class="k">父母</span><span class="v">【父母信息】</span><span class="fp-i">已确认</span></div>
-    </div>
-  </div>
-  <div class="resp-link">以上家庭画像均以<b>采集表确认值</b>为准（信息来自服务人员与客户现场核实）。据此测算：家庭年支出（含房贷）<b>【家庭年支出含房贷】</b>、教育金 <b>【教育金】</b>、房贷余额 <b>【房贷余额】</b>、其他负债 <b>【其他负债】</b>，家庭责任合计 <b>【家庭责任合计】</b>——即需要被托底的总金额（属规划视角测算，不代表对风险的预测）。</div>
-
-  <div style="font-size:13.5px;font-weight:600;margin:14px 0 10px;">▶ 现有保单清单<span style="font-size:11px;font-weight:400;color:var(--ink3)">（信息收集）</span></div>
-  <div class="tbl-wrap">
-  <!-- ⚠️ 动态表：按实际保单逐行生成（行数随保单数量增减，编号 P1…Pn 连续），每行【】格必须替换为真实值；状态标签颜色按诊断选 tag-red/tag-gold/tag-green -->
-  <table class="policy-tbl">
-    <tr><th style="width:34px">编号</th><th>被保险人</th><th>险种</th><th class="num">当前保额</th><th>保障范围</th><th>投保日期</th><th class="num">缴费金额</th><th>缴费年限</th><th class="num">已交年数</th><th style="width:92px">状态 / 备注</th></tr>
-    <tr><td><b>P1</b></td><td>【P1被保险人】</td><td>【P1险种】</td><td class="num">【P1保额】</td><td>【P1保障范围】</td><td>【P1投保日期】</td><td class="num">【P1缴费金额】</td><td>【P1缴费年限】</td><td class="num">【P1已交年数】</td><td><span class="tag tag-red">【P1状态备注】</span></td></tr>
-    <tr><td><b>P2</b></td><td>【P2被保险人】</td><td>【P2险种】</td><td class="num">【P2保额】</td><td>【P2保障范围】</td><td>【P2投保日期】</td><td class="num">【P2缴费金额】</td><td>【P2缴费年限】</td><td class="num">【P2已交年数】</td><td><span class="tag tag-red">【P2状态备注】</span></td></tr>
-    <tr><td><b>P3</b></td><td>【P3被保险人】</td><td>【P3险种】</td><td class="num">【P3保额】</td><td>【P3保障范围】</td><td>【P3投保日期】</td><td class="num">【P3缴费金额】</td><td>【P3缴费年限】</td><td class="num">【P3已交年数】</td><td><span class="tag tag-green">【P3状态备注】</span></td></tr>
-    <tr><td><b>P4</b></td><td>【P4被保险人】</td><td>【P4险种】</td><td class="num">【P4保额】</td><td>【P4保障范围】</td><td>【P4投保日期】</td><td class="num">【P4缴费金额】</td><td>【P4缴费年限】</td><td class="num">【P4已交年数】</td><td><span class="tag tag-red">【P4状态备注】</span></td></tr>
-    <tr><td><b>P5</b></td><td>【P5被保险人】</td><td>【P5险种】</td><td class="num">【P5保额】</td><td>【P5保障范围】</td><td>【P5投保日期】</td><td class="num">【P5缴费金额】</td><td>【P5缴费年限】</td><td class="num">【P5已交年数】</td><td><span class="tag tag-red">【P5状态备注】</span></td></tr>
-  </table>
-  </div>
-  <div class="note" style="margin-top:8px;">投保日期与缴费信息以保单原件核对为准，已交年数截至【统计截止年月】；【保单投保人概览一句话】。</div>
-  <div class="note" style="margin-top:6px;">配置节奏回顾：<b style="color:var(--green-deep)">"先大人、后小孩，先保障、后储蓄"</b>，方向值得肯定；目前唯一尚未配置的板块是顶梁柱责任保障，详见第 03 章量化测算。</div>
-  <div class="pf">— 3 —</div>
-</div>
-
-<!-- ═══════════════════ P4 02 远见之择 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">02</span><h2>远见之择 · 爱与责任</h2><span class="en">What You Did Right</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">在给出任何建议之前，先为以下几件事点赞——它们是非常多家庭尚未完成的基础。</p>
-
-  <div class="praise-grid">
-    <div class="praise"><div class="ck">✓</div><div><b>三口之家均已配置健康守护金</b><p>为每位家庭成员建立了基础的健康风险防线，这是保障规划最重要的第一步。</p></div></div>
-    <div class="praise"><div class="ck">✓</div><div><b>夫妻二人已配置百万医疗</b><p>大额医疗支出有了兜底机制，能有效应对突发的高额医疗费用，减轻家庭经济压力。</p></div></div>
-    <div class="praise"><div class="ck">✓</div><div><b>已启动养老储备（年金保单）</b><p>提前规划退休资金，体现了长远的家庭财务规划意识。</p></div></div>
-    <div class="praise"><div class="ck">✓</div><div><b>全部保单无贷款质押</b><p>保单资产状态健康，没有因贷款质押影响保障效力，资产安全性良好。</p></div></div>
-    <div class="praise wide"><div class="ck">✓</div><div><b>保障期限覆盖核心责任期</b><p>主要保单保障至【主要保单保障期至年龄】岁，与家庭责任最重的人生阶段基本匹配。</p></div></div>
-  </div>
-
-  <div class="quote" style="margin-top:16px;"><b>小结：</b>为家人提前筑起防线，本身就是一份沉甸甸的<b>"远见之择"与"爱的表达"</b>。接下来的优化，是在良好基础上的"锦上添花"，让保障更加周全——<b>而不是否定过去的选择</b>。下面进入三问诊断。</div>
-  <div class="pf">— 4 —</div>
-</div>
-
-<!-- ═══════════════════ P5 03 第一问（上） ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">03</span><h2>保障是否充足（钱够不够用）</h2><span class="en">Sufficiency</span></div>
-  <div class="sec-rule"></div>
-
-  <div class="q-banner"><span class="qb-no">第一问</span><b>钱够不够用？</b><span>核心问题：如果家庭主要收入来源暂时无法工作，现有的保障金额是否足以维持家人正常运转？</span></div>
-
-  <!-- 量化测算：需要多少 vs 已有多少 -->
-  <div class="quant">
-    <div class="quant-title">量化测算：需要多少 vs 已有多少<small>三项保障逐一对表</small></div>
-    <div class="quant-row">
-      <div class="qi"><b>① 健康守护金（【顶梁柱姓名】）</b><span>科学依据：重疾治疗与康复直接成本约 30–50 万 ＋ 3 年收入中断补偿，顶梁柱建议保额【守护金建议保额】万</span></div>
-      <div>
-        <div class="qbar-label"><span>已有 <b>【守护金已有保额】</b></span><span>需要 <b>【守护金建议保额】</b></span></div>
-        <div class="qbar"><i style="width:【守护金条宽百分比】%;background:var(--teal)"></i></div>
-      </div>
-      <div class="qgap" style="background:var(--amber-soft);color:var(--amber)">重点关注</div>
-    </div>
-    <div class="quant-row">
-      <div class="qi"><b>② 顶梁柱责任保障</b><span>科学依据：责任叠加法——生活支出 【生活支出】 万 ＋ 房贷余额 【房贷余额】 万 ＋ 教育金 【教育金】 万 ＋ 其他负债 【其他负债】 万 ＝ 【家庭责任合计】 万</span></div>
-      <div>
-        <div class="qbar-label"><span>已有 <b style="color:var(--red)">【现有顶梁柱责任保障】</b></span><span>需要 <b>【家庭责任合计】</b></span></div>
-        <div class="qbar"><i style="width:1.5%;background:var(--red)"></i></div>
-      </div>
-      <div class="qgap" style="background:var(--red-soft);color:var(--red)">重点关注</div>
-    </div>
-    <div class="quant-row">
-      <div class="qi"><b>③ 大额医疗保障</b><span>科学依据：大额住院医疗（含特效药、ICU）费用上限口径，400 万额度为通行配置</span></div>
-      <div>
-        <div class="qbar-label"><span>已有 <b>400 万</b></span><span>需要 <b>400 万</b></span></div>
-        <div class="qbar"><i style="width:100%;background:var(--green)"></i></div>
-      </div>
-      <div class="qgap" style="background:var(--green-soft);color:var(--green-deep)">已达标<small>保持即可</small></div>
-    </div>
-    <div class="note" style="margin-top:6px;margin-bottom:0;">测算说明：守护金按顶梁柱【顶梁柱姓名】口径展示（全家合计可优化空间约【守护金可优化空间】万，见维度一）。测算属规划视角，非风险预测。</div>
-  </div>
-
-  <!-- 维度一 -->
-  <div class="dim-block dp-q1">
-    <div class="dim-head">
-      <div class="dim-no dn-q1 serif">一</div>
-      <div class="dt"><b>健康守护金覆盖</b><div class="core">检查要点：家庭成员健康守护金额度 vs 当前重疾治疗与康复成本</div></div>
-      <div class="dim-score">
-        <span class="pr-tag">本季度关注</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#5B7E96" stroke-width="5" stroke-linecap="round" stroke-dasharray="69.4 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:#44647A">【维度一得分】</div>
-        </div>
-        <span class="st st-teal">稳定</span>
+    <div class="qrows">
+      <div class="qrow"><span class="qn">① 钱够不够用</span><span class="qtrack"><i class="qfill band-teal" id="qbar1" style="width:62%"></i></span><b class="qv serif" id="qval1">62</b><span class="chip band-teal" id="qband1">稳健</span></div>
+      <div class="qrow"><span class="qn">② 钱到时候归谁</span><span class="qtrack"><i class="qfill band-amber" id="qbar2" style="width:55%"></i></span><b class="qv serif" id="qval2">55</b><span class="chip band-amber" id="qband2">可优化</span></div>
+      <div class="qrow"><span class="qn">③ 钱顺不顺利拿到</span><span class="qtrack"><i class="qfill band-amber" id="qbar3" style="width:55%"></i></span><b class="qv serif" id="qval3">55</b><span class="chip band-amber" id="qband3">可优化</span></div>
+      <div class="kpis">
+        <div class="kpi"><div class="kpi-n"><span data-score-dim="2">40</span><small>分</small></div><div class="kpi-t">顶梁柱责任</div><div class="kpi-p" data-phrase-dim="2">建议优先完善</div></div>
+        <div class="kpi"><div class="kpi-n"><span data-score-dim="1">65</span><small>分</small></div><div class="kpi-t">健康守护金</div><div class="kpi-p" data-phrase-dim="1">稳中有进</div></div>
+        <div class="kpi"><div class="kpi-n"><span data-score-dim="3">80</span><small>分</small></div><div class="kpi-t">大额医疗</div><div class="kpi-p" data-phrase-dim="3">已完善</div></div>
+        <div class="kpi"><div class="kpi-n"><span data-score-dim="4">45</span><small>分</small></div><div class="kpi-t">爱的传递</div><div class="kpi-p" data-phrase-dim="4">建议优先完善</div></div>
       </div>
     </div>
-    <div class="tbl-wrap">
-    <!-- ⚠️ 动态表：按实际持有守护金类保单的成员逐行生成（行数随成员数增减） -->
+  </div>
+  <div id="chipCounts">优先完善 3 项 · 可优化 2 项 · 稳健 2 项 · 安心 2 项</div>
+  <div class="legend">
+    <span class="chip band-green">≥80 安心</span><span class="chip band-teal">60–79 稳健</span>
+    <span class="chip band-amber">50–59 可优化</span><span class="chip band-orange">＜50 优先完善</span>
+  </div>
+  <p class="covernote">这个分数不代表"办错了"——它说的是：<b>基础防线已立，还有从容完善的空间</b>。先看见已做对的，再一起看下一步怎么更周全。</p>
+  <div class="toc">
+    <a href="#s1">01 家底盘点</a> · <a href="#s2">02 远见之择</a> · <a href="#s3">03 钱够不够</a> · <a href="#s4">04 钱归谁</a> · <a href="#s5">05 钱顺不顺</a> · <a href="#s6">06 综合诊断</a> · <a href="#s7">07 行动清单</a>
+  </div>
+</section>
+
+<!-- ═══════ 01 家底盘点 ═══════ -->
+<section id="s1" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">01</div><div class="sec-en">FAMILY &amp; POLICY PROFILE</div></div><h2>家底盘点 · 家庭与保单总览</h2></div>
+  <p class="sec-lead">先看清家底，后面每一项判断才有据可依。<span class="hint no-print">（示例数据，点击虚线处可改写为您的客户信息）</span></p>
+
+  <div class="card">
     <table>
-      <tr><th>家庭成员</th><th>保单</th><th class="num">当前保额</th><th>保障范围</th></tr>
-      <tr><td><b>【守护金成员1姓名】</b>【守护金成员1身份备注】</td><td>【守护金成员1保单编号】</td><td class="num">【守护金成员1保额】</td><td>【守护金成员1保障范围】</td></tr>
-      <tr><td>【守护金成员2姓名】</td><td>【守护金成员2保单编号】</td><td class="num">【守护金成员2保额】</td><td>【守护金成员2保障范围】</td></tr>
-      <tr><td>【守护金成员3姓名】</td><td>【守护金成员3保单编号】</td><td class="num">【守护金成员3保额】</td><td>【守护金成员3保障范围】</td></tr>
+      <tr><th style="width:110px">家庭年收入</th><td contenteditable="true">30 万（工资为主 · 配偶兼职 · 较稳定）</td><th style="width:110px">家庭成员</th><td contenteditable="true">张伟 38 · 李芳 35 · 张一鸣 8</td></tr>
+      <tr><th>房贷</th><td contenteditable="true">月供 1 万 · 余额 150 万</td><th>其他负债</th><td contenteditable="true">50 万</td></tr>
+      <tr><th>年支出</th><td contenteditable="true">约 22 万（固定 12 万 + 浮动 10 万）</td><th>双方父母</th><td contenteditable="true">均在世 · 需赡养</td></tr>
     </table>
+    <div class="bignum">
+      <div class="stat"><div class="n serif">140<span style="font-size:14px">万</span></div><div class="t">生活开销（责任期内）</div></div>
+      <div class="stat"><div class="n serif">150<span style="font-size:14px">万</span></div><div class="t">房贷余额</div></div>
+      <div class="stat"><div class="n serif">100<span style="font-size:14px">万</span></div><div class="t">子女教育金</div></div>
+      <div class="stat"><div class="n serif">50<span style="font-size:14px">万</span></div><div class="t">其他负债</div></div>
+      <div class="stat" style="border-color:#e6d9bd;background:#fdfaf2"><div class="n serif" style="color:#b08d57">440<span style="font-size:14px">万</span></div><div class="t"><b>家庭责任合计</b>（需托底总额）</div></div>
     </div>
-    <div class="verdict" style="margin-top:10px;"><b>现状量化：</b>全家守护金合计【全家守护金合计】万（明细见上表），对照科学口径的家庭需求约【守护金需求合计】万，<b>合计可优化空间约【守护金可优化空间】万</b>；其中最值得关注的是【守护金优先关注成员】个人的 <b>【守护金优先关注缺口】万</b>。</div>
-    <div class="verdict"><b>建议方向：</b>为家庭主要收入来源者补充健康守护金保额至约 <b>【守护金建议保额】级（建议区间【守护金建议区间】）</b>，月缴约<b>数百元级</b>，即可把个人可优化空间缩小到合理范围。详见<b>附录方向 C</b>。</div>
-    <span class="act add">【加厚】补充健康守护金至约【守护金建议保额】级（月缴数百元级）· 详见附录方向 C</span>
+    <div class="lever" style="justify-content:center;color:var(--muted);font-size:12px">▲ 测算属规划视角，不代表对任何情况的预测</div>
   </div>
 
-  <div class="pf">— 5 —</div>
-</div>
-
-<!-- ═══════════════════ P6 03 第一问（下）· 维度二 + 优先建议方向 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
-    <span style="font-size:10.5px;font-weight:700;color:var(--gold-deep);letter-spacing:2px;border:1px solid var(--gold);border-radius:14px;padding:2px 13px;white-space:nowrap;">03 · 续</span>
-    <span style="font-size:14px;font-weight:600;letter-spacing:1px;">保障是否充足 —— 逐项诊断</span>
-    <span style="font-size:10px;color:var(--ink3);letter-spacing:2px;margin-left:auto;">SUFFICIENCY · DIM 2–3</span>
-  </div>
-  <!-- 维度二 -->
-  <div class="dim-block dp-q1">
-    <div class="dim-head">
-      <div class="dim-no dn-q1 serif">二</div>
-      <div class="dt"><b>顶梁柱责任保障</b><div class="core">检查要点：家庭责任总额是否有专属保障托底</div></div>
-      <div class="dim-score">
-        <span class="pr-tag" style="background:var(--amber-soft);color:var(--amber)">近期可办</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#B45F4D" stroke-width="5" stroke-linecap="round" stroke-dasharray="42.7 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--red)">【维度二得分】</div>
-        </div>
-        <span class="st st-red">优先优化</span>
-      </div>
-    </div>
-    <div class="tbl-wrap">
+  <div class="card">
+    <b class="serif" style="color:var(--teal)">现有保单清单</b>
     <table>
-      <tr><th>项目</th><th class="num">金额</th><th>说明</th></tr>
-      <tr><td>家庭年支出（含房贷）</td><td class="num">【家庭年支出含房贷】</td><td>日常 + 房贷还款</td></tr>
-      <tr><td>子女教育金需求</td><td class="num">【教育金】</td><td>孩子完成学业所需</td></tr>
-      <tr><td>房贷余额</td><td class="num">【房贷余额】</td><td>需持续偿还</td></tr>
-      <tr><td>其他负债</td><td class="num">【其他负债】</td><td>—</td></tr>
-      <tr class="row-total"><td>家庭责任总额</td><td class="num" style="color:var(--gold-deep)">【家庭责任合计】</td><td>需要被托底的总金额</td></tr>
-      <tr class="row-zero"><td>现有顶梁柱责任保障</td><td class="num" style="color:var(--red)">【现有顶梁柱责任保障】</td><td>【顶梁柱姓名】暂无专属保障</td></tr>
+      <tr><th>编号</th><th>保障谁</th><th>管什么的</th><th>额度</th><th>年缴</th><th>节奏</th><th>已交</th><th>状态</th></tr>
+      <tr><td>P1</td><td>张伟</td><td contenteditable="true">健康守护金（休养期一次到账，轻度也含）</td><td>50万</td><td>约9,600元</td><td>20年</td><td>9年</td><td>领钱安排：法定 · 待指定</td></tr>
+      <tr><td>P2</td><td>张伟/李芳</td><td contenteditable="true">大额医疗（住院＋特需门诊报销）</td><td>400万</td><td>约1,600元</td><td>逐年</td><td>6年</td><td>领钱安排：法定 · 待指定</td></tr>
+      <tr><td>P3</td><td>子女</td><td contenteditable="true">少儿健康保障（一次到账）</td><td>20万</td><td>约2,000元</td><td>20年</td><td>7年</td><td>正常</td></tr>
+      <tr><td>P4</td><td>张一鸣</td><td contenteditable="true">健康守护金（少儿）</td><td>待核对</td><td>约3,200元</td><td>20年</td><td>3年</td><td style="color:#b5532f">缴费节点 2026-10-31</td></tr>
+      <tr><td>P5</td><td>李芳</td><td contenteditable="true">养老储备（退休后按年领）</td><td>待核对</td><td>约20,000元</td><td>10年</td><td>5年</td><td>领钱安排：法定 · 待指定</td></tr>
+      <tr class="note"><td colspan="8">缴费信息为示意口径（P4/P5 以保单原件为准）；五张保单的出钱人（投保人）均为张伟。</td></tr>
     </table>
-    </div>
-    <div class="verdict" style="margin-top:8px;"><b>换个说法：</b>顶梁柱责任保障的作用，是在家庭支柱不得不暂时离开工作岗位时，为家人提供一笔<b>确定的资金</b>，用于维持生活、偿还债务、完成子女教育——是<b>"留爱不留负担"</b>的具体体现（属规划视角测算，不代表对风险的预测）。</div>
-    <span class="act add" style="background:var(--red-soft);color:var(--red)">【托底】近期启动【责任托底建议保额】级顶梁柱责任保障（定期，月缴数百元级）</span>
   </div>
-  <!-- 建议优化原则 -->
-  <div class="hook">
-    <div class="hook-title">建议优化原则</div>
-    <div class="hook-principles">
-      <span class="hp">原则一 · 先大人、后孩子：优先保障家庭主要收入来源</span>
-      <span class="hp">原则二 · 先保障、后储蓄：先补齐保障缺口，再谈储蓄理财</span>
-    </div>
-    <div class="hook-stats">
-      <div class="hook-stat"><div class="hv serif" style="color:var(--slate)">【家庭责任合计】<small> 万级</small></div><div class="hn">家庭责任总额<br>（需托底）</div></div>
-      <div class="hook-stat" style="border-color:#E2D2B8;background:linear-gradient(180deg,#FDFBF6,var(--gold-soft));"><div class="hv serif" style="color:var(--gold-deep)">数百<small> 元/月</small></div><div class="hn">约月缴 → <b style="color:var(--gold-deep)">【责任托底建议保额】级</b><br>责任保障</div></div>
-      <div class="hook-stat"><div class="hv serif" style="color:var(--green-deep)">【维度三得分】<small> 分</small></div><div class="hn">大额医疗<br>【大额医疗保障现状一句话】</div></div>
-    </div>
-    <p>为家庭主要收入来源者配置 <b>【责任托底建议保额】级顶梁柱责任保障（定期）</b>，保障至【责任保障期至年龄】岁，月缴约<b>数百元级</b>，即可把 【家庭责任合计】 万级家庭责任的可托底比例从 <b>【配置前可托底比例】提升到约【配置后可托底比例】</b>。用一笔"少下两次馆子"的预算，先把最大的责任风险锁定下来。</p>
-    <div class="cmp">
-      <div class="cmp-row"><span class="cl">配置前可托底比例</span><div class="cb"><div class="cf" style="width:【配置前条宽百分比】%;background:var(--red)"></div></div><span class="cv" style="color:var(--red)">【配置前可托底比例】</span></div>
-      <div class="cmp-row"><span class="cl">配置方向 A 后</span><div class="cb"><div class="cf" style="width:【配置后条宽百分比】%;background:var(--gold)"></div></div><span class="cv" style="color:var(--gold-deep)">≈【配置后可托底比例】</span></div>
-    </div>
-    <p style="margin-top:8px;"><b>为什么建议从这一项开始？</b>它的杠杆极高（月缴数百元级 → 【责任托底建议保额】级保障），决策压力小、见效快；先把"责任底线"守住，再从容补厚健康守护金，节奏最舒服。详见<b>附录方向 A</b>。</p>
-    <div style="margin-top:9px;font-size:10.5px;color:var(--ink3);border-top:1px dashed var(--line);padding-top:6px;line-height:1.7;">备注：以上为建议优化原则及预算量级参考（保额、保费、缴费节奏均给出区间范围，可按家庭预算任选其一先行、不必同时启动），具体保障责任、费率与核保结果<b style="color:var(--ink2)">以实际保险公司为准</b>。</div>
-  </div>
-  <div class="pf">— 6 —</div>
-</div>
 
-<!-- ═══════════════════ P7 03 第一问（下·续）· 维度三 + 科学口径 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:11px;">
-    <span style="font-size:10.5px;font-weight:700;color:var(--gold-deep);letter-spacing:2px;border:1px solid var(--gold);border-radius:14px;padding:2px 13px;white-space:nowrap;">03 · 续</span>
-    <span style="font-size:14px;font-weight:600;letter-spacing:1px;">保障是否充足 —— 维度三 · 口径</span>
-    <span style="font-size:10px;color:var(--ink3);letter-spacing:2px;margin-left:auto;">SUFFICIENCY · DIM 3</span>
+  <div class="card" style="background:#e9f4ef;border-color:#bfe0d2">
+    <b>配置节奏点评：</b>✓ 先大人、后小孩　✓ 先保障、后储蓄——方向值得肯定。<b>目前唯一的空白板块：顶梁柱责任托底</b>（见第一问量化测算）。
   </div>
-  <!-- 维度三 -->
-  <div class="dim-block dp-q1">
-    <div class="dim-head">
-      <div class="dim-no dn-q1 serif">三</div>
-      <div class="dt"><b>大额医疗保障覆盖</b><div class="core">检查要点：大额医疗支出是否有兜底机制</div></div>
-      <div class="dim-score">
-        <span class="pr-tag" style="background:var(--green-soft);color:var(--green-deep)">保持</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#5F8A72" stroke-width="5" stroke-linecap="round" stroke-dasharray="85.4 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--green-deep)">【维度三得分】</div>
-        </div>
-        <span class="st st-green">保持</span>
+</section>
+
+<!-- ═══════ 02 远见之择 ═══════ -->
+<section id="s2" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">02</div><div class="sec-en">WHAT YOU DID RIGHT</div></div><h2>远见之择 · 您已经做对的事</h2></div>
+  <p class="sec-lead">在任何建议之前，先为这些事点赞——很多家庭还没走到这一步。</p>
+  <div class="card">✓ <b>全家三口都有健康守护金</b>——为每位家人建起第一道防线，这是最重要的一步。</div>
+  <div class="card">✓ <b>夫妻俩都有大额医疗兜底</b>——账单再大，都有机制接得住。</div>
+  <div class="card">✓ <b>养老储备已经起步</b>——提前布局退休后的现金流，眼光放得远。</div>
+  <div class="card">✓ <b>所有保单干净、无质押</b>——资产状态健康，权益完整。</div>
+  <div class="card">✓ <b>保障期覆盖责任最重的岁月</b>——主要保单保至60岁，与房贷、学业的高峰期基本匹配。</div>
+  <p class="sec-lead" style="margin-top:16px">小结：为家人提前筑起防线，本身就是一份沉甸甸的"远见之择"与爱的表达。接下来的完善，是<b>锦上添花</b>，不是否定过去。</p>
+</section>
+
+<!-- ═══════ 03 第一问 ═══════ -->
+<section id="s3" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">03</div><div class="sec-en">SUFFICIENCY</div></div><h2>第一问 · 钱够不够用</h2></div>
+  <div class="qcore">核心问题：万一家庭的节奏被打乱，现有的钱，<b>够不够让日子照常运转？</b></div>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">一</span>健康守护金覆盖</h3><p class="dim-sub">检查要点：一次到账的钱 vs 安心休养期所需</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="1">65</b>分</span><span class="chip band-teal" data-band-dim="1">稳健</span><span class="ptag pt-q">本季度关注</span></div>
+    </header>
+    <p style="font-size:13.5px">万一需要按下"暂停键"、安心休养三五年，这笔一次到账的钱，不是用来付账单的——是用来顶住这期间<b>家里一切照旧的开销</b>。</p>
+    <div class="vs">
+      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:62%"></i></span><span class="vs-v">张伟 50 万</span></div>
+      <div class="vs-row"><span class="vs-l">建议</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">约 80 万（区间50–100万）</span></div>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted)">测算口径：休养期直接开销约30–50万 ＋ 3年家里开销照旧 → 顶梁柱建议约80万。全家守护金合计100万，对照家庭口径约215万，可优化空间约115万，其中张伟个人约30万。</p>
+    <div class="dim-act">➔ 【加厚】为主要收入来源者补充至约80万级（月缴数百元量级）· 详见第07部分方向C</div>
+  </article>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">二</span>顶梁柱责任托底</h3><p class="dim-sub">检查要点：家庭责任总额是否有专属的一笔钱托底</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="2">40</b>分</span><span class="chip band-orange" data-band-dim="2">优先完善</span><span class="ptag pt-m">本月可办</span></div>
+    </header>
+    <p style="font-size:13.5px">这份保障管的是"责任"：万一有一天，这份责任需要有人接棒——这笔钱会替您<b>继续撑起房贷、家用和孩子的学业</b>，让家人的日子照常运转。业内一句话叫"留爱不留债"，说的就是它。</p>
+    <div class="vs">
+      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:0.5%"></i></span><span class="vs-v">0 万（暂无专属托底）</span></div>
+      <div class="vs-row"><span class="vs-l">需托底</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">440 万（责任合计）</span></div>
+    </div>
+    <div class="lever">
+      <span class="stat" style="flex:none"><div class="n serif" style="font-size:20px">月缴约700元</div><div class="t">量级参考</div></span>
+      <span class="arr">──▶</span>
+      <span class="stat" style="flex:none"><div class="n serif" style="font-size:20px">200万级</div><div class="t">定期责任托底</div></span>
+      <span class="arr">──▶</span>
+      <span class="stat" style="flex:none"><div class="n serif" style="font-size:20px">0% → 约45%</div><div class="t">责任托底比例</div></span>
+    </div>
+    <p style="font-size:13px"><b>为什么先做它：</b>杠杆最高（每月几百元撬动两百万级）、决策压力最小、见效最快——先守住责任底线，再从容加厚守护金，节奏最舒服。</p>
+    <div class="dim-act">➔ 【托底】配置200万级·定期型·保至60岁（月缴数百元量级，示例约700元/月）</div>
+  </article>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">三</span>大额医疗兜底</h3><p class="dim-sub">检查要点：大额开销是否有接得住的机制</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="3">80</b>分</span><span class="chip band-green" data-band-dim="3">安心</span><span class="ptag pt-k">保持</span></div>
+    </header>
+    <div class="vs">
+      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:100%"></i></span><span class="vs-v">400 万（住院＋特需门诊）</span></div>
+      <div class="vs-row"><span class="vs-l">通行口径</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">400 万 —— 已达标 ✓</span></div>
+    </div>
+    <div class="dim-act">➔ 【保持】每年续期时核对条款即可；可评估补充日常门诊，覆盖小额高频的就医开销</div>
+  </article>
+
+  <div class="card" style="background:#ecf2f0;border-color:#c3d8d3">
+    <b>两条原则：</b>① 先大人、后孩子——优先守护家庭收入来源；② 先托底、后加厚——先守住责任底线，再从容加厚守护金。<br>
+    <span style="font-size:12px;color:var(--muted)">测算口径：440万采用"责任叠加法"（开销＋房贷＋教育＋负债），交叉参照双十原则（总保额≈年收入10倍，即约300万）与家庭需求法；张伟38岁、责任期长，单用倍数法易低估，故以责任叠加为主。属规划视角测算。</span>
+  </div>
+
+  <div class="selfcheck">
+    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户，让TA自己勾：自己勾出来的"不确定"才有触动</span></div>
+    <div class="sc-row"><span>1. 万一需要按下"暂停键"、安心休养几年，一次到账的钱够家里这几年的开销吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>2. 家里顶梁柱的责任（房贷150万＋学业100万＋…），有专门的一笔钱托底吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>3. 万一住院开销特别大，有兜底机制吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>4. 平时磕了碰了摔了，有得报吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>5. 将来养老的钱，开始准备了吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+  </div>
+</section>
+
+<!-- ═══════ 04 第二问 ═══════ -->
+<section id="s4" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">04</div><div class="sec-en">OWNERSHIP</div></div><h2>第二问 · 钱到时候归谁</h2></div>
+  <div class="qcore">核心问题：需要把钱交到家人手上时，能不能<b>准确、完整、按您的意愿到位？</b></div>
+
+  <div class="card">
+    <b class="serif" style="color:var(--teal)">一张图看懂"钱怎么流"</b>
+    <div class="flow">
+      <div class="flow-node"><b>投保人</b><br>出钱的人·保单主人<br><small>（本例：张伟）</small></div>
+      <div class="flow-arrow">──订立合同──▶</div>
+      <div class="flow-node"><b>保险公司</b><br>承保</div>
+      <div class="flow-arrow">──提供保障──▶</div>
+      <div class="flow-node"><b>被保险人</b><br>受保障的人</div>
+      <div class="flow-arrow">──需要申领时──▶</div>
+      <div class="flow-split">
+        <div class="flow-branch ok">✓ 就医报销 / 健康守护金 → <b>给受保障的人本人</b>，不涉及继承</div>
+        <div class="flow-branch warn">△ 留给家人的钱 → <b>给受益人</b>：指定＝直接到账｜法定＝按遗产程序办</div>
       </div>
     </div>
-    <div class="tbl-wrap">
+    <div class="rights">
+      <div class="card"><h4>投保人 · 出钱的人</h4><p style="font-size:12.5px;color:#5c574c">保单的主人，拥有退保、变更、领现金价值等权利。本例P1–P5均为张伟——资产集中在顶梁柱名下，属常见安排，知悉即可。</p><div class="law">法条索引：《保险法》第10条</div></div>
+      <div class="card"><h4>被保险人 · 受保障的人</h4><p style="font-size:12.5px;color:#5c574c">以TA的身体和寿命为保障对象；就医报销、健康守护金这类钱，直接给TA本人。</p><div class="law">法条索引：《保险法》第12条、第18条</div></div>
+      <div class="card"><h4>受益人 · 到时候领钱的人</h4><p style="font-size:12.5px;color:#5c574c">"留给家人的钱"由谁领取、按什么顺序和份额——由受保障的人（或出钱人）指定。<b>P1/P2/P5目前均为"法定"，尚未指定——本问核心。</b></p><div class="law">法条索引：《保险法》第39条</div></div>
+    </div>
     <table>
-      <!-- ⚠️ 动态表：按实际持有大额医疗类保单的成员逐行生成 -->
-      <tr><th>家庭成员</th><th>保单</th><th>险种 / 保额</th><th>保障范围</th></tr>
-      <tr><td>【大额医疗成员1姓名】</td><td>【大额医疗成员1保单编号】</td><td><b>【大额医疗成员1险种保额】</b></td><td>【大额医疗成员1保障范围】</td></tr>
-      <tr><td>【大额医疗成员2姓名】</td><td>【大额医疗成员2保单编号】</td><td><b>【大额医疗成员2险种保额】</b></td><td>【大额医疗成员2保障范围】</td></tr>
+      <tr><th>保单</th><th>出钱的人</th><th>保障谁</th><th>"留给家人的钱"给谁</th><th>诊断</th></tr>
+      <tr><td>P1</td><td>张伟</td><td>张伟</td><td>法定 → 按遗产程序办</td><td style="color:#b5532f">建议指定</td></tr>
+      <tr><td>P2</td><td>张伟</td><td>张伟/李芳</td><td>法定 → 按遗产程序办</td><td style="color:#b5532f">建议指定</td></tr>
+      <tr><td>P3</td><td>张伟</td><td>子女</td><td>待核对</td><td>以原件为准</td></tr>
+      <tr><td>P4</td><td>张伟</td><td>张一鸣</td><td>待核对</td><td>以原件为准</td></tr>
+      <tr><td>P5</td><td>张伟</td><td>李芳</td><td>法定 → 按遗产程序办</td><td style="color:#b5532f">建议指定</td></tr>
     </table>
-    </div>
-    <div class="verdict" style="margin-top:10px;"><b>建议：</b>大额医疗保障充足，每年续保时关注<b>续保条件</b>；可视情况补充门诊医疗，覆盖小额、高频的就医支出。</div>
-    <span class="act fix">【保持】续保时核对续保条款；可评估补充门诊医疗</span>
   </div>
 
-  <div class="evid sci">
-    <span class="et">为什么这个数是有依据的 —— 保障充足度 · 科学测算口径</span>
-    本报告 【家庭责任合计】 万采用<b>家庭财务需求法（责任叠加）</b>：房贷余量 + 教育目标 + 家庭周期支出 + 其他负债。交叉参照三类通用规划方法：①<b>双十原则</b>（人身险总保额约家庭年收入 10 倍、保费约年收入 10%）；②<b>生命价值法</b>（按在职期净收入现值估寿险责任）；③<b>家庭需求法</b>（需托底额 = 负债 + 教育 + 周期支出 − 可动用资源）。【顶梁柱姓名】 【顶梁柱年龄】 岁、责任期长，单用倍数法易低估，故以责任叠加法为主。以上属规划视角测算，非风险预测。
-  </div>
-  <div class="evid" style="margin-top:12px;background:var(--gold-soft);border-left:3px solid var(--gold);">
-    <span class="et" style="color:var(--gold-deep)">本章小结 · 三个维度一句话</span>
-    健康守护金（维度一【维度一得分】分）：全家【全家守护金合计】万 vs 需求约【守护金需求合计】万，可优化空间约【守护金可优化空间】万，【顶梁柱姓名】个人优先加厚至约【守护金建议保额】万。<br>
-    顶梁柱责任保障（维度二【维度二得分】分）：【家庭责任合计】 万家庭责任目前 <b style="color:var(--red)">【顶梁柱责任现有保额】 托底</b>，建议优化原则见上页，月缴量级数百元即可锁定【责任托底建议保额】万。<br>
-    大额医疗保障（维度三【维度三得分】分）：【大额医疗保障现状一句话】。<br>
-    一句话：<b style="color:var(--gold-deep)">先托底（责任 【家庭责任合计】 万），再加厚（守护金【守护金优先关注缺口】万）</b>——节奏与预算都从容。
-  </div>
-  <div class="note" style="margin-top:7px;">口径：保障充足度参照双十原则 / 生命价值法 / 家庭需求法（责任叠加）综合评估；测算属规划视角，非风险预测。实际以核保结论与合同条款为准。</div>
-  <div class="pf">— 7 —</div>
-</div>
-
-
-<!-- ═══════════════════ P8 04 第二问（上）· 三权拆解 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">04</span><h2>资产归属是否清晰（钱归谁）</h2><span class="en">Ownership</span></div>
-  <div class="sec-rule"></div>
-
-  <div class="q-banner"><span class="qb-no">第二问</span><b>钱归谁？</b><span>核心问题：若发生理赔，保险金能否准确、完整地按您的意愿到达指定家人手中？</span></div>
-
-  <div style="font-size:13px;font-weight:600;margin:2px 0 2px;">▶ 先说清楚三个"权"：投保人 · 被保险人 · 受益人<span style="font-size:11px;font-weight:400;color:var(--ink3)">（读懂这一页，"钱归谁"就明白了一半）</span></div>
-
-  <div class="tri-right">
-    <div class="rcard r1">
-      <div class="rt">投保人<small>POLICYHOLDER</small></div>
-      <div class="rsub">交钱的人 · 保单的"主人"</div>
-      <p>与保险公司订立合同、缴纳保费的人。保单的<b>现金价值等资产权益归投保人</b>，拥有退保、贷款、变更受益人等权利（须经被保险人同意）。</p>
-      <p><b>【顶梁柱姓名】家现状：</b>【投保人现状一句话：各保单投保人归属情况】。</p>
-      <div class="law-cite"><b>《保险法》第十条</b>　投保人是指与保险人订立保险合同，并按照合同约定负有支付保险费义务的人。</div>
-    </div>
-    <div class="rcard r2">
-      <div class="rt">被保险人<small>INSURED</small></div>
-      <div class="rsub">受保障的人 · 保障的"标的"</div>
-      <p>以其<b>身体和寿命</b>为保障对象。医疗、重疾等<b>生存类保险金赔给被保险人本人</b>；身故保险金以被保险人身故为给付前提。</p>
-      <p><b>【顶梁柱姓名】家现状：</b>【被保险人现状一句话：逐张保单写明被保险人】。</p>
-      <div class="law-cite"><b>《保险法》第十二条</b>　被保险人是指其财产或者人身受保险合同保障，享有保险金请求权的人。</div>
-    </div>
-    <div class="rcard r3">
-      <div class="rt">受益人<small>BENEFICIARY</small></div>
-      <div class="rsub">拿钱的人 · 身故金的去向</div>
-      <p>由被保险人或投保人<b>指定</b>（须经被保险人同意），可约定<b>顺序与份额</b>。指定明确时，身故金直接给付受益人，<b>不作为遗产处理</b>。</p>
-      <p><b>【顶梁柱姓名】家现状：</b>【受益人现状一句话：哪些保单仍为"法定"、尚未指定】。</p>
-      <div class="law-cite"><b>《保险法》第十八条</b>　受益人是指人身保险合同中由被保险人或者投保人指定的享有保险金请求权的人。<b>第三十九条</b>　人身保险的受益人由被保险人或者投保人指定；投保人指定受益人时须经被保险人同意。</div>
-    </div>
-  </div>
-
-  <div class="flow">
-    <div class="flow-title">一 张 图 看 懂 " 钱 怎 么 流 "</div>
-    <div class="flow-row">
-      <span class="fnode"><b>投保人</b> 【顶梁柱姓名】 · 交保费</span><span class="farr">── 订立合同 ──▶</span>
-      <span class="fnode"><b>保险公司</b> 承保</span><span class="farr">── 提供保障 ──▶</span>
-      <span class="fnode"><b>被保险人</b> 受保障的人</span><span class="farr">── 出险时 ──▶</span>
-    </div>
-    <div class="flow-split">
-      <div class="fsplit a"><b>✓ 医疗 / 重疾保险金 → 被保险人本人</b>钱直接给"受保障的人"，不涉及继承。</div>
-      <div class="fsplit b"><b>△ 身故保险金 → 受益人</b>指定受益人：直接到账；法定受益人：走继承程序（见下页维度四）。</div>
-    </div>
-  </div>
-
-  <div style="font-size:13px;font-weight:600;margin:1px 0 7px;">▶ 【顶梁柱姓名】家"三权"对号入座</div>
-  <div class="tbl-wrap">
-  <!-- ⚠️ 动态表：按实际保单逐行生成（行数随保单数量增减）；受益人诊断标签颜色按诊断选 tag-red/tag-gold -->
-  <table>
-    <tr><th style="width:48px">保单</th><th>投保人（谁的钱）</th><th>被保险人（保障谁）</th><th>身故受益人（钱给谁）</th><th style="width:84px">诊断</th></tr>
-    <tr><td><b>P1</b></td><td>【P1投保人】</td><td>【P1被保险人】</td><td><span class="risk-t">【P1受益人现状】</span></td><td><span class="tag tag-red">【P1受益人诊断】</span></td></tr>
-    <tr><td><b>P2</b></td><td>【P2投保人】</td><td>【P2被保险人】</td><td><span class="risk-t">【P2受益人现状】</span></td><td><span class="tag tag-red">【P2受益人诊断】</span></td></tr>
-    <tr><td><b>P3</b></td><td>【P3投保人】</td><td>【P3被保险人】</td><td>【P3受益人现状】</td><td><span class="tag tag-gold">【P3受益人诊断】</span></td></tr>
-    <tr><td><b>P4</b></td><td>【P4投保人】</td><td>【P4被保险人】</td><td>【P4受益人现状】</td><td><span class="tag tag-gold">【P4受益人诊断】</span></td></tr>
-    <tr><td><b>P5</b></td><td>【P5投保人】</td><td>【P5被保险人】</td><td><span class="risk-t">【P5受益人现状】</span></td><td><span class="tag tag-red">【P5受益人诊断】</span></td></tr>
-  </table>
-  </div>
-  <div class="note" style="margin-top:6px;">小结：三张主力保单的"钱给谁"尚未按您的意愿锁定——这正是下页维度四要解决的问题。投保人信息以保单原件为准。</div>
-
-  <div class="evid law" style="margin-top:8px;">
-    <span class="et">法条摘录 —— 受益人指定与变更（本页与下页建议的法律基础）</span>
-    <div class="law-cite" style="border-top:none;padding-top:0;margin-top:0;">
-      <b>《保险法》第四十条</b>　被保险人或者投保人可以指定一人或者数人为受益人。受益人为数人的，被保险人或者投保人可以确定受益顺序和受益份额；未确定受益份额的，受益人按照相等份额享有受益权。<br>
-      <b>《保险法》第四十一条</b>　被保险人或者投保人可以变更受益人并书面通知保险人。保险人收到变更受益人的书面通知后，应当在保险单或者其他保险凭证上批注或者附贴批单。投保人变更受益人时须经被保险人同意。<br>
-      <b>《保险法》第四十二条</b>　被保险人死亡后，没有指定受益人，或者受益人指定不明无法确定的，保险金作为被保险人的遗产，由保险人依照《中华人民共和国民法典》继承编的规定履行给付保险金的义务。<br>
-      说明：指定受益人后，保险金直接按约定给付，不进入上述继承程序，归属更清晰、手续更简便。
-    </div>
-    以上摘录仅供理解建议之用，不构成法律意见；变更须书面通知保险公司。
-  </div>
-  <div class="pf">— 8 —</div>
-</div>
-
-<!-- ═══════════════════ P9 04 第二问（下）· 维度四至六 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
-    <span style="font-size:10.5px;font-weight:700;color:var(--gold-deep);letter-spacing:2px;border:1px solid var(--gold);border-radius:14px;padding:2px 13px;white-space:nowrap;">04 · 续</span>
-    <span style="font-size:14px;font-weight:600;letter-spacing:1px;">资产归属是否清晰 —— 维度四至六逐项诊断</span>
-    <span style="font-size:10px;color:var(--ink3);letter-spacing:2px;margin-left:auto;">OWNERSHIP · DIM 4–6</span>
-  </div>
-
-  <!-- 维度四 -->
-  <div class="dim-block dp-q2">
-    <div class="dim-head">
-      <div class="dim-no dn-q2 serif">四</div>
-      <div class="dt"><b>受益人安排</b><div class="core">检查要点：身故受益人是否明确指定、顺位与份额是否设定</div></div>
-      <div class="dim-score">
-        <span class="pr-tag" style="background:var(--red-soft);color:var(--red)">本月优先处理</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#B45F4D" stroke-width="5" stroke-linecap="round" stroke-dasharray="48.1 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--red)">【维度四得分】</div>
-        </div>
-        <span class="st st-red">优先优化</span>
-      </div>
-    </div>
-    <div class="tbl-wrap">
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">四</span>爱的传递安排（受益人）</h3><p class="dim-sub">检查要点：是否明确指定、顺位与份额是否设定</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="4">45</b>分</span><span class="chip band-orange" data-band-dim="4">优先完善</span><span class="ptag pt-m">本月可办·免费</span></div>
+    </header>
+    <p style="font-size:13.5px">每张保单里，都有一笔"留给家人的钱"。它到时候<b>给谁、按什么顺序、多快到账</b>，取决于"受益人"的设置。现在花15分钟设好，将来家人省心省事——这是最实在的守护。</p>
     <table>
-      <!-- ⚠️ 动态表：仅列受益人仍为"法定"的保单，逐行生成；"维持法定的不便"为通用说明可保留，"建议"列须按家庭结构个性化 -->
-      <tr><th style="width:46px">保单</th><th>被保险人</th><th>当前受益人</th><th>维持"法定"可能带来的不便</th><th style="width:118px">建议</th></tr>
-      <tr><td><b>P1</b></td><td>【P1被保险人】</td><td><span class="risk-t">【P1受益人现状】</span></td><td>需走继承程序，由法定继承人分配，手续较繁琐、到账较慢</td><td>【P1受益人指定建议】</td></tr>
-      <tr><td><b>P2</b></td><td>【P2被保险人】</td><td><span class="risk-t">【P2受益人现状】</span></td><td>需走继承程序，由法定继承人分配，手续较繁琐</td><td>【P2受益人指定建议】</td></tr>
-      <tr><td><b>P5</b></td><td>【P5被保险人】</td><td><span class="risk-t">【P5受益人现状】</span></td><td>需走继承程序，由法定继承人分配，手续较繁琐、到账较慢</td><td>【P5受益人指定建议】</td></tr>
+      <tr><th></th><th>✓ 指定受益人</th><th>✗ 维持"法定"</th></tr>
+      <tr><td><b>到账</b></td><td>按您设定的顺序与份额，直接打款</td><td>按遗产程序：全体继承人配合、办理公证，周期长</td></tr>
+      <tr><td><b>手续</b></td><td>材料精简，家人办理省心</td><td>环节多，关键时刻添麻烦</td></tr>
+      <tr><td><b>归属</b></td><td>不作为遗产，清晰无争议</td><td>按继承分配，存在分歧可能</td></tr>
     </table>
+    <div class="dim-act">➔ 【确权】P1/P2/P5 由"法定"改为"指定"：配偶第一顺位100% ＋ 子女第二顺位（免费 · 约15分钟 · 本月可办）</div>
+    <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第39条：领钱的人由受保障的人（或出钱的人）指定，出钱人指定须经受保障的人同意｜第40条：可指定一人或多人，并约定顺序与份额，未约定的均分｜第41条：可变更，书面通知公司即生效｜第42条：没有指定或指定不明确的，这笔钱按遗产程序处理。以上为便于理解的转述，不构成法律意见；变更以保险公司核定为准。</div>
+  </article>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">五</span>保单资产状态</h3><p class="dim-sub">检查要点：是否存在贷款、质押影响保单资产</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="5">90</b>分</span><span class="chip band-green" data-band-dim="5">安心</span><span class="ptag pt-k">保持</span></div>
+    </header>
+    <p style="font-size:13.5px">✓ 全部保单无贷款质押——资产状态干净健康，权益完整，无需额外关注。</p>
+    <div class="dim-act">➔ 【保持】维持无质押的健康状态即可</div>
+  </article>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">六</span>资产规划空间</h3><p class="dim-sub">检查要点：是否设置信托等架构，实现定向传递与隔离</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="6">30</b>分</span><span class="chip band-orange" data-band-dim="6">优先完善</span><span class="ptag pt-q">本季度关注</span></div>
+    </header>
+    <p style="font-size:13.5px">当前保单尚未设置保险金信托等架构。<b>这不影响现有保障</b>，属于"资产规模扩大后再看"的进阶话题——本季度与专业机构沟通一次即可，不必着急。</p>
+    <div class="dim-act">➔ 【规划】本季度与专业机构沟通一次，评估定向传递与隔离工具的必要性</div>
+  </article>
+
+  <div class="selfcheck">
+    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户</span></div>
+    <div class="sc-row"><span>1. 每张保单"留给家人的钱"到时候给谁——写的是具体名字，还是"法定"？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>2. 家里结构有变化（结婚/添丁），领钱的安排需要更新吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>3. 每张保单是谁出钱办的？出钱的人清楚保单里的钱算谁的吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>4. 万一需要家人来办手续，他们知道保单放在哪、找谁办吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+  </div>
+</section>
+
+<!-- ═══════ 05 第三问 ═══════ -->
+<section id="s5" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">05</div><div class="sec-en">READINESS</div></div><h2>第三问 · 钱顺不顺利拿到</h2></div>
+  <div class="qcore">核心问题：需要申领的时候，每一张保单都能<b>顺利、及时兑现</b>吗？</div>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">七</span>缴费连续性</h3><p class="dim-sub">检查要点：是否按时缴费、保单效力是否稳定</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="7">50</b>分</span><span class="chip band-amber" data-band-dim="7">可优化</span><span class="ptag pt-m">本月可办</span></div>
+    </header>
+    <p style="font-size:13.5px">保单跟车一样，得按时"加油"。<b style="color:#b5532f">P4 已进入60天缓冲期（保障依然有效），节点是 10月31日</b>——过了这个节点，这份守护会暂时"打盹"，要走流程才能唤醒。本月内缴清，它就一直醒着。</p>
+    <div class="dim-act">➔ 【守护】10月31日前缴清P4保费，可顺便变更顺手的扣款卡</div>
+  </article>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">八</span>信息时效</h3><p class="dim-sub">检查要点：预留联系方式是否为当前常用信息</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="8">60</b>分</span><span class="chip band-teal" data-band-dim="8">稳健</span><span class="ptag pt-q">本季度关注</span></div>
+    </header>
+    <p style="font-size:13.5px">手机号、地址如有更换，公司到时候才找得到您、通知才不漏——更新全部保单预留信息，免费，约10分钟。</p>
+    <div class="dim-act">➔ 【保全】更新全部保单预留手机号 / 地址 / 扣款账户（免费 · 约10分钟）</div>
+  </article>
+
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">九</span>期限匹配</h3><p class="dim-sub">检查要点：保障期限与家庭责任期、退休规划是否匹配</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="9">55</b>分</span><span class="chip band-amber" data-band-dim="9">可优化</span><span class="ptag pt-q">本季度关注</span></div>
+    </header>
+    <p style="font-size:13.5px">P1/P2 保障至60岁，与责任最重的阶段基本匹配 ✓。如考虑退休后的就医开销，可评估补充长期医疗保障。</p>
+    <div class="dim-act">➔ 【评估】退休后就医场景下，评估长期医疗保障的必要性</div>
+  </article>
+
+  <div class="selfcheck">
+    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户</span></div>
+    <div class="sc-row"><span>1. 每张保单都在正常状态吗？有没有临近缴费节点的？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+    <div class="sc-row"><span>2. 手机号、地址是最新的吗？公司能第一时间找到您吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+    <div class="sc-row"><span>3. 当初办理时，健康情况都如实说清楚了吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+    <div class="sc-row"><span>4. 平时就医的医院，保障认吗？（一般认二级及以上公立医院）</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+    <div class="sc-row"><span>5. 需要申领时，家人知道第一时间打哪个电话吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+  </div>
+</section>
+
+<!-- ═══════ 06 综合诊断 ═══════ -->
+<section id="s6" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">06</div><div class="sec-en">DIAGNOSIS</div></div><h2>综合诊断 · 九维一览</h2></div>
+  <p class="sec-lead">九项维度放在同一张图上，一眼看清"哪里稳、哪里值得完善"。<span class="hint no-print">（下表评分可直接修改，仪表盘与雷达图自动联动）</span></p>
+
+  <div style="display:flex;gap:26px;flex-wrap:wrap;align-items:center">
+    <div style="flex:1.2;min-width:320px">
+      <table>
+        <tr><th>维度</th><th>评分</th><th>分档</th><th>节奏</th><th>一句话建议</th></tr>
+        <tr><td>一 健康守护金</td><td><input class="dim-input" data-dim="1" type="number" value="65" min="0" max="100"></td><td><span class="chip band-teal" data-band-dim="1">稳健</span></td><td>本季度</td><td>加厚至约80万级</td></tr>
+        <tr><td>二 顶梁柱责任</td><td><input class="dim-input" data-dim="2" type="number" value="40" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="2">优先完善</span></td><td>本月</td><td>200万级托底</td></tr>
+        <tr><td>三 大额医疗</td><td><input class="dim-input" data-dim="3" type="number" value="80" min="0" max="100"></td><td><span class="chip band-green" data-band-dim="3">安心</span></td><td>保持</td><td>已达标·续期核对</td></tr>
+        <tr><td>四 爱的传递</td><td><input class="dim-input" data-dim="4" type="number" value="45" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="4">优先完善</span></td><td>本月</td><td>改"指定"并设顺位</td></tr>
+        <tr><td>五 资产状态</td><td><input class="dim-input" data-dim="5" type="number" value="90" min="0" max="100"></td><td><span class="chip band-green" data-band-dim="5">安心</span></td><td>保持</td><td>干净无质押</td></tr>
+        <tr><td>六 规划空间</td><td><input class="dim-input" data-dim="6" type="number" value="30" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="6">优先完善</span></td><td>本季度</td><td>评估规划工具</td></tr>
+        <tr><td>七 缴费连续</td><td><input class="dim-input" data-dim="7" type="number" value="50" min="0" max="100"></td><td><span class="chip band-amber" data-band-dim="7">可优化</span></td><td>本月</td><td>10/31前缴清P4</td></tr>
+        <tr><td>八 信息时效</td><td><input class="dim-input" data-dim="8" type="number" value="60" min="0" max="100"></td><td><span class="chip band-teal" data-band-dim="8">稳健</span></td><td>本季度</td><td>更新联系方式</td></tr>
+        <tr><td>九 期限匹配</td><td><input class="dim-input" data-dim="9" type="number" value="55" min="0" max="100"></td><td><span class="chip band-amber" data-band-dim="9">可优化</span></td><td>本季度</td><td>评估长期医疗</td></tr>
+      </table>
     </div>
-    <div class="vs-grid" style="margin-top:7px;">
-      <div class="vs-cell vs-a"><b>✓ 指定受益人</b>保险金按您指定的顺序与份额<b>直接给付</b>，手续简便、到账快，且不作为遗产处理。</div>
-      <div class="vs-cell vs-b"><b>✗ 法定受益人</b>保险金须按<b>继承程序</b>处理：需全体继承人配合、办理继承公证等环节，耗时较长，且存在分配争议可能。</div>
+    <div style="flex:1;min-width:300px;text-align:center">
+      <svg id="radar" viewBox="0 0 460 400" width="100%" style="max-width:430px"></svg>
+      <p style="font-size:12px;color:var(--muted);margin-top:6px">九维雷达 · 离圆心越远越健康｜绿色区域已是扎实防线，金色区域是投入产出比最高的两步</p>
     </div>
-    <div class="inherit-strip">
-      <div class="inh"><b>直接到账</b>指定受益人后，保险金按您设定的顺序与份额直接给付家人，不用等待继承程序。</div>
-      <div class="inh"><b>手续简单</b>理赔时材料更精简，家人办理更省心，关键时刻少添麻烦。</div>
-      <div class="inh dim"><b>不作为遗产</b>指定受益人的保险金不作为遗产处理，归属清晰、无分配争议，是"留爱不留负担"的体现。</div>
-    </div>
-    <div class="verdict"><b>建议（本月可现场办理，免费，约 15 分钟）：</b>指定<b>配偶为第一受益人（100%）</b>，<b>子女为第二受益人（100%）</b>。这是一份"留爱不留负担"的安排，也是对家人最实在的守护。</div>
-    <span class="act struct">【确权】P1 / P2 / P5 受益人由"法定"改为"指定"并设顺位份额</span>
   </div>
 
-  <!-- 维度五 -->
-  <div class="dim-block dp-q2">
-    <div class="dim-head">
-      <div class="dim-no dn-q2 serif">五</div>
-      <div class="dt"><b>保单贷款状态</b><div class="core">检查要点：是否存在保单贷款、质押影响保单资产状态</div></div>
-      <div class="dim-score">
-        <span class="pr-tag" style="background:var(--green-soft);color:var(--green-deep)">保持</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#5F8A72" stroke-width="5" stroke-linecap="round" stroke-dasharray="96.1 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--green-deep)">【维度五得分】</div>
-        </div>
-        <span class="st st-green">保持</span>
-      </div>
-    </div>
-    <div class="chk"><span class="ic ok-t">●</span><span class="ck-t">贷款与质押记录</span><span class="ck-v"><em>全部保单无贷款质押</em>，资产状态健康，无需额外关注。</span></div>
-    <span class="act fix">【保持】维持无贷款质押的健康状态即可</span>
-  </div>
-
-  <!-- 维度六 -->
-  <div class="dim-block dp-q2">
-    <div class="dim-head">
-      <div class="dim-no dn-q2 serif">六</div>
-      <div class="dt"><b>资产隔离与传承功能</b><div class="core">检查要点：是否设置信托等架构实现定向传承与风险隔离</div></div>
-      <div class="dim-score">
-        <span class="pr-tag" style="background:var(--amber-soft);color:var(--amber)">本季度关注</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#B45F4D" stroke-width="5" stroke-linecap="round" stroke-dasharray="32 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--red)">【维度六得分】</div>
-        </div>
-        <span class="st st-red">优先优化</span>
-      </div>
-    </div>
-    <div class="chk"><span class="ic warn-t">●</span><span class="ck-t">信托架构现状</span><span class="ck-v">当前保单<em>尚未设置保险金信托或家族信托架构</em></span></div>
-    <div class="chk"><span class="ic info-t">●</span><span class="ck-t">后续观察</span><span class="ck-v">如家庭资产规模持续扩大，建议评估资产隔离工具的必要性</span></div>
-    <div class="verdict"><b>建议：</b>本季度与专业机构沟通一次，评估是否引入<b>保险金信托</b>等工具，实现资产的<b>定向传承与风险隔离</b>。</div>
-  <span class="act struct">【规划】本季度与专业机构沟通，评估保险金信托等隔离工具</span>
-  </div>
-
-  <div class="note" style="margin-top:6px;">口径说明：归属清晰部分参照《保险法》第 10、12、18、39–42 条及《民法典》继承编评估（法条摘录见上页）；受益人变更须书面通知保险公司并以保险公司核定为准。</div>
-  <div class="pf">— 9 —</div>
-</div>
-
-<!-- ═══════════════════ P10 05 第三问 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">05</span><h2>保险权益申领是否顺畅（钱能否顺利拿到）</h2><span class="en">Claims Readiness</span></div>
-  <div class="sec-rule"></div>
-
-  <div class="q-banner"><span class="qb-no">第三问</span><b>钱能否顺利拿到？</b><span>核心问题：当需要理赔时，保单能否顺利、及时地发挥保障作用？</span></div>
-
-  <!-- 维度七 -->
-  <div class="dim-block dp-q3">
-    <div class="dim-head">
-      <div class="dim-no dn-q3 serif">七</div>
-      <div class="dt"><b>缴费连续性</b><div class="core">检查要点：保费是否按时缴纳、保单效力是否稳定</div></div>
-      <div class="dim-score">
-        <span class="pr-tag" style="background:var(--amber-soft);color:var(--amber)">近期可办</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#A87F35" stroke-width="5" stroke-linecap="round" stroke-dasharray="53.4 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--amber)">【维度七得分】</div>
-        </div>
-        <span class="st st-amber">建议关注</span>
-      </div>
-    </div>
-    <div class="tbl-wrap">
-    <table>
-      <tr><th style="width:64px">保单</th><th>状态</th><th style="width:110px">截止日期</th><th>风险提示</th></tr>
-      <tr class="row-zero"><td><b>P4</b></td><td><span class="risk-t">宽限期临期</span></td><td><b style="color:var(--red)">2026-10-31</b></td><td><span class="risk-t">逾期将影响保障效力</span></td></tr>
-    </table>
-    </div>
-    <div class="chk" style="margin-top:6px;"><span class="ic risk-t">●</span><span class="ck-t">P4 缴费状态</span><span class="ck-v"><em>宽限期临期</em>——须在 <b style="color:var(--red)">10 月 31 日前</b>缴清，逾期保单效力中止</span></div>
-    <div class="verdict"><b>建议：</b>【缴费连续性核心建议，如"本月内缴清 Pn 保费，确保保障不间断"】。</div>
-    <span class="act fix" style="background:var(--red-soft);color:var(--red)">【止损】【缴费连续性行动，如"X月X日前缴清 Pn 保费"】</span>
-  </div>
-
-  <!-- 维度八 -->
-  <div class="dim-block dp-q3">
-    <div class="dim-head">
-      <div class="dim-no dn-q3 serif">八</div>
-      <div class="dt"><b>信息更新时效</b><div class="core">检查要点：保单预留联系方式是否为当前常用信息</div></div>
-      <div class="dim-score">
-        <span class="pr-tag">本季度关注</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#5B7E96" stroke-width="5" stroke-linecap="round" stroke-dasharray="64.1 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:#44647A">【维度八得分】</div>
-        </div>
-        <span class="st st-teal">稳定</span>
-      </div>
-    </div>
-    <div class="chk"><span class="ic warn-t">●</span><span class="ck-t">联系信息核对</span><span class="ck-v">核实手机号、地址是否为当前常用信息；如近期更换，建议及时更新（<em>免费，约 10 分钟</em>）</span></div>
-    <span class="act fix">【保全】更新全部保单预留手机号 / 地址 / 银行账户</span>
-  </div>
-
-  <!-- 维度九 -->
-  <div class="dim-block dp-q3">
-    <div class="dim-head">
-      <div class="dim-no dn-q3 serif">九</div>
-      <div class="dt"><b>保障期限匹配</b><div class="core">检查要点：保障期限与家庭责任期、退休规划是否匹配</div></div>
-      <div class="dim-score">
-        <span class="pr-tag">本季度关注</span>
-        <div class="score-ring">
-          <svg viewBox="0 0 46 46" width="44" height="44">
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#EEECE6" stroke-width="5"/>
-            <circle cx="23" cy="23" r="17" fill="none" stroke="#A87F35" stroke-width="5" stroke-linecap="round" stroke-dasharray="58.7 106.8" transform="rotate(-90 23 23)"/>
-          </svg>
-          <div class="sv" style="color:var(--amber)">【维度九得分】</div>
-        </div>
-        <span class="st st-amber">建议关注</span>
-      </div>
-    </div>
-    <div class="chk"><span class="ic ok-t">●</span><span class="ck-t">期限与责任期匹配度</span><span class="ck-v">【期限与责任期匹配核对一句话】<em>基本匹配</em></span></div>
-    <div class="verdict"><b>建议：</b>如考虑退休后医疗支出，可评估补充长期医疗保障。</div>
-    <span class="act fix">【评估】退休后医疗支出场景下，评估长期医疗保障</span>
-  </div>
-
-  <div class="note" style="margin-top:7px;">口径：保障充足度参照双十原则 / 生命价值法 / 家庭需求法；归属清晰参照《保险法》第 39–42 条及《民法典》继承编。实际以核保结论与合同条款为准。</div>
-  <div class="pf">— 10 —</div>
-</div>
-
-<!-- ═══════════════════ P11 06 综合诊断 · 核心发现 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">06</span><h2>综合诊断 · 核心发现</h2><span class="en">Diagnosis</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">把九维结果汇总，提炼出最值得关注的三件事。</p>
-
-  <div class="tbl-wrap">
-  <table>
-    <tr><th>维度</th><th class="num">健康度</th><th style="width:88px">优先级</th><th>核心建议</th></tr>
-    <tr><td>健康守护金覆盖</td><td class="num" style="color:#44647A;font-weight:700">【维一得分】</td><td><span class="tag tag-gold">【维一优先级】</span></td><td>【维一核心建议】</td></tr>
-    <tr><td>顶梁柱责任保障</td><td class="num" style="color:var(--red);font-weight:700">【维二得分】</td><td><span class="tag tag-red">【维二优先级】</span></td><td>【维二核心建议】</td></tr>
-    <tr><td>大额医疗保障</td><td class="num" style="color:var(--green-deep);font-weight:700">【维三得分】</td><td><span class="tag tag-green">【维三优先级】</span></td><td>【维三核心建议】</td></tr>
-    <tr><td>受益人安排</td><td class="num" style="color:var(--red);font-weight:700">【维四得分】</td><td><span class="tag tag-red">【维四优先级】</span></td><td>【维四核心建议】</td></tr>
-    <tr><td>保单贷款状态</td><td class="num" style="color:var(--green-deep);font-weight:700">【维五得分】</td><td><span class="tag tag-green">【维五优先级】</span></td><td>【维五核心建议】</td></tr>
-    <tr><td>资产隔离功能</td><td class="num" style="color:var(--red);font-weight:700">【维六得分】</td><td><span class="tag tag-gold">【维六优先级】</span></td><td>【维六核心建议】</td></tr>
-    <tr><td>缴费连续性</td><td class="num" style="color:var(--amber);font-weight:700">【维七得分】</td><td><span class="tag tag-red">【维七优先级】</span></td><td>【维七核心建议】</td></tr>
-    <tr><td>信息更新时效</td><td class="num" style="color:#44647A;font-weight:700">【维八得分】</td><td><span class="tag tag-gold">【维八优先级】</span></td><td>【维八核心建议】</td></tr>
-    <tr><td>保障期限匹配</td><td class="num" style="color:var(--amber);font-weight:700">【维九得分】</td><td><span class="tag tag-gold">【维九优先级】</span></td><td>【维九核心建议】</td></tr>
-  </table>
-  </div>
-
-  <div style="font-size:13.5px;font-weight:600;margin:16px 0 10px;">▶ 三个核心发现</div>
   <div class="findings">
-    <div class="find f-red">
-      <span class="find-no fn-red">发现一</span>
-      <div><b class="t">最大的"责任空间"：【家庭责任合计】 万家庭责任目前无专属托底</b>
-      <p>建议用<b>"月缴数百元级换【责任托底建议保额】万"</b>的高杠杆方向先行锁定，一年内视预算再行加厚。</p></div>
+    <div class="card find"><div class="fn serif">壹</div><div><b>最大的"责任空间"：</b>440万家庭责任，目前还没有专属托底。建议用"每月约700元锁定200万级"的高杠杆方向先行，一年内视预算从容加厚。</div></div>
+    <div class="card find"><div class="fn serif">贰</div><div><b>最划算的"免费完善"：</b>3张保单的领钱安排可由"法定"改为"指定"——免费、约15分钟，让这笔钱到时候直接、按意愿到家人手上。</div></div>
+    <div class="card find"><div class="fn serif">叁</div><div><b>最紧要的"时效事项"：</b>P4 缴费节点是10月31日。已进入60天缓冲期，本月内缴清即可，孩子的守护不断档。</div></div>
+  </div>
+</section>
+
+<!-- ═══════ 07 行动清单 ═══════ -->
+<section id="s7" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">07</div><div class="sec-en">NEXT STEPS</div></div><h2>行动清单 · 从免费小事开始</h2></div>
+  <p class="sec-lead">三步走：先办免费的、再谈规划的、最后做长期的——节奏从容，不必同时启动。</p>
+
+  <div class="steps">
+    <div class="step step1">
+      <h4>① 本月 · 免费优先</h4><div class="st">合计约40分钟 · 零费用</div>
+      <label>□ 缴清 P4 保费（10月31日前，可顺便换扣款卡）</label>
+      <label>□ P1/P2/P5 领钱安排改"指定"：配偶第一顺位100%＋子女第二顺位（约15分钟）</label>
+      <label>□ 更新全部保单预留手机号/地址/账户（约10分钟）</label>
     </div>
-    <div class="find f-red">
-      <span class="find-no fn-red">发现二</span>
-      <div><b class="t">最划算的"免费优化"：3 份保单受益人可改为指定</b>
-      <p>P1 / P2 / P5 受益人为"法定"，改为<b>指定受益人</b>免费办理，让保险金按您的意愿直接到账。</p></div>
+    <div class="step step2">
+      <h4>② 本季度 · 从容规划</h4><div class="st">方向与量级参考 · 不涉及具体产品</div>
+      <label>□ 细聊"顶梁柱责任托底"方向（200万级·定期·月缴约700元量级）</label>
+      <label>□ 视预算评估守护金加厚（向80万靠拢）与资产规划工具</label>
     </div>
-    <div class="find f-amber">
-      <span class="find-no fn-amber">发现三</span>
-      <div><b class="t">最紧急的"时效事项"：P4 保费须在 10 月 31 日前缴清</b>
-      <p>P4 已进入宽限期，<b>逾期保单效力中止</b>，避免保障中断。本月内缴清即可，如需变更扣款银行卡可一并办理。</p></div>
+    <div class="step step3">
+      <h4>③ 年度 · 持续体检</h4><div class="st">每年一次 · 越来越好</div>
+      <label>□ 年度保单复查（状态/续期条款/期限匹配）</label>
+      <label>□ 次年复测九维健康度，目标进入"稳健"区间</label>
     </div>
   </div>
-  <div class="pf">— 11 —</div>
+
+  <div class="dirs">
+    <div class="dir first"><b>方向A · 责任托底（优先）</b>200万级·定期型·保至60岁，月缴数百元量级——先守住责任底线，杠杆最高。</div>
+    <div class="dir"><b>方向B · 责任加厚</b>在A之上提高额度，覆盖更长责任期——预算允许时一步到位。</div>
+    <div class="dir"><b>方向C · 守护金加厚</b>向80万目标靠拢，覆盖全面（含中度、轻度情况），月缴两三百元级——可与A并行。</div>
+  </div>
+  <p style="font-size:12px;color:var(--muted)">以上仅为方向与量级参考，不构成任何产品推介；具体保障责任、费率与核保结果以保险公司及合同条款为准。</p>
+
+  <div class="quote">给您的话：这份报告不是让您"治病"的体检单。它更像一面镜子，帮您看清已经为家人筑起了哪些防线，以及下一块砖、下一片瓦可以添在哪里。保障的意义，不在多贵，而在需要的时候，钱能准时到位。咱们从本月最省心的免费小事开始，一步步来，不着急。</div>
+</section>
+
+<!-- ═══════ 附一 · 小词典 ═══════ -->
+<section id="gl" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">附</div><div class="sec-en">GLOSSARY</div></div><h2>随身小词典 · 大白话版</h2></div>
+  <div class="gloss">
+    <div><dt>保额</dt><dd>需要时，最多能拿到的那笔钱的额度</dd></div>
+    <div><dt>保费</dt><dd>每年交给保险公司的钱</dd></div>
+    <div><dt>投保人</dt><dd>出钱办保单的人——保单是TA的资产</dd></div>
+    <div><dt>被保险人</dt><dd>被保障的那个人</dd></div>
+    <div><dt>受益人</dt><dd>到时候替家人领"留给家人的钱"的人</dd></div>
+    <div><dt>法定受益人</dt><dd>没写具体名字，到时按遗产程序办，周期较长</dd></div>
+    <div><dt>指定受益人</dt><dd>写清名字和份额，到时直接到账，不走继承</dd></div>
+    <div><dt>健康守护金</dt><dd>万一需要按下暂停键安心休养，一次到账、随您安排的钱</dd></div>
+    <div><dt>大额医疗保障</dt><dd>住院花销超过门槛的部分，由它兜住</dd></div>
+    <div><dt>顶梁柱责任保障</dt><dd>万一责任需要接棒，替您继续守护家人的那笔钱</dd></div>
+    <div><dt>现金价值</dt><dd>中途不要这份保单了，能拿回来的钱</dd></div>
+    <div><dt>养老年金</dt><dd>到约定年龄后按年/月发钱，像发工资一样</dd></div>
+    <div><dt>等待期</dt><dd>刚办完的观察期（一般90–180天），期间内还用不上</dd></div>
+    <div><dt>宽限期</dt><dd>忘交钱的缓冲期（一般60天），期间保障照常有效</dd></div>
+    <div><dt>犹豫期</dt><dd>办完后的"反悔期"（一般10–15天），可全额拿回</dd></div>
+    <div><dt>健康告知</dt><dd>办理前把健康情况如实说清楚——关系到申领顺不顺</dd></div>
+    <div><dt>免赔额</dt><dd>公司不报的"起步门槛"（如1万以内自己承担）</dd></div>
+    <div><dt>保全</dt><dd>地址、电话、扣款卡等资料的变更服务，多免费</dd></div>
+  </div>
+</section>
+
+<!-- ═══════ 附二 · 内部手册（打印自动隐藏） ═══════ -->
+<section class="no-print">
+  <details class="internal" open>
+    <summary>附二 · 服务人员手册（内部 · 客户版打印时自动隐藏本页）</summary>
+    <p style="font-size:13px;margin-top:10px"><b>定位：</b>增值服务工具，不是销售工具。全程"三不讲"——<b>不讲产品、不报价格、不催决定</b>。让客户自己勾出"不确定"，比您指出来效果好十倍。</p>
+    <div class="script"><b>开场（照着说）：</b>"X哥/X姐，今天占用您20分钟，帮咱家做一次'保障健康体检'——跟车要年检、身体要体检一个道理。今天不聊任何新产品，只看三件事：钱够不够用、钱到时候归谁、钱顺不顺利拿到。一页一页过，您随时打断我。"</div>
+    <div class="script"><b>第一问过渡：</b>"第一笔钱，看够不够花——万一节奏被打乱、需要用钱的关键时刻，给的钱够不够撑住咱家的正常日子。我先说好：够用就踏实，有空间也只是心里有个数，补不补您说了算，今天量个体温而已。"</div>
+    <div class="script"><b>第二问过渡：</b>"第二笔钱，看归谁。跟提前安排家事一个道理——现在理清楚，将来家里人省心，也免得一家人因为钱伤和气。这不是忌讳事，恰恰是对家里人最负责任的安排。"</div>
+    <div class="script"><b>第三问过渡：</b>"第三笔钱，看顺不顺。保单不是办完就一劳永逸，几个小细节到位，关键时刻才不卡壳。咱们提前把'堵点'排掉。"</div>
+    <div class="script"><b>收尾（关键）：</b>"盘完了：安心的有X项，您之前规划底子是真不错；可优化的都是小事，要打的电话、要带的资料我写在纸上了；建议优先完善的X项——今天不催您定。回头我把行动清单整理好发您，您跟家里商量着看。要办，咱约时间细聊；不急，留着当备忘。我这个电话，随时打得通。"</div>
+    <ul class="tips">
+      <li><b>笔递到客户手里</b>——自查区让客户自己勾，自己勾出来的"不确定"才有触动；</li>
+      <li><b>"优先完善"项只登记、不讲产品</b>——统一话术："这项我记下来，回头给您出个参考"；</li>
+      <li><b>行动清单是二次触点</b>——必须承诺"整理好发您"，这是下次见面的天然理由；</li>
+      <li><b>所有建议落到纸面</b>——当场不定≠不成交，客户带走的是可以回家商量的凭据；</li>
+      <li><b>结束必留一句</b>："您家情况我都建档了，有政策、服务变化我第一时间告诉您。"</li>
+      <li><b>用词口径</b>：本模板已全程使用暖心说法（关键时刻／安心休养／留给家人的钱／守护不断档），现场请保持同一口径，不要脱口而出行业词。</li>
+    </ul>
+  </details>
+</section>
+
+<div class="foot">
+  免责声明：本报告基于客户提供的保单信息与家庭情况整理，属增值服务参考，不构成任何产品销售要约；测算属规划视角，不代表对任何情况的预测；具体保障责任、费率与核保结果以保险公司及合同条款为准；涉及领钱安排的说明不构成法律意见，变更须书面通知保险公司并以核定为准。<br>
+  报告编号 2026-HJ-001 · 联系电话：［联系电话］ · 家庭保障健康体检工具辅助生成
 </div>
 
-<!-- ═══════════════════ P12 06 分阶段优化建议 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">06</span><h2>分阶段优化建议</h2><span class="en">Optimization Plan</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">建议分三步推进：先办免费的、再补高杠杆的、最后做长期规划，节奏从容、逐步推进。</p>
-
-  <div class="timeline">
-    <div class="tl-item">
-      <div class="tl-when">① 本月优先 · 免费操作（约 40 分钟）</div>
-      <div class="tl-what"><b>止损 + 确权 + 保全</b>
-        <ol>
-          <li>【缴费连续性行动，如"缴清 Pn 保费（截止 X月X日）"】</li>
-          <li>现场办理 P1 / P2 / P5 受益人变更（免费，约 15 分钟）</li>
-          <li>更新保单联系信息（免费，约 10 分钟）</li>
-        </ol>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-when">② 本季度关注 · 规划事项</div>
-      <div class="tl-what"><b>重点补强方向</b>
-        <ol>
-          <li>与专业机构沟通顶梁柱责任保障方案（【顶梁柱姓名】 <b>【责任托底建议保额】定期，月缴约数百元级</b>）</li>
-          <li>评估资产隔离工具（保险金信托）的必要性</li>
-        </ol>
-      </div>
-    </div>
-    <div class="tl-item">
-      <div class="tl-when">③ 年度规划 · 持续事项</div>
-      <div class="tl-what"><b>持续经营</b>
-        <ol>
-          <li>年度保单复查：核实所有保单状态、续保条件、保障期限匹配度</li>
-          <li>次年复查九维健康度，目标进入"稳定"区间</li>
-        </ol>
-      </div>
-    </div>
-  </div>
-
-  <div class="quote" style="margin-top:26px;">
-    <b>给您的话：</b>这份报告不是体检报告，不需要您"治病"。它更像一面镜子，帮您看清已经为家人筑起了哪些防线，以及下一步加一块砖、添一块瓦的位置。保险的意义，不在于买得多贵，而在于需要的时候，钱能准时到位。<b>咱们从本月最紧急的免费操作开始，一步步来，不着急。</b>
-  </div>
-  <div class="pf">— 12 —</div>
 </div>
 
-<!-- ═══════════════════ 附 · 九维健康度一览（雷达图）· P.13 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">附</span><h2>九维健康度一览（雷达图）</h2><span class="en">Radar Chart</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">把九项维度放在同一张图上，一眼看清"哪里稳、哪里可优化"。综合健康度 <b style="color:var(--ink)">【综合健康度】 / 100（【健康度等级】）</b>，数据依据本报告九维评分绘制。</p>
-
-  <div class="radar-wrap">
-    <div class="gauge-side">
-      <svg viewBox="0 0 200 118" width="220">
-        <path d="M 20 95 A 80 80 0 0 1 87.5 16.0" fill="none" stroke="#E8C9BF" stroke-width="14" stroke-linecap="round"/>
-        <path d="M 87.5 16 A 80 80 0 0 1 124.7 18.9" fill="none" stroke="#EBDCB2" stroke-width="14"/>
-        <path d="M 124.7 18.9 A 80 80 0 0 1 164.7 48.0" fill="none" stroke="#C4D6E0" stroke-width="14"/>
-        <path d="M 164.7 48 A 80 80 0 0 1 180 95" fill="none" stroke="#C4DCD0" stroke-width="14" stroke-linecap="round"/>
-        <!-- 【仪表盘指针占位：按综合健康度分值重算指针角度——圆心(100,95) 半径80，0分指向左水平、100分指向右水平，替换本注释为 line + circle 两元素】 -->
-        <circle cx="100" cy="95" r="5" fill="#3F4A57"/>
-        <text x="100" y="88" text-anchor="middle" font-size="34" font-weight="700" fill="#2C3440">【综合健康度】</text>
-        <text x="100" y="104" text-anchor="middle" font-size="10.5" fill="#98A1AC" letter-spacing="2">综合健康度 / 100</text>
-        <text x="24" y="110" font-size="8.5" fill="#98A1AC">0</text>
-        <text x="172" y="110" font-size="8.5" fill="#98A1AC">100</text>
-      </svg>
-      <div class="gauge-cap">【健康度等级】——【健康度一句话点评】</div>
-      <div class="gauge-band">【健康度等级字样】</div>
-      <div style="display:flex;flex-direction:column;gap:6px;margin-top:14px;text-align:left;font-size:11px;color:var(--ink2);">
-        <span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#5F8A72;margin-right:6px;"></i>≥80 保持（【保持档项数】 项：【保持档维度名单】）</span>
-        <span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#5B7E96;margin-right:6px;"></i>60–79 稳定（【稳定档项数】 项：【稳定档维度名单】）</span>
-        <span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#A87F35;margin-right:6px;"></i>50–59 建议关注（【关注档项数】 项：【关注档维度名单】）</span>
-        <span><i style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#B45F4D;margin-right:6px;"></i>&lt;50 优先优化（【优先档项数】 项：【优先档维度名单】）</span>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:13.5px;font-weight:600;margin-bottom:2px;">九维雷达 <span style="font-size:11px;font-weight:400;color:var(--ink3)">· 距圆心越远越健康</span></div>
-      <svg viewBox="-85 -10 570 415" width="100%">
-        <polygon points="200,50 296.4,85.1 347.8,173.9 329.9,275 251.3,341 148.7,341 70.1,275 52.2,173.9 103.6,85.1" fill="none" stroke="#E5E2DA" stroke-width="1"/>
-        <polygon points="200,100 264.3,123.4 298.5,182.6 286.6,250 234.2,294 165.8,294 113.4,250 101.5,182.6 135.7,123.4" fill="none" stroke="#E5E2DA" stroke-width="1"/>
-        <polygon points="200,150 232.2,161.7 249.3,191.3 243.3,225 217.1,247 182.9,247 156.7,225 150.7,191.3 167.8,161.7" fill="none" stroke="#EDEBE4" stroke-width="1"/>
-        <polygon points="200,82.5 248.2,108.2 273.9,160.9 266.6,218.7 234.2,257.3 165.8,257.3 133.4,218.7 126.1,160.9 151.8,108.2" fill="none" stroke="#EBDCB2" stroke-width="1" stroke-dasharray="3 3"/>
-        <polygon points="200,70 255.7,93.4 288.7,152.6 279.9,230 242.6,276 157.4,276 120.1,230 111.3,152.6 144.3,93.4" fill="none" stroke="#C4D6E0" stroke-width="1" stroke-dasharray="3 3"/>
-        <g stroke="#EDEBE4" stroke-width="1">
-          <line x1="200" y1="200" x2="200" y2="50"/><line x1="200" y1="200" x2="296.4" y2="85.1"/>
-          <line x1="200" y1="200" x2="347.8" y2="173.9"/><line x1="200" y1="200" x2="329.9" y2="275"/>
-          <line x1="200" y1="200" x2="251.3" y2="341"/><line x1="200" y1="200" x2="148.7" y2="341"/>
-          <line x1="200" y1="200" x2="70.1" y2="275"/><line x1="200" y1="200" x2="52.2" y2="173.9"/>
-          <line x1="200" y1="200" x2="103.6" y2="85.1"/>
-        </g>
-        <!-- 【雷达数据层占位：按九维得分重算——圆心(200,200) 满分半径150，起始正上方、顺时针依次维一~维九；生成本注释位置的 polygon(数据多边形,fill=rgba(63,74,87,.13) stroke=#3F4A57 width=2.5) + 9 个 circle 得分圆点(r=4.5~5.5,填充色按分数档：#5F8A72≥80/#5B7E96 60-79/#A87F35 50-59/#B45F4D<50)】 -->
-        <g font-size="12.5" fill="#2C3440">
-          <text x="200" y="36" text-anchor="middle">健康守护金 <tspan font-weight="700" fill="#44647A">【维度一得分】</tspan></text>
-          <text x="303" y="70" text-anchor="start">顶梁柱责任 <tspan font-weight="700" fill="#B45F4D">【维度二得分】</tspan></text>
-          <text x="356" y="172" text-anchor="start">大额医疗 <tspan font-weight="700" fill="#5F8A72">【维度三得分】</tspan></text>
-          <text x="338" y="296" text-anchor="start">受益人安排 <tspan font-weight="700" fill="#B45F4D">【维度四得分】</tspan></text>
-          <text x="251" y="372" text-anchor="middle">保单贷款 <tspan font-weight="700" fill="#5F8A72">【维度五得分】</tspan></text>
-          <text x="149" y="372" text-anchor="middle">资产隔离 <tspan font-weight="700" fill="#B45F4D">【维度六得分】</tspan></text>
-          <text x="64" y="296" text-anchor="end">缴费连续 <tspan font-weight="700" fill="#A87F35">【维度七得分】</tspan></text>
-          <text x="46" y="172" text-anchor="end">信息更新 <tspan font-weight="700" fill="#44647A">【维度八得分】</tspan></text>
-          <text x="97" y="70" text-anchor="end">保障期限 <tspan font-weight="700" fill="#A87F35">【维度九得分】</tspan></text>
-        </g>
-        <text x="200" y="212" text-anchor="middle" font-size="10" fill="#98A1AC">· 家 ·</text>
-      </svg>
-      <div style="display:flex;gap:16px;font-size:10.5px;color:var(--ink2);margin-top:4px;justify-content:center;flex-wrap:wrap;">
-        <span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#5B7E96;margin-right:4px;"></i>第一问 · 保障充足（维一至三）</span>
-        <span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#B08A5A;margin-right:4px;"></i>第二问 · 归属清晰（维四至六）</span>
-        <span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:#5F8A72;margin-right:4px;"></i>第三问 · 理赔顺畅（维七至九）</span>
-      </div>
-    </div>
-  </div>
-  <div class="note" style="margin-top:12px;">读图小结：绿色区域（大额医疗、保单贷款）已是扎实防线；黄色区域（健康守护金、信息更新）稳步向好；<b style="color:var(--red)">橙色与金色区域（顶梁柱责任保障、受益人安排）是本报告的优化重点</b>——其中受益人变更免费、责任保障杠杆极高，是投入产出比最高的两步。</div>
-
-  <div class="disclaim">
-    <b>免责声明</b>　本报告基于您提供的保单信息及家庭情况进行专业评估，仅供参考。具体保障方案以保险公司核保结果为准；涉及保费为预估金额，实际保费可能因核保结论有所不同。本评估不构成任何保险产品的销售要约。涉及受益人安排的法律提示不构成法律意见，保全变更须书面通知保险公司并以保险公司核定为准；所引法律条文以现行有效版本为准。<br>
-    报告编号 2026-HJ-001 · 本报告由保障健康检查工具辅助生成
-  </div>
-  <div class="sign">
-    <span>联系电话：<b>［联系电话］</b></span>
-    <span>评估日期：<b>2026 年 8 月</b></span>
-  </div>
-  <div class="footer-line">
-    <span>家庭保障健康检查报告 · FAMILY INSURANCE HEALTH CHECK</span>
-    <span>【家庭称谓】 · 2026 年 8 月</span>
-  </div>
-  <div class="pf">— 13 —</div>
+<div class="toolbar no-print">
+  📝 点击虚线文字可修改为客户信息；调整九项评分，封面仪表盘与雷达图自动联动。
+  <button onclick="window.print()">打印 / 存为PDF（自动隐藏内部内容）</button>
 </div>
 
+<script>
+const BANDS=[
+  {min:80,name:'安心',cls:'band-green',phrase:'已完善',color:'#41937a'},
+  {min:60,name:'稳健',cls:'band-teal',phrase:'稳中有进',color:'#1f4e45'},
+  {min:50,name:'可优化',cls:'band-amber',phrase:'有完善空间',color:'#d9930d'},
+  {min:0,name:'优先完善',cls:'band-orange',phrase:'建议优先完善',color:'#c9664a'}
+];
+const bandOf=s=>BANDS.find(b=>s>=b.min);
+const avg=a=>a.reduce((x,y)=>x+y,0)/a.length;
+const RADAR_LABELS=['健康守护金','顶梁柱责任','大额医疗','爱的传递','资产状态','规划空间','缴费连续','信息时效','期限匹配'];
 
-
-<!-- ═══════════════════ 附 · 建议方案参考（仅方向）· P.14 ═══════════════════ -->
-<div class="page">
-  <div class="ph"><span>家庭保障健康检查报告 · 【家庭称谓】</span><span>非推销任何产品 · 仅供参考</span></div>
-  <div class="sec-head"><span class="sec-no serif">附</span><h2>建议优化原则</h2><span class="en">Direction</span></div>
-  <div class="sec-rule"></div>
-  <p class="sec-lead">本页仅给出优化方向与优先次序，不涉及任何具体产品；具体保障责任、费率与核保结果以实际保险公司为准。</p>
-
-  <div class="plan-grid">
-    <div class="plan plan-a rec">
-      <div class="rec-badge">优先方向</div>
-      <h4 class="serif">方向 A · 顶梁柱责任保障</h4>
-      <div class="pd">定期型 · 高杠杆 · 被保险人：【顶梁柱姓名】</div>
-      <ul>
-        <li>解决什么：为 <b>【家庭责任合计】 万</b>家庭责任建立专属托底，把"留爱不留负担"落到实处</li>
-        <li>思路：优先选择<b>高杠杆的定期型责任保障</b>，用较低预算先锁定责任底线</li>
-        <li>对应维度：<b>维度二</b>（【维度二得分】 分 · 近期可办）</li>
-        <li>预算量级：月缴<b>数百元</b>级别即可起步</li>
-      </ul>
-    </div>
-    <div class="plan plan-b">
-      <h4 class="serif">方向 B · 责任保障加厚</h4>
-      <div class="pd">在方向 A 基础上提高额度</div>
-      <ul>
-        <li>解决什么：进一步提升责任托底比例，覆盖更长的家庭责任期</li>
-        <li>思路：在方向 A 之上<b>提高保障额度</b>，并可考虑附加<b>豁免类责任</b></li>
-        <li>对应维度：<b>维度二</b>（预算允许时一步到位）</li>
-        <li>预算量级：月缴<b>千元</b>级别</li>
-      </ul>
-    </div>
-    <div class="plan plan-c">
-      <h4 class="serif">方向 C · 健康守护金加厚</h4>
-      <div class="pd">重疾加厚 · 被保险人：【顶梁柱姓名】</div>
-      <ul>
-        <li>解决什么：把【顶梁柱姓名】的健康守护金向 <b>【守护金建议保额】万</b>目标靠拢，收窄可优化空间</li>
-        <li>思路：补充<b>重疾 + 中症 + 轻症</b>全面覆盖的健康守护金</li>
-        <li>对应维度：<b>维度一</b>（【维度一得分】 分 · 本季度关注）</li>
-        <li>预算量级：月缴<b>两三百元</b>级别</li>
-      </ul>
-    </div>
-  </div>
-  <div class="note" style="margin-top:12px;">怎么选？建议先从<b style="color:var(--gold-deep)">方向 A</b> 起步守住责任底线，预算允许时再向<b style="color:var(--slate)">方向 B</b> 加厚；<b style="color:var(--green-deep)">方向 C</b> 与 A 可并行规划，节奏从容。</div>
-
-  <div class="evid sci" style="margin-top:20px;">
-    <span class="et">为什么"责任托底"排在最前</span>
-    顶梁柱责任体量（【家庭责任合计】 万）远大于健康守护金的可优化空间（【守护金可优化空间】万），且定期型责任保障杠杆高、决策成本低——先用最小投入守住最大责任，再从容加厚守护金，是投入产出比最高的推进顺序。
-  </div>
-  <div class="note" style="margin-top:10px;"><b style="color:var(--gold-deep)">备注：</b>本页仅为方向性建议，不构成任何产品推介；具体产品形态、保障责任、费率及核保结果<b>以实际保险公司为准</b>。</div>
-  <div class="pf">— 14 —</div>
-</div>
-
+function readScores(){
+  return [...document.querySelectorAll('.dim-input')]
+    .sort((a,b)=>(+a.dataset.dim)-(+b.dataset.dim))
+    .map(i=>Math.max(0,Math.min(100,Math.round(Number(i.value)||0))));
+}
+function drawRadar(s){
+  const svg=document.getElementById('radar');
+  const cx=230,cy=205,R=125,n=s.length;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];};
+  let g='';
+  [25,50,75,100].forEach(v=>{
+    let p='';for(let i=0;i<n;i++){const[x,y]=pt(i,R*v/100);p+=x.toFixed(1)+','+y.toFixed(1)+' ';}
+    g+='<polygon points="'+p+'" fill="none" stroke="#e6dfd0" stroke-width="1"/>';
+  });
+  for(let i=0;i<n;i++){const[x,y]=pt(i,R);g+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="#e6dfd0"/>';}
+  let dp='';s.forEach((v,i)=>{const[x,y]=pt(i,R*v/100);dp+=x.toFixed(1)+','+y.toFixed(1)+' ';});
+  g+='<polygon points="'+dp+'" fill="rgba(31,78,69,.16)" stroke="#1f4e45" stroke-width="2" stroke-linejoin="round"/>';
+  s.forEach((v,i)=>{const[x,y]=pt(i,R*v/100);g+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.4" fill="#1f4e45"/>';});
+  g+='<text x="'+cx+'" y="'+(cy+5)+'" text-anchor="middle" font-size="15" fill="#c9b98f" font-family="serif">家</text>';
+  RADAR_LABELS.forEach((t,i)=>{
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    const lx=cx+(R+32)*Math.cos(a),ly=cy+(R+32)*Math.sin(a);
+    let anchor='middle',dy=4;
+    if(Math.cos(a)>0.35)anchor='start';if(Math.cos(a)<-0.35)anchor='end';
+    if(Math.sin(a)>0.4)dy=10;if(Math.sin(a)<-0.4)dy=-6;
+    g+='<text x="'+lx.toFixed(1)+'" y="'+ly.toFixed(1)+'" dy="'+dy+'" text-anchor="'+anchor+'" font-size="12.5" fill="#6b6557">'+t+'</text>';
+  });
+  svg.innerHTML=g;
+}
+function update(){
+  const s=readScores();
+  document.querySelectorAll('[data-score-dim]').forEach(el=>el.textContent=s[+el.dataset.scoreDim-1]);
+  document.querySelectorAll('[data-band-dim]').forEach(el=>{
+    const b=bandOf(s[+el.dataset.bandDim-1]);el.textContent=b.name;
+    el.classList.remove('band-green','band-teal','band-amber','band-orange');el.classList.add(b.cls);
+  });
+  document.querySelectorAll('[data-phrase-dim]').forEach(el=>el.textContent=bandOf(s[+el.dataset.phraseDim-1]).phrase);
+  const q=[0,1,2].map(k=>Math.round(avg(s.slice(k*3,k*3+3))));
+  q.forEach((v,i)=>{
+    document.getElementById('qval'+(i+1)).textContent=v;
+    const bar=document.getElementById('qbar'+(i+1));bar.style.width=v+'%';bar.className='qfill '+bandOf(v).cls;
+    const qb=document.getElementById('qband'+(i+1));qb.textContent=bandOf(v).name;
+    qb.classList.remove('band-green','band-teal','band-amber','band-orange');qb.classList.add(bandOf(v).cls);
+  });
+  const total=Math.round(avg(s)),b=bandOf(total);
+  document.getElementById('totalNum').textContent=total;
+  const ring=document.getElementById('ring');
+  ring.style.strokeDashoffset=(402*(1-total/100)).toFixed(1);ring.style.stroke=b.color;
+  const tb=document.getElementById('totalBand');tb.textContent=b.name;
+  tb.classList.remove('band-green','band-teal','band-amber','band-orange');tb.classList.add(b.cls);
+  const c={'band-green':0,'band-teal':0,'band-amber':0,'band-orange':0};
+  s.forEach(v=>c[bandOf(v).cls]++);
+  document.getElementById('chipCounts').textContent='优先完善 '+c['band-orange']+' 项 · 可优化 '+c['band-amber']+' 项 · 稳健 '+c['band-teal']+' 项 · 安心 '+c['band-green']+' 项';
+  drawRadar(s);
+}
+document.querySelectorAll('.dim-input').forEach(i=>i.addEventListener('input',update));
+update();
+</script>
 </body>
 </html>

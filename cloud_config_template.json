@@ -22,8 +22,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.14.1",
-    "update_note": "v2.12.0: 精算优先·彻底去除估算值。家庭财务（年收入/支出/负债/成员）一律以《家庭数据采集表》服务人员填写的精算值为唯一权威源，报告中直接呈现、禁止出现估算值（可修改）/估算/约 等字样；缺失字段主动回问服务人员补填（询问为主），不再用 default_assumptions 自动估算；P3 家庭画像字段统一标注已确认（来自采集表）。default_assumptions 仅限保单技术性缺省字段兜底"
+    "latest_content_version": "2.18.0",
+    "update_note": "v2.18.0: 报告模板整体更换为「家的三笔钱」交互式模板——连续长页+.brk打印分节（非14页固定页），contenteditable 可编辑字段现场改写客户信息，06章9个dim-input评分输入由内置JS自动联动封面仪表盘/三问进度条/KPI卡/九维雷达图/分档统计；附二服务人员手册与浮动工具条打印自动隐藏；暖纸色系四档配色（安心绿/稳健青/可优化琥珀/优先完善橘）与模板BANDS一致；SKILL.md Step 5.5/Step 6 门禁与绑定表已同步适配（示例值整体替换，禁止残留张伟/440万等模板示例）；diagnosis_rules 配色分档与报告结构同步更新。v2.12.0 精算优先规则继续有效"
   },
 
   "usage_report": {
