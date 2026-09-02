@@ -22,8 +22,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.23.0",
-    "update_note": "v2.23.0: 报告模板两项调整——①删除每页打印页眉「家的三笔钱·家庭保障健康体检报告」（print-hdr 元素及相关 CSS 一并移除，仅保留每页页脚「报告编号·家庭保障健康体检」，打印工具栏提示文案同步更新）；②07行动清单「①本月·免费优先」中 P1/P2/P5 领钱安排项及 04「爱的传递安排」模块确权建议均不再写具体确权方案（原「配偶第一顺位100%+子女第二顺位」），统一改为「按照您的意愿进行安排即可」（去指令化，尊重客户自主决定；仅保留免费/本月可办等通用提示）。采集表 family_data_collection_form.html 确认沿用 v2.22.1 版本无改动。v2.22.1 采集表联动修复与 v2.22.0 自动计算、手机端适配继续有效。"
+    "latest_content_version": "2.23.1",
+    "update_note": "v2.23.1: 采集表两项修复（用户实测反馈）——①车贷剩余还款额度取消自动计算：车贷计息结构复杂（利率高、常含手续费/贴息），月供×剩余月数与实际剩余本金偏差大，改为人工填写（按手机银行/贷款APP显示的剩余应还本金），相关自动回填、2.5倍一致性警示、auto-calc 标记、手动覆盖绑定一并移除，取消勾选仍清空；房贷自动计算功能保留。同时两个剩余额度字段去掉「自动计算」字样：label 由「剩余还款额度（自动计算）」改为「剩余还款额度」，房贷 placeholder 置空、车贷改为「如：3.2」。②子女性别/年龄采集修复：getChildInfo 原条件 name||age 有值才采集，只填性别的行整行丢弃→改为 name||age||gender 任一有值即采集；紧凑回传串 buildCompactLine 原仅输出「子女N个」，性别与年龄全部丢失→改为「子女N个（小明男6岁，小红女3岁）」明细格式。v2.23.0 报告模板删页眉与确权去方案化、v2.22.1 房贷联动修复继续有效。"
   },
 
   "usage_report": {

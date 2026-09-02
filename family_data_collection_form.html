@@ -263,8 +263,8 @@
             <div class="unit"><input type="number" id="mortgageMonthly" placeholder="3000"><span>元/月</span></div>
           </div>
           <div class="field">
-            <label>剩余还款额度（自动计算）</label>
-            <div class="unit"><input type="number" id="mortgageBalance" data-auto="true" class="auto-calc" placeholder="自动计算"><span>万元</span></div>
+            <label>剩余还款额度</label>
+            <div class="unit"><input type="number" id="mortgageBalance" data-auto="true" class="auto-calc" placeholder=""><span>万元</span></div>
             <div class="note" id="mortgageBalanceWarn" style="display:none;color:#B45F4D;">注意：自动算出的剩余额度明显高于贷款总额，月供与贷款总额/年限可能不匹配，请核对；建议以手机银行显示的剩余本金为准手动填入</div>
             <div class="note">含利息，= 月供 × 剩余月数；如手机银行显示剩余本金，可手动输入覆盖</div>
           </div>
@@ -300,10 +300,9 @@
             <div class="unit"><input type="number" id="carMonthly" placeholder="2000"><span>元/月</span></div>
           </div>
           <div class="field">
-            <label>剩余还款额度（自动计算）</label>
-            <div class="unit"><input type="number" id="carBalance" data-auto="true" class="auto-calc" placeholder="自动计算"><span>万元</span></div>
-            <div class="note" id="carBalanceWarn" style="display:none;color:#B45F4D;">注意：自动算出的剩余额度明显高于贷款总额，月供与贷款总额/年限可能不匹配，请核对；建议以手机银行显示的剩余本金为准手动填入</div>
-            <div class="note">含利息，= 月供 × 剩余月数；可手动覆盖</div>
+            <label>剩余还款额度</label>
+            <div class="unit"><input type="number" id="carBalance" placeholder="如：3.2"><span>万元</span></div>
+            <div class="note">建议按手机银行/贷款APP显示的剩余应还本金填写</div>
           </div>
         </div>
       </div>
@@ -487,7 +486,8 @@ function getChildInfo() {
       count++;
       if (age < minAge) minAge = age;
     }
-    if (name || !isNaN(age)) {
+    // v2.23.1：任一子项有值即采集（原条件漏掉「只填了性别」的行，导致性别丢失）
+    if (name || !isNaN(age) || gender) {
       children.push({name: name || '未填写', age: isNaN(age) ? '未填' : age, gender: gender || '未填'});
     }
   });
@@ -532,8 +532,7 @@ document.getElementById('hasMortgage').addEventListener('change', function() {
 });
 document.getElementById('hasCarLoan').addEventListener('change', function() {
   document.getElementById('carLoanFields').style.display = this.checked ? 'block' : 'none';
-  const bal = document.getElementById('carBalance');
-  if(!this.checked){ bal.value=''; bal.dataset.auto='true'; bal.classList.add('auto-calc'); document.getElementById('carBalanceWarn').style.display='none'; }
+  if(!this.checked){ document.getElementById('carBalance').value=''; } // 取消勾选：清空手输值
   calculate();
 });
 document.getElementById('educationPath').addEventListener('change', function() {
@@ -547,7 +546,7 @@ document.querySelectorAll('input, select').forEach(function(el) {
   el.addEventListener('change', calculate);
 });
 
-// 剩余还款额度：手动覆盖交互（房贷/车贷）
+// 剩余还款额度：手动覆盖交互（仅房贷；车贷 v2.23.1 起为人工填写字段，不自动计算）
 // 仅当用户真正键入数值 → 转手动模式（白底深色，不再被自动计算覆盖）；
 // 清空 → 恢复自动模式（浅灰金底），calculate() 重新填入；
 // 注意：focus 不解除自动模式（否则点一下字段就冻结，之后改月供/年限不再联动）
@@ -568,7 +567,7 @@ function bindBalanceOverride(inputId){
   });
 }
 bindBalanceOverride('mortgageBalance');
-bindBalanceOverride('carBalance');
+// 车贷不再绑定自动覆盖逻辑（v2.23.1：由人工填写）
 
 function num(id) {
   const v = parseFloat(document.getElementById(id).value);
@@ -621,27 +620,11 @@ function calculate() {
     mortgageRemaining = manualVal > 0 ? manualVal : autoCalc;
   }
 
-  // 车贷剩余还款额度（含利息，自动计算，可手动覆盖，逻辑与房贷一致）
+  // 车贷剩余还款额度（v2.23.1 起不再自动计算：车贷计息结构复杂，月供×剩余月数与实际剩余本金偏差大，
+  // 统一由人工按手机银行/贷款APP显示的剩余应还本金填写；未填则按 0 计入，不影响房贷的自动计算）
   let carLoanRemaining = 0;
   if (document.getElementById('hasCarLoan').checked) {
-    const carMonthly = num('carMonthly');
-    const carYears = num('carYears');
-    const carPaid = num('carPaid');
-    const balanceInput = document.getElementById('carBalance');
-    const remainingMonths = Math.max(0, (carYears - carPaid) * 12);
-    const autoCalc = carMonthly * remainingMonths / 10000;
-    const carWarn = document.getElementById('carBalanceWarn');
-    if (carWarn) {
-      const carTotal = num('carTotal');
-      carWarn.style.display = (autoCalc > 0 && carTotal > 0 && autoCalc > carTotal * 2.5 && balanceInput.dataset.auto === 'true') ? 'block' : 'none';
-    }
-    if (balanceInput.dataset.auto === 'true' || !balanceInput.value) {
-      balanceInput.value = autoCalc > 0 ? autoCalc.toFixed(1) : '';
-      balanceInput.dataset.auto = 'true';
-      balanceInput.classList.add('auto-calc');
-    }
-    const manualVal = num('carBalance');
-    carLoanRemaining = manualVal > 0 ? manualVal : autoCalc;
+    carLoanRemaining = num('carBalance');
   }
 
   // 子女教育金
@@ -686,7 +669,7 @@ function calculate() {
     `年支出 = (${monthlyFixed}+${monthlyVariable})×12 = <b>${annualExpense.toFixed(1)}万</b>；` +
     `责任年限 = max(${yearsToChildIndependent}, ${yearsTo60}) = <b>${responsibilityYears}年</b><br>` +
     `${document.getElementById('mortgageBalance').dataset.auto === 'true' ? `房贷剩余 = ${num('mortgageMonthly')}×${Math.max(0,(num('mortgageYears')-num('mortgagePaid'))*12)}期 = <b>${mortgageRemaining.toFixed(1)}万</b>（含利息）` : `房贷剩余（手动输入）= <b>${mortgageRemaining.toFixed(1)}万</b>（含利息）`}；` +
-    `${document.getElementById('carBalance').dataset.auto === 'true' ? `车贷剩余 = ${num('carMonthly')}×${Math.max(0,(num('carYears')-num('carPaid'))*12)}期 = <b>${carLoanRemaining.toFixed(1)}万</b>（含利息）` : `车贷剩余（手动输入）= <b>${carLoanRemaining.toFixed(1)}万</b>（含利息）`}<br>` +
+    `车贷剩余（人工填写，按手机银行/贷款APP剩余本金）= <b>${carLoanRemaining.toFixed(1)}万</b><br>` +
     `教育金 = ${eduPerChild}万×${childCountNum}孩 = <b>${educationTotal}万</b>；` +
     `赡养预留 = <b>${supportTotal}万</b><br>` +
     `其他负债 = <b>${otherDebt}万</b><br>` +
@@ -772,7 +755,17 @@ function buildCompactLine(d,r){
   function _pseg(label,p){var inner=[];if(p.年龄)inner.push(p.年龄+'岁');if(p.年收入&&p.年收入!=='0万')inner.push('年收入'+p.年收入);return label+p.姓名+(inner.length?'（'+inner.join('，')+'）':'');}
   parts.push(_pseg('客户',d.家庭成员.客户));
   if(d.家庭成员.配偶.姓名) parts.push(_pseg('配偶',d.家庭成员.配偶));
-  if(d.家庭成员.子女&&d.家庭成员.子女.children&&d.家庭成员.子女.children.length) parts.push('子女'+d.家庭成员.子女.children.length+'个');
+  // v2.23.1：子女段输出每个孩子的姓名/性别/年龄（原仅「子女N个」，性别与年龄全部丢失）
+  if(d.家庭成员.子女&&d.家庭成员.子女.children&&d.家庭成员.子女.children.length){
+    var _cd=d.家庭成员.子女.children.map(function(c){
+      var s=[];
+      if(c.name&&c.name!=='未填写')s.push(c.name);
+      if(c.gender&&c.gender!=='未填')s.push(c.gender);
+      if(c.age!=='未填'&&c.age!==''&&c.age!==undefined)s.push(c.age+'岁');
+      return s.join('')||'信息未填';
+    });
+    parts.push('子女'+d.家庭成员.子女.children.length+'个（'+_cd.join('，')+'）');
+  }
   parts.push('月固定支出'+d.家庭收支.月固定);
   parts.push('月浮动支出'+d.家庭收支.月浮动);
   parts.push(d.房贷.有?('房贷月供'+d.房贷.月供+'，剩余'+d.房贷.剩余年限+'，剩余还款'+d.房贷.剩余还款):'无房贷');
@@ -873,12 +866,14 @@ function applyPrefill(){
   set('mortgageTotal',d.mortgageTotal);set('mortgageYears',d.mortgageYears);set('mortgagePaid',d.mortgagePaid);set('mortgageMonthly',d.mortgageMonthly);set('mortgageBalance',d.mortgageBalance);
   if(d.hasCarLoan!==undefined){chk('hasCarLoan',d.hasCarLoan); document.getElementById('carLoanFields').style.display=d.hasCarLoan?'block':'none';}
   set('carTotal',d.carTotal);set('carYears',d.carYears);set('carPaid',d.carPaid);set('carMonthly',d.carMonthly);set('carBalance',d.carBalance);
-  // 预填的剩余额度视为手动输入值（白底深色，不被自动计算覆盖）；未预填则保持自动模式
-  ['mortgageBalance','carBalance'].forEach(function(id){
-    const el=document.getElementById(id);
-    if(el&&el.value){el.dataset.auto='false'; el.classList.remove('auto-calc');}
-    else if(el){el.dataset.auto='true'; el.classList.add('auto-calc');}
-  });
+  // 预填的房贷剩余额度视为手动输入值（白底深色，不被自动计算覆盖）；未预填则保持自动模式
+  // 车贷 v2.23.1 起为人工填写字段，预填值直接生效，无自动标记
+  (function(){
+    const el=document.getElementById('mortgageBalance');
+    if(!el) return;
+    if(el.value){el.dataset.auto='false'; el.classList.remove('auto-calc');}
+    else{el.dataset.auto='true'; el.classList.add('auto-calc');}
+  })();
   if(d.educationPath!==undefined){const sel=document.getElementById('educationPath'); if(sel){sel.value=d.educationPath; document.getElementById('customEduField').style.display=d.educationPath==='custom'?'block':'none';}}
   set('customEdu',d.customEdu);
   set('otherIncome',d.otherIncome); set('otherDebt',d.otherDebt);
