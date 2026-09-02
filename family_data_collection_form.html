@@ -29,6 +29,7 @@
   .field label .req{color:#B45F4D;margin-left:2px;}
   .field input,.field select{padding:8px 10px;border:1px solid #D8D4CC;border-radius:6px;font-size:13.5px;color:#2C3440;background:#fff;transition:border-color .2s;direction:ltr;text-align:left;}
   .field input:focus,.field select:focus{outline:none;border-color:#B08A5A;box-shadow:0 0 0 2px rgba(176,138,90,.15);}
+  .field input.auto-calc{background:#FAF8F4;color:#B08A5A;}
   .field .unit{position:relative;}
   .field .unit input{padding-right:36px;}
   .field .unit span{position:absolute;right:10px;top:50%;transform:translateY(-50%);font-size:12px;color:#98A1AC;}
@@ -84,6 +85,16 @@
   /* 保单清单 */
   .policy-list{margin-top:10px;}
   .policy-item{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr auto;gap:8px;align-items:center;margin-bottom:8px;}
+
+  /* 移动端适配（≤680px）：网格降列数，消除横向溢出；PC 端不受影响 */
+  @media (max-width:680px){
+    .grid{grid-template-columns:minmax(0,1fr);}
+    .grid-3{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .field input,.field select{width:100%;box-sizing:border-box;min-width:0;}
+    .policy-item{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+    .policy-item input,.policy-item select{min-width:0;width:100%;}
+    .result-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+  }
   .policy-item input{padding:6px 8px;font-size:12.5px;direction:ltr;text-align:left;}
   .policy-header{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr 1fr auto;gap:8px;margin-bottom:6px;}
   .policy-header span{font-size:11px;font-weight:600;color:#98A1AC;text-align:center;}
@@ -252,8 +263,10 @@
             <div class="unit"><input type="number" id="mortgageMonthly" placeholder="3000"><span>元/月</span></div>
           </div>
           <div class="field">
-            <label>剩余本金（选填）</label>
-            <div class="unit"><input type="number" id="mortgageBalance" placeholder="28"><span>万元</span></div>
+            <label>剩余还款额度（自动计算）</label>
+            <div class="unit"><input type="number" id="mortgageBalance" data-auto="true" class="auto-calc" placeholder="自动计算"><span>万元</span></div>
+            <div class="note" id="mortgageBalanceWarn" style="display:none;color:#B45F4D;">注意：自动算出的剩余额度明显高于贷款总额，月供与贷款总额/年限可能不匹配，请核对；建议以手机银行显示的剩余本金为准手动填入</div>
+            <div class="note">含利息，= 月供 × 剩余月数；如手机银行显示剩余本金，可手动输入覆盖</div>
           </div>
         </div>
         <div class="note">剩余还款总额 = 月供 × 剩余月数（含利息），比剩余本金更真实反映客户负债</div>
@@ -285,6 +298,12 @@
           <div class="field">
             <label>月供金额</label>
             <div class="unit"><input type="number" id="carMonthly" placeholder="2000"><span>元/月</span></div>
+          </div>
+          <div class="field">
+            <label>剩余还款额度（自动计算）</label>
+            <div class="unit"><input type="number" id="carBalance" data-auto="true" class="auto-calc" placeholder="自动计算"><span>万元</span></div>
+            <div class="note" id="carBalanceWarn" style="display:none;color:#B45F4D;">注意：自动算出的剩余额度明显高于贷款总额，月供与贷款总额/年限可能不匹配，请核对；建议以手机银行显示的剩余本金为准手动填入</div>
+            <div class="note">含利息，= 月供 × 剩余月数；可手动覆盖</div>
           </div>
         </div>
       </div>
@@ -507,10 +526,14 @@ document.getElementById('needSupport').addEventListener('change', function() {
 });
 document.getElementById('hasMortgage').addEventListener('change', function() {
   document.getElementById('mortgageFields').style.display = this.checked ? 'block' : 'none';
-  calculate();
+  const bal = document.getElementById('mortgageBalance');
+  if(!this.checked){ bal.value=''; bal.dataset.auto='true'; bal.classList.add('auto-calc'); document.getElementById('mortgageBalanceWarn').style.display='none'; } // 取消勾选：清空并恢复自动模式
+  calculate(); // 重新勾选后自动恢复计算值
 });
 document.getElementById('hasCarLoan').addEventListener('change', function() {
   document.getElementById('carLoanFields').style.display = this.checked ? 'block' : 'none';
+  const bal = document.getElementById('carBalance');
+  if(!this.checked){ bal.value=''; bal.dataset.auto='true'; bal.classList.add('auto-calc'); document.getElementById('carBalanceWarn').style.display='none'; }
   calculate();
 });
 document.getElementById('educationPath').addEventListener('change', function() {
@@ -523,6 +546,29 @@ document.querySelectorAll('input, select').forEach(function(el) {
   el.addEventListener('input', calculate);
   el.addEventListener('change', calculate);
 });
+
+// 剩余还款额度：手动覆盖交互（房贷/车贷）
+// 仅当用户真正键入数值 → 转手动模式（白底深色，不再被自动计算覆盖）；
+// 清空 → 恢复自动模式（浅灰金底），calculate() 重新填入；
+// 注意：focus 不解除自动模式（否则点一下字段就冻结，之后改月供/年限不再联动）
+function bindBalanceOverride(inputId){
+  const el = document.getElementById(inputId);
+  if(!el) return;
+  // beforeinput：键入意图发生（值变化前）→ 立即转手动模式，防止 calculate() 同轮回填覆盖用户键入
+  el.addEventListener('beforeinput', function(){
+    el.dataset.auto = 'false';
+    el.classList.remove('auto-calc');
+  });
+  // input：清空 → 恢复自动模式（calculate() 会重新填入计算值）
+  el.addEventListener('input', function(){
+    if(!el.value){
+      el.dataset.auto = 'true';
+      el.classList.add('auto-calc');
+    }
+  });
+}
+bindBalanceOverride('mortgageBalance');
+bindBalanceOverride('carBalance');
 
 function num(id) {
   const v = parseFloat(document.getElementById(id).value);
@@ -548,24 +594,54 @@ function calculate() {
   document.getElementById('childCountDisplay').textContent = childCountNum;
   document.getElementById('minChildAgeDisplay').textContent = childCountNum > 0 && minChildAge > 0 ? minChildAge : '—';
 
-  // 房贷剩余还款总额
+  // 房贷剩余还款额度（含利息，自动计算，可手动覆盖）
   let mortgageRemaining = 0;
   if (document.getElementById('hasMortgage').checked) {
     const mortgageMonthly = num('mortgageMonthly');
     const mortgageYears = num('mortgageYears');
     const mortgagePaid = num('mortgagePaid');
+    const balanceInput = document.getElementById('mortgageBalance');
     const remainingMonths = Math.max(0, (mortgageYears - mortgagePaid) * 12);
-    mortgageRemaining = mortgageMonthly * remainingMonths / 10000; // 万元
+    const autoCalc = mortgageMonthly * remainingMonths / 10000; // 万元
+    // 一致性警示：自动值远超贷款总额（>2.5倍）说明月供与总额/年限组合矛盾，提示手动填手机银行剩余本金
+    // 阈值依据：等额本息总还款/本金 正常范围约1.4~2.1倍（30年房贷上限约2.1），2.5倍以上必为输入矛盾
+    const mortgageWarn = document.getElementById('mortgageBalanceWarn');
+    if (mortgageWarn) {
+      const mortgageTotal = num('mortgageTotal');
+      mortgageWarn.style.display = (autoCalc > 0 && mortgageTotal > 0 && autoCalc > mortgageTotal * 2.5 && balanceInput.dataset.auto === 'true') ? 'block' : 'none';
+    }
+    // 自动填入计算值（仅当用户未手动覆盖时）
+    if (balanceInput.dataset.auto === 'true' || !balanceInput.value) {
+      balanceInput.value = autoCalc > 0 ? autoCalc.toFixed(1) : '';
+      balanceInput.dataset.auto = 'true';
+      balanceInput.classList.add('auto-calc'); // 自动模式统一样式（浅灰底金字）
+    }
+    // 家庭责任计算：用户手动值优先，否则用自动计算值
+    const manualVal = num('mortgageBalance');
+    mortgageRemaining = manualVal > 0 ? manualVal : autoCalc;
   }
 
-  // 车贷剩余还款总额
+  // 车贷剩余还款额度（含利息，自动计算，可手动覆盖，逻辑与房贷一致）
   let carLoanRemaining = 0;
   if (document.getElementById('hasCarLoan').checked) {
     const carMonthly = num('carMonthly');
     const carYears = num('carYears');
     const carPaid = num('carPaid');
+    const balanceInput = document.getElementById('carBalance');
     const remainingMonths = Math.max(0, (carYears - carPaid) * 12);
-    carLoanRemaining = carMonthly * remainingMonths / 10000;
+    const autoCalc = carMonthly * remainingMonths / 10000;
+    const carWarn = document.getElementById('carBalanceWarn');
+    if (carWarn) {
+      const carTotal = num('carTotal');
+      carWarn.style.display = (autoCalc > 0 && carTotal > 0 && autoCalc > carTotal * 2.5 && balanceInput.dataset.auto === 'true') ? 'block' : 'none';
+    }
+    if (balanceInput.dataset.auto === 'true' || !balanceInput.value) {
+      balanceInput.value = autoCalc > 0 ? autoCalc.toFixed(1) : '';
+      balanceInput.dataset.auto = 'true';
+      balanceInput.classList.add('auto-calc');
+    }
+    const manualVal = num('carBalance');
+    carLoanRemaining = manualVal > 0 ? manualVal : autoCalc;
   }
 
   // 子女教育金
@@ -609,8 +685,8 @@ function calculate() {
   document.getElementById('calcDetail').innerHTML =
     `年支出 = (${monthlyFixed}+${monthlyVariable})×12 = <b>${annualExpense.toFixed(1)}万</b>；` +
     `责任年限 = max(${yearsToChildIndependent}, ${yearsTo60}) = <b>${responsibilityYears}年</b><br>` +
-    `房贷剩余 = ${num('mortgageMonthly')}×${Math.max(0,(num('mortgageYears')-num('mortgagePaid'))*12)}期 = <b>${mortgageRemaining.toFixed(1)}万</b>；` +
-    `车贷剩余 = <b>${carLoanRemaining.toFixed(1)}万</b><br>` +
+    `${document.getElementById('mortgageBalance').dataset.auto === 'true' ? `房贷剩余 = ${num('mortgageMonthly')}×${Math.max(0,(num('mortgageYears')-num('mortgagePaid'))*12)}期 = <b>${mortgageRemaining.toFixed(1)}万</b>（含利息）` : `房贷剩余（手动输入）= <b>${mortgageRemaining.toFixed(1)}万</b>（含利息）`}；` +
+    `${document.getElementById('carBalance').dataset.auto === 'true' ? `车贷剩余 = ${num('carMonthly')}×${Math.max(0,(num('carYears')-num('carPaid'))*12)}期 = <b>${carLoanRemaining.toFixed(1)}万</b>（含利息）` : `车贷剩余（手动输入）= <b>${carLoanRemaining.toFixed(1)}万</b>（含利息）`}<br>` +
     `教育金 = ${eduPerChild}万×${childCountNum}孩 = <b>${educationTotal}万</b>；` +
     `赡养预留 = <b>${supportTotal}万</b><br>` +
     `其他负债 = <b>${otherDebt}万</b><br>` +
@@ -653,8 +729,8 @@ function copyAllData() {
       父母赡养: {需要: document.getElementById('needSupport').checked, 年赡养费: num('annualSupport')+'万', 年限: num('supportYears')+'年'}
     },
     家庭收支: {月固定: num('monthlyFixed')+'元', 月浮动: num('monthlyVariable')+'元', 年支出: (num('monthlyFixed')+num('monthlyVariable'))*12/10000+'万'},
-    房贷: {有: document.getElementById('hasMortgage').checked, 月供: num('mortgageMonthly')+'元', 剩余年限: (num('mortgageYears')-num('mortgagePaid'))+'年', 剩余还款: (num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000)+'万'},
-    车贷: {有: document.getElementById('hasCarLoan').checked, 月供: num('carMonthly')+'元', 剩余年限: (num('carYears')-num('carPaid'))+'年'},
+    房贷: {有: document.getElementById('hasMortgage').checked, 贷款总额: num('mortgageTotal')+'万', 贷款年限: num('mortgageYears')+'年', 已还年限: num('mortgagePaid')+'年', 月供: num('mortgageMonthly')+'元', 剩余年限: (num('mortgageYears')-num('mortgagePaid'))+'年', 剩余还款额度: (parseFloat(document.getElementById('mortgageBalance').value)||0).toFixed(1)+'万', 剩余还款: (parseFloat(document.getElementById('mortgageBalance').value)||0).toFixed(1)+'万'},
+    车贷: {有: document.getElementById('hasCarLoan').checked, 贷款总额: num('carTotal')+'万', 贷款年限: num('carYears')+'年', 已还年限: num('carPaid')+'年', 月供: num('carMonthly')+'元', 剩余年限: (num('carYears')-num('carPaid'))+'年', 剩余还款额度: (parseFloat(document.getElementById('carBalance').value)||0).toFixed(1)+'万'},
     其他收入: num('otherIncome')+'万/年', 其他负债: num('otherDebt')+'万',
     教育: {路径: document.getElementById('educationPath').selectedOptions[0].text, 教育金: document.getElementById('rEducation').textContent}
   };
@@ -680,8 +756,8 @@ function buildCollectedData(){
       子女:getChildInfo(),
       父母赡养:{需要:document.getElementById('needSupport').checked,年赡养费:num('annualSupport')+'万',年限:num('supportYears')+'年'}},
     家庭收支:{月固定:num('monthlyFixed')+'元',月浮动:num('monthlyVariable')+'元',年支出:((num('monthlyFixed')+num('monthlyVariable'))*12/10000).toFixed(1)+'万'},
-    房贷:{有:document.getElementById('hasMortgage').checked,月供:num('mortgageMonthly')+'元',剩余年限:(num('mortgageYears')-num('mortgagePaid'))+'年',剩余还款:(num('mortgageMonthly')*(num('mortgageYears')-num('mortgagePaid'))*12/10000).toFixed(1)+'万'},
-    车贷:{有:document.getElementById('hasCarLoan').checked,月供:num('carMonthly')+'元',剩余年限:(num('carYears')-num('carPaid'))+'年'},
+    房贷:{有:document.getElementById('hasMortgage').checked,贷款总额:num('mortgageTotal')+'万',贷款年限:num('mortgageYears')+'年',已还年限:num('mortgagePaid')+'年',月供:num('mortgageMonthly')+'元',剩余年限:(num('mortgageYears')-num('mortgagePaid'))+'年',剩余还款额度:(parseFloat(document.getElementById('mortgageBalance').value)||0).toFixed(1)+'万',剩余还款:(parseFloat(document.getElementById('mortgageBalance').value)||0).toFixed(1)+'万'},
+    车贷:{有:document.getElementById('hasCarLoan').checked,贷款总额:num('carTotal')+'万',贷款年限:num('carYears')+'年',已还年限:num('carPaid')+'年',月供:num('carMonthly')+'元',剩余年限:(num('carYears')-num('carPaid'))+'年',剩余还款额度:(parseFloat(document.getElementById('carBalance').value)||0).toFixed(1)+'万'},
     其他收入:num('otherIncome')+'万/年',其他负债:num('otherDebt')+'万',
     教育:{路径:document.getElementById('educationPath').selectedOptions[0].text,教育金:document.getElementById('rEducation').textContent},
     保单:getPolicyInfo()
@@ -796,7 +872,13 @@ function applyPrefill(){
   if(d.hasMortgage!==undefined){chk('hasMortgage',d.hasMortgage); document.getElementById('mortgageFields').style.display=d.hasMortgage?'block':'none';}
   set('mortgageTotal',d.mortgageTotal);set('mortgageYears',d.mortgageYears);set('mortgagePaid',d.mortgagePaid);set('mortgageMonthly',d.mortgageMonthly);set('mortgageBalance',d.mortgageBalance);
   if(d.hasCarLoan!==undefined){chk('hasCarLoan',d.hasCarLoan); document.getElementById('carLoanFields').style.display=d.hasCarLoan?'block':'none';}
-  set('carTotal',d.carTotal);set('carYears',d.carYears);set('carPaid',d.carPaid);set('carMonthly',d.carMonthly);
+  set('carTotal',d.carTotal);set('carYears',d.carYears);set('carPaid',d.carPaid);set('carMonthly',d.carMonthly);set('carBalance',d.carBalance);
+  // 预填的剩余额度视为手动输入值（白底深色，不被自动计算覆盖）；未预填则保持自动模式
+  ['mortgageBalance','carBalance'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el&&el.value){el.dataset.auto='false'; el.classList.remove('auto-calc');}
+    else if(el){el.dataset.auto='true'; el.classList.add('auto-calc');}
+  });
   if(d.educationPath!==undefined){const sel=document.getElementById('educationPath'); if(sel){sel.value=d.educationPath; document.getElementById('customEduField').style.display=d.educationPath==='custom'?'block':'none';}}
   set('customEdu',d.customEdu);
   set('otherIncome',d.otherIncome); set('otherDebt',d.otherDebt);

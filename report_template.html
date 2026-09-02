@@ -235,8 +235,8 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
 .cta label{display:block;padding:6px 0;border-bottom:1px dotted #e6d9bd;font-size:13.5px}
 .cta label:last-of-type{border-bottom:none}
 .budget-note{font-size:12px;color:var(--muted);margin-top:6px}
-/* 打印页眉页脚（每页重复） */
-.print-hdr,.print-ftr{display:none}
+/* 打印页脚（每页重复）；v2.23.0 起页眉已删除 */
+.print-ftr{display:none}
 
 @media (max-width:680px){
   section{padding:26px 18px}.topstrip{padding:10px 18px}
@@ -256,9 +256,8 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
   .dim-input{background:transparent;border-bottom:none}
   .card,.selfcheck,.kpi,.step,.dim,.find{page-break-inside:avoid}
   .brk{page-break-before:always}
-  /* v2.19.0：页眉页脚改为报告自带（每页重复）；浏览器自带的日期/网址需在打印对话框取消勾选"页眉和页脚" */
+  /* v2.23.0：页眉已删除，仅保留报告自带页脚（每页重复）；浏览器自带的日期/网址需在打印对话框取消勾选"页眉和页脚" */
   @page{size:A4;margin:13mm 12mm 15mm}
-  .print-hdr{display:block;position:fixed;top:0;left:0;right:0;text-align:center;font-size:11px;color:#666;letter-spacing:1px}
   .print-ftr{display:block;position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:10px;color:#999}
 }
 /* v2.18.0 打印增补（屏幕视觉不变）：压缩呼吸使各章尽量收进单页 */
@@ -664,7 +663,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
       <tr><td><b>手续</b></td><td>材料精简，家人办理省心</td><td>环节多，关键时刻添麻烦</td></tr>
       <tr><td><b>归属</b></td><td>不作为遗产，清晰无争议</td><td>按继承分配，存在分歧可能</td></tr>
     </table>
-    <div class="dim-act">➔ 【确权】P1/P2/P5 由"法定"改为"指定"：配偶第一顺位100% ＋ 子女第二顺位（免费 · 约15分钟 · 本月可办）</div>
+    <div class="dim-act">➔ 【确权】P1/P2/P5 领钱安排：按照您的意愿进行安排即可（免费 · 本月可办）</div>
     <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第39条：领钱的人由受保障的人（或出钱的人）指定，出钱人指定须经受保障的人同意｜第40条：可指定一人或多人，并约定顺序与份额，未约定的均分｜第41条：可变更，书面通知公司即生效｜第42条：没有指定或指定不明确的，这笔钱按遗产程序处理。以上为便于理解的大白话转述；变更以保险公司核定为准，具体以保险合同条款为准。</div>
   </article>
 
@@ -787,7 +786,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="step step1">
       <h4>① 本月 · 免费优先</h4><div class="st">合计约40分钟 · 零费用</div>
       <label>□ 缴清 P4 保费（10月31日前，可顺便换扣款卡）</label>
-      <label>□ P1/P2/P5 领钱安排改"指定"：配偶第一顺位100%＋子女第二顺位（约15分钟）</label>
+      <label>□ P1/P2/P5 领钱安排：按照您的意愿进行安排即可</label>
       <label>□ 更新全部保单预留手机号/地址/账户（约10分钟）</label>
     </div>
     <div class="step step2">
@@ -886,15 +885,14 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
   报告编号 2026-HJ-001 · 服务经理：［姓名·工号］ · 联系电话：［联系电话］ · 家庭保障健康体检工具辅助生成
 </div>
 
-<!-- v2.19.0：打印页眉页脚（每页重复；浏览器自带日期/网址需在打印对话框取消勾选"页眉和页脚"） -->
-<div class="print-hdr">家的三笔钱 · 家庭保障健康体检报告</div>
+<!-- v2.23.0：打印页脚（每页重复；浏览器自带日期/网址需在打印对话框取消勾选"页眉和页脚"）。v2.23.0 起：删除每页页眉，仅保留页脚 -->
 <div class="print-ftr">报告编号 <span id="printReportNo">2026-HJ-001</span> · 家庭保障健康体检</div>
 
 </div>
 
 <div class="toolbar no-print">
   📝 点击虚线文字可修改为客户信息；调整各项评分，封面仪表盘与雷达图自动联动。<br>
-  🖨️ 打印时请在打印对话框中<b>取消勾选「页眉和页脚」</b>（去除浏览器自带的日期与网址），报告自带每页页眉页脚。
+  🖨️ 打印时请在打印对话框中<b>取消勾选「页眉和页脚」</b>（去除浏览器自带的日期与网址），报告自带每页页脚。
   <button onclick="window.print()">打印 / 存为PDF（自动隐藏内部内容）</button>
 </div>
 
