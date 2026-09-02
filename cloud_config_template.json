@@ -19,8 +19,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.24.4",
-    "update_note": "v2.24.4: 修复用户实测反馈\"OCR 后未弹采集表，而是要求回复 E 区任意一项再生成报告\"的流程卡死问题——根因 SKILL.md Step 2.5 三种录入方式表仍保留\"逐项问答录入\"路径，Step 2.6 弹表铁律缺乏\"禁止跳表\"明示。三件套改动：①Step 2.5 废止 A 路径+加红色铁律\"禁止任何口头追问\" ②Step 2.6 加强制必达铁律（流程锁定 Step 2→Step 2.6 弹表→Step 2.7 回传→Step 3） ③固化 v2.21.0 顶梁柱责任托底铁律\"方向 A 默认月缴预算 600–800 元\"为 SKILL.md 第 18.5 条。诊断库与模板版本同步升至 2.24.4。"
+    "latest_content_version": "2.24.5",
+    "update_note": "v2.24.5: 内容模板口径对齐 + 模板自适应标记。手册(qa_handbook_template.md)方向A顶梁柱月缴从400-600/500-600统一为600–800元(示例约700元/月)并联动年额(约8000-9000元/年、L350改700块)，与报告模板600–800·8400元/年一致；报告模板(report_template.html)在02/03/04/06/07六处高危叙事块注入内联自适应HTML注释+顶部全局声明，强制agent按本次数据改写示例家庭句(张伟/440万/P1-P5/10月31日等)，页面渲染零改动。诊断库与SKILL版本同步升2.24.5。"
   },
   "usage_report": {
     "_说明": "使用数据回传：每次生成完整报告后，智能体会向该地址 POST 一条使用记录（员工工号/姓名/日期/保单数/风险数等）。可对接表单 webhook（金数据/问卷星/腾讯文档收集表）或自建接口。留空则只存本地待补传",
