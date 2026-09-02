@@ -22,8 +22,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.21.0",
-    "update_note": "v2.21.0: 顶梁柱责任托底模块重设计——①「二 顶梁柱责任托底」正文段落去威胁化（万一有一天→如果有一段时间他需要休息；替您继续撑起→帮家里把……继续担起来）；②原三框箭头流程图（月缴700元→200万级→0%→45%）替换为左右对比卡片（当前托底 0 万 0% ╲ 建议托底 200 万 45%）+ 底部行动引导「每月约 600–800 元，托底比例从 0% 提升到 45%」；③「想一想这个场景」段首加「顶梁柱责任：」维度标签（墨绿加粗）+ 改写为高情商版本（不强调"一定要发生什么"，改为"想让他在需要休息时没有后顾之忧"）+ 浅金背景框（沿用 .scene 模板既有色系）；④底部托底比例说明「配置后」→「配置 200 万后」+ 补「以上保费为估算参考，实际以保险公司核保结果为准」合规提示；⑤本模块内月缴口径统一为「600–800 元」（消除「数百元/几百元」模糊表述，仅本模块内统一，其他模块保留以免越界）。打印 13 页无极端孤块（对比卡片打印退化为紧凑单行 + CTA 同行排列），JS 联动+手机端上下排列+PC 端并排+服务经理隐藏全部正常。v2.20.0 封面 3 改+合规敏感词替换继续有效。v2.19.0 19 项提示词改造继续有效。v2.18.2 数据断链修复继续有效。v2.18.0 「家的三笔钱」交互式模板继续有效"
+    "latest_content_version": "2.21.1",
+    "update_note": "v2.21.1: 弹表流程故障修复（根因：agent 定义层与 SKILL.md 铁律冲突导致识别后卡确认不弹表）——①agents/policy-health-advisor.md 修复 6 处旧流程：删除「录入后复述确认表核对」「向客户经理确认成员角色」「逐位确认成员角色」「漏拍先提示补拍等待」四处等待点，统一改为「识别完成立即按 Step 2.6 预填并弹出采集表（无确认门禁）」；删除「估算值（可修改）」标注要求对齐 v2.12.0 精算优先规则。②SKILL.md Step 1 强化：照片不清晰/缺页不做重拍等待，仅一句非阻断提示后照常识别。③SKILL.md Step 2.5 强化：删除「重拍 1 次」默认等待（重拍仅限用户主动要求）；方式 A 逐项问答改为仅用户主动选择时使用；方式 C 混合补录缺失字段直接留空不追问。④Step 2.6 铁律补强：从收到照片到弹出采集表全程零确认、零追问、零重拍等待。⑤diagnosis_rules.json 修复 trailing comma——此前 JSON 不合法会导致规则库加载解析失败降级。注意：agent 定义变更需重新分发 zip。v2.21.0 顶梁柱责任托底模块重设计继续有效"
   },
 
   "usage_report": {
