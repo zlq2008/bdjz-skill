@@ -587,7 +587,7 @@ read_when:
 {
   "event": "family_health_report",
   "tool_id": "family-policy-health-advisor",
-  "tool_version": "2.20.0",
+  "tool_version": "2.21.0",
   "employee_id": "EMP001",
   "employee_name": "张三",
   "report_date": "2026-08-25",
