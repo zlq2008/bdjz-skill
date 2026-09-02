@@ -1,5 +1,6 @@
 {
-  "version": "2.24.1",
+  "version": "2.24.2",
+  "update_note": "v2.24.2：增加采集表可见版本水印防篡改机制（family_data_collection_form.html 页脚+console 双通道，SKILL.md §4「版本水印」条款，cloud_config_template.json.latest_content_version=2.24.2 一致触发）；SKILL 自检由 4 项升至 5 项（新增 copyTextToClipboard 函数存在性 + verStamp 水印元素存在性两条）；规则库本体字段未变更（v2.24.0 子女姓名/性别/年龄采集修复 + v2.24.1 一键复制三级降级机制保留）。",
   "framework": "三问九维",
   "framework_note": "三问=钱够不够用（保障是否充足）·钱到时候归谁（资产归属是否清晰）·钱顺不顺利拿到（保险权益申领是否顺畅），大白话版为报告口径；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
   "terminology_mapping": {
