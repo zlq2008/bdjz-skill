@@ -22,8 +22,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.23.1",
-    "update_note": "v2.23.1: 采集表两项修复（用户实测反馈）——①车贷剩余还款额度取消自动计算：车贷计息结构复杂（利率高、常含手续费/贴息），月供×剩余月数与实际剩余本金偏差大，改为人工填写（按手机银行/贷款APP显示的剩余应还本金），相关自动回填、2.5倍一致性警示、auto-calc 标记、手动覆盖绑定一并移除，取消勾选仍清空；房贷自动计算功能保留。同时两个剩余额度字段去掉「自动计算」字样：label 由「剩余还款额度（自动计算）」改为「剩余还款额度」，房贷 placeholder 置空、车贷改为「如：3.2」。②子女性别/年龄采集修复：getChildInfo 原条件 name||age 有值才采集，只填性别的行整行丢弃→改为 name||age||gender 任一有值即采集；紧凑回传串 buildCompactLine 原仅输出「子女N个」，性别与年龄全部丢失→改为「子女N个（小明男6岁，小红女3岁）」明细格式。v2.23.0 报告模板删页眉与确权去方案化、v2.22.1 房贷联动修复继续有效。"
+    "latest_content_version": "2.24.1",
+    "update_note": "v2.24.1: 一键复制修复（用户实测「点击复制复制不到内容」）——①根因：copyAllData/copyResult 只调用 navigator.clipboard.writeText() 且无 catch，在 file:// 本地打开或内嵌 iframe（Permissions Policy 拦截）场景下该 API 不存在或被拒绝，直接抛错/Promise reject 且无任何提示，用户看到的就是「点了没反应」。②修复：新增 copyTextToClipboard() 三级降级——①navigator.clipboard.writeText（https/安全上下文）→ ②临时 textarea + document.execCommand('copy')（file:// 与 iframe 主通道）→ ③弹出可编辑文本框并自动全选，提示按 Ctrl+C 手动复制，绝不静默失败；同时 _legacyCopy 会保存并还原用户原有选区，避免复制后光标/选区被打乱。③新增「📋 一键复制回传内容」按钮：确认提交后确认框内直接可复制紧凑回传串（含子女性别年龄明细），无需再手动选中 pre 文本；按钮文案由「复制文本」改为「📋 复制采集数据」。④showTip 支持失败态（红色警示），成功/失败均有明确反馈。⑤SKILL.md：预填副本自检由三项增为四项（新增含 copyTextToClipboard）；新增「用户说复制不到时的处置」引导（一键复制按钮 → 手动 Ctrl+C → 拖数据文件/口述关键项，不得卡流程）。验证 17/18 + HTTP 真实剪贴板 4/4 + 被拒/iframe 场景 3/3 通过（B2 readText 为 Playwright 在 file:// 下的读取限制，非代码问题，已由 HTTP 场景 H1 覆盖证明）。v2.24.0 子女信息采集修复继续有效。"
   },
 
   "usage_report": {

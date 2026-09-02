@@ -404,7 +404,7 @@
       <div class="btn-row">
         <button class="btn btn-primary" onclick="confirmResult()">✓ 确认并提交（下载数据文件）</button>
         <button class="btn btn-secondary" onclick="downloadData()">⬇ 下载采集数据文件</button>
-        <button class="btn btn-secondary" onclick="copyAllData()">复制文本</button>
+        <button class="btn btn-secondary" onclick="copyAllData()" title="复制完整采集数据（JSON），粘贴到对话中">📋 复制采集数据</button>
       </div>
       <div class="confirm-box" id="confirmBox"></div>
       <div class="copy-tip" id="copyTip">✓ 已复制到剪贴板，粘贴到健诊报告模板中即可</div>
@@ -479,12 +479,17 @@ function getChildInfo() {
   let minAge = Infinity;
   const children = [];
   items.forEach(function(item) {
-    const age = parseFloat(item.querySelector('.child-age').value);
-    const name = item.querySelector('.child-name').value;
+    const _raw = parseFloat(item.querySelector('.child-age').value);
+    // v2.24.0：0 视为「未填」——OCR 未识别年龄时 PREFILL 默认填 0，若当有效值会导致
+    // ①责任年限按 0 岁算崩 ②回传串出现「0岁」假数据 ③顶部汇总显示「—」
+    const age = (!isNaN(_raw) && _raw > 0) ? _raw : NaN;
+    const name = (item.querySelector('.child-name').value || '').trim();
     const gender = item.querySelector('.child-gender').value;
-    if (!isNaN(age) && age >= 0) {
+    // v2.24.0：子女计数改为「姓名/年龄/性别任一有值即计 1 人」
+    // （原逻辑只按年龄计数 → 填了姓名+性别但没填年龄的孩子不计入数量，教育金按 0 孩算）
+    if (name || !isNaN(age) || gender) {
       count++;
-      if (age < minAge) minAge = age;
+      if (!isNaN(age) && age < minAge) minAge = age;
     }
     // v2.23.1：任一子项有值即采集（原条件漏掉「只填了性别」的行，导致性别丢失）
     if (name || !isNaN(age) || gender) {
@@ -697,10 +702,8 @@ function copyResult() {
 家庭责任总额：${total}万
 建议保额（核心底线）：${suggested}万`;
 
-  navigator.clipboard.writeText(text).then(function() {
-    document.getElementById('copyTip').classList.add('show');
-    setTimeout(function(){ document.getElementById('copyTip').classList.remove('show'); }, 3000);
-  });
+  // v2.24.1：改用三级降级复制（原实现无 catch，file:// 下静默失败）
+  copyTextToClipboard(text, '✓ 计算结果已复制，粘贴到对话中即可');
 }
 
 function copyAllData() {
@@ -717,10 +720,12 @@ function copyAllData() {
     其他收入: num('otherIncome')+'万/年', 其他负债: num('otherDebt')+'万',
     教育: {路径: document.getElementById('educationPath').selectedOptions[0].text, 教育金: document.getElementById('rEducation').textContent}
   };
-  navigator.clipboard.writeText(JSON.stringify(data, null, 2)).then(function() {
-    document.getElementById('copyTip').classList.add('show');
-    setTimeout(function(){ document.getElementById('copyTip').classList.remove('show'); }, 3000);
-  });
+  // v2.24.1：改用三级降级复制（原实现无 catch，file:// 下静默失败）
+  copyTextToClipboard(JSON.stringify(data, null, 2), '✓ 采集数据已复制，粘贴到对话中即可');
+}
+// v2.24.1：一键复制「确认并提交」生成的回传内容
+function copyConfirmLine(){
+  copyTextToClipboard(window.__LAST_COMPACT__ || '', '✓ 回传内容已复制，粘贴到对话中即可');
 }
 
 function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -789,10 +794,67 @@ function downloadData(){
   setTimeout(function(){URL.revokeObjectURL(url);},2000);
   showTip('✓ 数据文件已下载，请把它拖回对话发送，智能体即可读取出报告');
 }
-function showTip(msg){
+function showTip(msg,isWarn){
   var t=document.getElementById('copyTip');
-  t.textContent=msg; t.classList.add('show');
+  t.textContent=msg;
+  t.style.color = isWarn ? '#B45F4D' : '#5F8A72';
+  t.classList.add('show');
   setTimeout(function(){t.classList.remove('show');},4000);
+}
+
+// ===== v2.24.1：一键复制（三级降级，解决「点复制没反应」）=====
+// ① navigator.clipboard（需 https / 安全上下文）
+// ② 临时 textarea + execCommand('copy')（file:// 本地打开时的主要通道）
+// ③ 弹出可编辑文本框并全选，提示手动 Ctrl+C
+function _legacyCopy(text){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=text;
+    ta.setAttribute('readonly','');
+    ta.style.position='fixed';
+    ta.style.top='0';
+    ta.style.left='-9999px';
+    ta.style.opacity='0';
+    ta.style.pointerEvents='none';
+    document.body.appendChild(ta);
+    var sel=document.getSelection();
+    var oldRange=(sel && sel.rangeCount>0)?sel.getRangeAt(0):null;
+    ta.focus();
+    ta.select();
+    try{ ta.setSelectionRange(0, text.length); }catch(e){}
+    var ok=false;
+    try{ ok=document.execCommand('copy'); }catch(e){ ok=false; }
+    document.body.removeChild(ta);
+    if(oldRange && sel){ try{ sel.removeAllRanges(); sel.addRange(oldRange); }catch(e){} }
+    return ok;
+  }catch(e){ return false; }
+}
+function _manualCopyFallback(text){
+  var box=document.getElementById('confirmBox');
+  if(box){
+    box.style.display='block';
+    box.innerHTML='<div class="cb-title" style="color:#B45F4D">⚠ 浏览器阻止了自动复制，请手动复制</div>'+
+      '<div class="cb-body">下方文本框已全选，按 <b>Ctrl+C</b>（Mac 为 ⌘+C），再粘贴到对话中：</div>'+
+      '<textarea id="manualCopyArea" readonly style="width:100%;height:150px;box-sizing:border-box;font-size:12px;line-height:1.6;padding:8px;border:1px solid #D8CDBA;border-radius:6px;background:#fff;color:#3F4A57;">'+escapeHtml(text)+'</textarea>';
+    var ta=document.getElementById('manualCopyArea');
+    setTimeout(function(){ try{ ta.focus(); ta.select(); }catch(e){} },80);
+    box.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  showTip('⚠ 自动复制被浏览器拦截，已为您选中内容，请按 Ctrl+C 手动复制',true);
+  return false;
+}
+function copyTextToClipboard(text, okMsg){
+  text = (text===undefined||text===null)?'':String(text);
+  if(!text.trim()){ showTip('⚠ 暂无内容可复制',true); return Promise.resolve(false); }
+  var done=function(){ showTip(okMsg||'✓ 已复制到剪贴板，粘贴到对话中即可'); return true; };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    return navigator.clipboard.writeText(text).then(done).catch(function(){
+      if(_legacyCopy(text)) return done();
+      return _manualCopyFallback(text);
+    });
+  }
+  if(_legacyCopy(text)) return Promise.resolve(done());
+  return Promise.resolve(_manualCopyFallback(text));
 }
 function confirmResult(){
   var data=buildCollectedData();
@@ -800,24 +862,25 @@ function confirmResult(){
   var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
   var compact=buildCompactLine(data,result);
   var box=document.getElementById('confirmBox');
+  window.__LAST_COMPACT__=compact;
   box.style.display='block';
   box.innerHTML='<div class="cb-title">✅ 已采集完成，请按下面任一步骤交回智能体：</div>'+
-    '<div class="cb-body"><b>① 推荐</b>：下方若已自动下载数据文件，请<b>把它拖回对话发送</b>，智能体直接读取出报告。<br>'+
-    '<b>② 或</b>：在对话里直接回复下面这行（已复制，可直接粘贴）：<br>'+
-    '<b>③ 或</b>：口述要改的项（如「房贷余额50万、张立强年收入20万」）。</div>'+
-    '<pre>'+escapeHtml(compact)+'</pre>';
+    '<div class="cb-body"><b>① 推荐</b>：点击下面「📋 一键复制回传内容」，<b>粘贴到对话发送</b>，智能体直接读取出报告<br>'+
+    '（下方同时已自动下载数据文件，也可直接把它拖回对话发送）。<br>'+
+    '<b>② 或</b>：口述要改的项（如「房贷余额50万、张立强年收入20万」）。</div>'+
+    '<div style="margin:8px 0 6px"><button class="btn btn-secondary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;border:none;border-radius:6px" onclick="copyConfirmLine()">📋 一键复制回传内容</button></div>'+
+    '<pre id="confirmLine">'+escapeHtml(compact)+'</pre>';
   // 自动下载数据文件
   try{ downloadData(); }catch(e){}
-  // 同时复制紧凑回传串，便于直接粘贴
-  try{
-    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(compact);}
-    else{var ta=document.createElement('textarea');ta.value=compact;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);}
-  }catch(e){}
+  // v2.24.1：自动复制改用三级降级（原实现失败时无任何提示，用户以为没复制上）
+  try{ copyTextToClipboard(compact, '✓ 回传内容已自动复制，直接粘贴到对话发送即可'); }catch(e){}
   box.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 // ===== 预填注入（agent 在生成副本时把识别值以 JSON 注入 window.__PREFILL__）=====
 function _pv(x){return (x===undefined||x===null)?'':x;}
+// v2.24.0：数值型预填值 0 表示「未识别」，显示为空，避免服务人员把 0 当成真实年龄/已还年限
+function _pv0(x){return (x===undefined||x===null||x===0||x==='0')?'':x;}
 function addPolicyPrefilled(p){
   policyCount++;
   const list=document.getElementById('policyList');
@@ -841,7 +904,7 @@ function addChildPrefilled(c){
   item.style.gridTemplateColumns='2fr 1fr 1fr auto';
   item.innerHTML=`
     <input type="text" placeholder="如：小明（选填）" class="child-name" value="${_pv(c.name)}">
-    <input type="number" placeholder="6" class="child-age" min="0" value="${_pv(c.age)}">
+    <input type="number" placeholder="6" class="child-age" min="0" value="${_pv0(c.age)}">
     <select class="child-gender">
       <option value="">性别</option>
       <option value="男" ${c.gender==='男'?'selected':''}>男</option>
