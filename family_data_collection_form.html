@@ -102,6 +102,9 @@
   .add-policy{font-size:12.5px;color:#B08A5A;cursor:pointer;font-weight:600;margin-top:6px;display:inline-block;}
   .add-policy:hover{text-decoration:underline;}
   .remove-policy{color:#B45F4D;cursor:pointer;font-size:16px;font-weight:700;padding:0 4px;}
+  /* v2.24.2：版本水印——有水印＝模板原文；无水印＝表单被改写，功能可能缺失 */
+  .ver-stamp{max-width:860px;margin:16px auto 0;text-align:center;font-size:11.5px;color:#A8ADB5;letter-spacing:.4px;line-height:1.7;}
+  .ver-stamp b{color:#8A919B;font-weight:700;}
 
   .note{font-size:11.5px;color:#98A1AC;margin-top:6px;line-height:1.5;}
   .note b{color:#B45F4D;}
@@ -411,9 +414,13 @@
     </div>
 
   </div>
+  <!-- v2.24.2 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.24.2</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b></div>
 </div>
 
 <script>
+// v2.24.2：控制台同步输出版本，便于技术侧核验
+console.log('%c[家庭数据采集表] 模板版本 v2.24.2','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;

@@ -22,8 +22,8 @@
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.24.1",
-    "update_note": "v2.24.1: 一键复制修复（用户实测「点击复制复制不到内容」）——①根因：copyAllData/copyResult 只调用 navigator.clipboard.writeText() 且无 catch，在 file:// 本地打开或内嵌 iframe（Permissions Policy 拦截）场景下该 API 不存在或被拒绝，直接抛错/Promise reject 且无任何提示，用户看到的就是「点了没反应」。②修复：新增 copyTextToClipboard() 三级降级——①navigator.clipboard.writeText（https/安全上下文）→ ②临时 textarea + document.execCommand('copy')（file:// 与 iframe 主通道）→ ③弹出可编辑文本框并自动全选，提示按 Ctrl+C 手动复制，绝不静默失败；同时 _legacyCopy 会保存并还原用户原有选区，避免复制后光标/选区被打乱。③新增「📋 一键复制回传内容」按钮：确认提交后确认框内直接可复制紧凑回传串（含子女性别年龄明细），无需再手动选中 pre 文本；按钮文案由「复制文本」改为「📋 复制采集数据」。④showTip 支持失败态（红色警示），成功/失败均有明确反馈。⑤SKILL.md：预填副本自检由三项增为四项（新增含 copyTextToClipboard）；新增「用户说复制不到时的处置」引导（一键复制按钮 → 手动 Ctrl+C → 拖数据文件/口述关键项，不得卡流程）。验证 17/18 + HTTP 真实剪贴板 4/4 + 被拒/iframe 场景 3/3 通过（B2 readText 为 Playwright 在 file:// 下的读取限制，非代码问题，已由 HTTP 场景 H1 覆盖证明）。v2.24.0 子女信息采集修复继续有效。"
+    "latest_content_version": "2.24.2",
+    "update_note": "v2.24.2: 新增采集表版本水印（用户实测问题排查防呆）——背景：v2.24.0/2.24.1 的修复在本地与交付目录已完成并通过验证，但用户测试时云端尚未上传，导致误判为「老问题依旧」。为杜绝「本地修好但用户测的是旧版/被改写版」的混淆，在采集表页脚新增可见版本水印「家庭数据采集表 · 模板版本 v2.24.2 | 看到本行版本号＝表单为模板原文，功能完整；若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成」，并在控制台输出 [家庭数据采集表] 模板版本 v2.24.2，便于技术侧核验。SKILL.md 同步加固：预填副本自检由四项增为五项（新增含 id=\"verStamp\"）；新增「版本水印」条款，要求用户报问题时先确认页脚水印与版本号——无水印＝表单非模板原文（被改写），功能必然缺失；版本号非最新＝旧副本，须重新生成。v2.24.1 一键复制三级降级与一键复制回传内容按钮、v2.24.0 子女信息采集修复均继续有效。"
   },
 
   "usage_report": {
