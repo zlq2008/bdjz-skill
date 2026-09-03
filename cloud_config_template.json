@@ -20,15 +20,12 @@
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "qa_handbook_shell_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_shell.html",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.25.3",
-    "update_note": "v2.25.3：三项一体化升级。①问答手册按家庭命中的5个异议维度动态生成（顶梁柱责任/健康守护金/养老缺口/教育金缺口/已有保单缺口），未命中维度整章不出现，杜绝"通用模板塞满每本手册"——qa_handbook_template.md 已重写为骨架+5维度可替换结构，含36个 __xxx__ 占位符。②外壳 qa_handbook_shell.html 加 📄 另存 PDF 按钮（走 window.print() 让用户选 Microsoft Print to PDF；零依赖、A4 高保真）。③采集表 confirmResult() 取消自动下载 JSON 路径（消除 Windows 系统弹"需要使用新应用以打开此 blob 链接"对话框），改 "💾 备份采集数据" 保存为完整 HTML 副本（人工存档用，不作回传通道），主回传通道保留 v2.24.7 已固化的四级剪贴板保障复制回传串。修复覆盖四指令源：SKILL.md (tool_version 2.25.3 / Step 6.5 升级 / Step 2.6 主通道改剪贴板) + diagnosis_rules.json (qa_handbook 段新增 dimensions 5维度定义+ targeted_script_rules_v2_25_3 + step2_6_collection_form_popup 新增 v2_25_3_main_channel_change + no_blob_system_dialog) + qa_handbook_shell.html (PDF按钮+水印 v2.25.3) + family_data_collection_form.html (水印 v2.25.3 + 取消 confirmResult 自动下载 + downloadData 改 HTML 副本)。请同步上传以下 5 个本次变更文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / family_data_collection_form.html（水印升 v2.25.3）/ qa_handbook_shell.html（PDF按钮）。qa_handbook_template.md 是 agent 脚本读取的素材模板，不是浏览器打开的交付文件，可不传（但建议传以保本地专家包与云端一致）。report_template / manual_entry_form 未变可不传。"
+    "latest_content_version": "2.25.4",
+    "update_note": "v2.25.4 三项紧急修复：①「零下载」铁律——v2.25.3 实测确认在受限浏览器（Edge / WorkBuddy iframe）下即使 type:text/html 的 Blob + <a download> 仍触发系统级「需要使用新应用以打开此 blob 链接」对话框，v2.25.4 起取消采集表「💾 备份采集数据」按钮 + 取消外壳「💾 另存为 HTML」按钮，采集表/外壳零下载（grep 不到 <a download> / createObjectURL / new Blob）。回传通道仅一种：v2.24.7 四级剪贴板保障复制回传串。②「交付物直接显示」铁律——报告/手册 HTML 副本生成后必须立即调用 file_preview / open 工具打开让交付物显示在对话界面（artifact 卡片），禁止只在对话贴文件路径。③「零询问」加固——v2.25.4 用户实测仍出现「询问顶梁柱是谁」窗口，根因是用户本地专家包仍是 v2.12.0 旧版（与云端 8 文件 v2.25.3 并存），agent 跑 v2.12.0 旧路径；v2.25.4 同步升 agent 定义 + 强化「零询问」铁律到采集表自身。请同步上传以下 5 个本次变更文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / family_data_collection_form.html（水印升 v2.25.4）/ qa_handbook_shell.html（水印升 v2.25.4 + 去「💾 另存 HTML」按钮）。report_template / qa_handbook_template / manual_entry_form 未变可不传。**重要**：用户必须重新安装 bdjz-skill-v2.25.4.zip 让本地专家包 agents/policy-health-advisor.md 升 v2.25.4（否则仍跑 v2.12.0 旧路径出现「询问窗口」问题）。"
   },
   "usage_report": {
-    "_说明": "使用数据回传：每次生成完整报告后，智能体会向该地址 POST 一条使用记录（员工工号/姓名/日期/保单数/风险数等）。可对接表单 webhook（金数据/问卷星/腾讯文档收集表）或自建接口。留空则只存本地待补传",
-    "endpoint_url": ""
-  },
-  "offline_policy": {
-    "mode": "allow_with_mark",
-    "_说明": "断网时允许继续使用（内部工具优先可用性），报告中标注'离线模式'，恢复联网后自动补传使用记录"
+    "_说明": "使用记录回传（默认飞书表格，可换 Webhook / 腾讯文档 / 自有后端）",
+    "webhook_url": "https://open.feishu.cn/open-apis/bitable/v1/apps/MVrqb2Fgva9m3fs1EMoca4F4nYb/tables/tblXkpX1KKD3xYqo/records?user_access_token=u-6qE.bHB6OVUF7JExVy9G4gy7ok4g5V5lIbcMa3Ag5D5aw_&ignore_consent=true",
+    "fields": ["timestamp", "employee_id", "employee_name", "branch", "content_version", "session_id", "step_reached", "elapsed_seconds", "has_policies", "family_size", "report_score", "generated_qa_handbook", "error_code"]
   }
 }

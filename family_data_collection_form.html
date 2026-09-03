@@ -128,8 +128,8 @@
   <div class="transfer-banner">
     <div class="tb-title">📤 填完后如何把数据交回智能体出报告（任选其一）</div>
     <ol class="tb-steps">
-      <li><b>最省事（v2.25.3 起不再自动下载）</b>：点下方「✓ 确认并提交」→ 自动复制带全部数据的回传串 → <b>把它粘贴回对话发送</b>，智能体直接读取出报告。</li>
-      <li><b>备份</b>：点击下方「💾 备份采集数据」→ 把数据存成本地 HTML 副本（不会弹系统对话框），供服务人存档。</li>
+      <li><b>最省事（v2.25.4 起零下载）</b>：点下方「✓ 确认并提交」→ 自动复制带全部数据的回传串 → <b>把它粘贴回对话发送</b>，智能体直接读取出报告。</li>
+      <li><b>存档</b>：点下方「📋 复制采集数据」→ 把数据粘到任意编辑器保存即可。</li>
       <li><b>最随意</b>：直接在对话里回复数值，例如「子女1个、房贷余额50万、张立强年收入20万、月支出8000」，智能体同步后出报告。</li>
       <li><b>确认无误</b>：都填对了，直接在对话里回「确认」，智能体立即出报告。</li>
     </ol>
@@ -425,7 +425,6 @@
       </div>
       <div class="btn-row">
         <button class="btn btn-primary" onclick="confirmResult()">✓ 确认并提交（自动复制回传串）</button>
-        <button class="btn btn-secondary" onclick="downloadData()">💾 备份采集数据（保存HTML副本）</button>
         <button class="btn btn-secondary" onclick="copyAllData()" title="复制完整采集数据（JSON），粘贴到对话中">📋 复制采集数据</button>
       </div>
       <div class="confirm-box" id="confirmBox"></div>
@@ -434,12 +433,12 @@
 
   </div>
   <!-- v2.25.3 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
-  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.25.3</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制、手册开关等功能可能缺失，请重新生成</b></div>
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.25.4</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/<a download> 路径，根除受限浏览器「blob 链接」系统对话框）</div>
 </div>
 
 <script>
-// v2.25.3：控制台同步输出版本，便于技术侧核验
-console.log('%c[家庭数据采集表] 模板版本 v2.25.3','color:#B08A5A;font-weight:700');
+// v2.25.4：控制台同步输出版本，便于技术侧核验
+console.log('%c[家庭数据采集表] 模板版本 v2.25.4（零下载版）','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
@@ -833,35 +832,8 @@ function buildCompactLine(d,r){
   parts.push((d.交付选项&&d.交付选项.生成问答手册==='是')?'需要生成问答手册':'不需要问答手册');
   return parts.join('；');
 }
-// v2.25.3：备份按钮——把当前采集表完整状态另存为独立 HTML 副本（不弹 blob 系统对话框）
-// 关键：把数据塞回 PREFILL 占位符位置（self-contained），文件双击打开即可恢复全部填写内容
-function downloadData(){
-  try{
-    var d=buildCollectedData(), r=buildCalcResult();
-    var payload={source:'family_data_collection_form',type:'家庭采集数据',data:d,result:r,time:new Date().toISOString()};
-    var name=(d.家庭成员.客户.姓名||'家庭').replace(/[\\/:*?"<>|]/g,'').trim()||'家庭';
-    // 序列化 payload 为 JSON 字面量（注入到 HTML 的 PREFILL 占位符）
-    var prefillLiteral = JSON.stringify(payload);
-    // 读当前页面 outerHTML，把 PREFILL 占位符替换为完整数据
-    var html = document.documentElement.outerHTML;
-    html = html.replace('/*__PREFILL_JSON__*/null', '/*__PREFILL_JSON__*/' + prefillLiteral);
-    // 末尾追加一个备份提示，不影响主功能
-    html = html.replace('<title>', '<title>【备份·'+name+'·'+new Date().toLocaleDateString('zh-CN')+'】 <');
-    // 用 Blob + download 触发保存（保存的是完整 HTML，不是 JSON，因此浏览器识别为 html，不会走"blob 链接"系统对话框）
-    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = '家庭采集数据备份_'+name+'_'+new Date().toISOString().slice(0,10)+'.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
-    showTip('✓ 已保存 HTML 备份文件，双击可还原全部填写内容（不会弹系统对话框）');
-  }catch(e){
-    showTip('⚠ 备份失败：'+e.message+'，请改用「📋 复制采集数据」按钮', true);
-  }
-}
+// v2.25.4：取消「💾 备份采集数据」按钮与 downloadData() 函数——实测在受限浏览器（Edge/iframe）下即使 type:text/html 的 Blob + <a download> 仍会触发系统级「blob 链接」对话框。
+// v2.25.4 起采集表零下载：用户需存档请用「📋 复制采集数据」按钮把 JSON 粘到任意编辑器保存；交付物直接显示在对话界面，无需另存。
 function showTip(msg,isWarn){
   var t=document.getElementById('copyTip');
   t.textContent=msg;
@@ -976,7 +948,7 @@ function confirmResult(){
   box.style.display='block';
   box.innerHTML='<div class="cb-title">✅ 已采集完成，请按下面任一步骤交回智能体：</div>'+
     '<div class="cb-body"><b>① 推荐</b>：点击下面「📋 一键复制回传内容」，<b>粘贴到对话发送</b>，智能体直接读取出报告<br>'+
-    '（v2.25.3 起不再自动下载 JSON 文件，避免 Windows 系统误弹「blob 链接」对话框；如需本地存档，点「💾 备份采集数据」保存为 HTML 副本即可）<br>'+
+    '（v2.25.4 起零下载，不再触发「blob 链接」系统对话框；如需本地存档，用「📋 复制采集数据」把内容粘贴到记事本）<br>'+
     '<b>② 或</b>：口述要改的项（如「房贷余额50万、张立强年收入20万」）。</div>'+
     '<div style="margin:8px 0 6px"><button class="btn btn-secondary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;border:none;border-radius:6px" onclick="copyConfirmLine()">📋 一键复制回传内容</button></div>'+
     '<pre id="confirmLine">'+escapeHtml(compact)+'</pre>'+
@@ -987,8 +959,8 @@ function confirmResult(){
         '<textarea id="copyBackupArea" readonly onclick="this.select()" style="width:100%;height:120px;box-sizing:border-box;font-size:12px;line-height:1.6;padding:8px;border:1px solid #D8CDBA;border-radius:6px;background:#fff;color:#3F4A57;">'+escapeHtml(compact)+'</textarea>'+
       '</div>'+
     '</div>';
-  // v2.25.3：取消自动下载 JSON（避免 Windows 系统弹"blob 链接"对话框），仅保留自动复制回传串
-  // 用户需本地存档时主动点「💾 备份采集数据」→ 保存为完整 HTML 副本（双击可还原，无系统弹窗）
+  // v2.25.4：取消自动下载 JSON + 取消「💾 备份采集数据」按钮（零下载，避免受限浏览器弹「blob 链接」对话框），仅保留自动复制回传串
+  // 用户需本地存档时主动点「📋 复制采集数据」把 JSON 粘到记事本保存
   // v2.24.1：自动复制改用三级降级（原实现失败时无任何提示，用户以为没复制上）
   try{ copyTextToClipboard(compact, '✓ 回传内容已自动复制，直接粘贴到对话发送即可'); }catch(e){}
   box.scrollIntoView({behavior:'smooth',block:'nearest'});

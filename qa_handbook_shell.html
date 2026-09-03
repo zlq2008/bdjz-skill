@@ -87,7 +87,6 @@
 <div class="toolbar">
   <button class="btn-print" onclick="doPrint()">🖨 打印</button>
   <button class="btn-pdf" onclick="doPdf()">📄 另存 PDF</button>
-  <button class="btn-save" onclick="doSave()">💾 另存为 HTML</button>
   <button class="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 回到顶部</button>
 </div>
 <div class="tip" id="tip"></div>
@@ -110,7 +109,7 @@
   <div id="qaBody"></div>
 </div>
 
-<div class="ver-stamp">问答手册外壳模板 v2.25.3　|　看到本行＝手册由模板原文生成，PDF/打印/另存三项功能完整</div>
+<div class="ver-stamp">问答手册外壳模板 v2.25.4　|　看到本行＝手册由模板原文生成，PDF/打印两项功能完整；v2.25.4 起零下载（取消「另存 HTML」按钮避免受限浏览器弹「blob 链接」对话框，交付物由 agent 直接在对话界面展示）</div>
 
 <script>
 /* ===== v2.25.3：占位符（agent 用脚本替换，禁止手写本文件）=====
@@ -241,24 +240,8 @@ function doPdf(){
 function safeName(s){
   return String(s || '家庭').replace(/[\\/:*?"<>|]/g, '').trim() || '家庭';
 }
-function doSave(){
-  try{
-    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url;
-    a.download = '家庭保障问答手册_' + safeName('__QA_FAMILY__') + '.html';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
-    showTip('✓ 已另存 HTML 文件，可双击打开后打印或转 PDF');
-  }catch(e){
-    showTip('⚠ 自动另存失败，请按 Ctrl+S（Mac ⌘+S）手动保存本页');
-  }
-}
-console.log('%c[家庭保障问答手册] 外壳模板 v2.25.3','color:#1F4E45;font-weight:700');
+// v2.25.4：取消 doSave() 另存 HTML 按钮——实测在受限浏览器（Edge/iframe）下即使 type:text/html 的 Blob + <a download> 仍会触发系统级「blob 链接」对话框。v2.25.4 起外壳零下载：交付物由 agent 直接在对话界面 file_preview/open 展示；用户若需本地存档可用浏览器 Ctrl+S 手动另存当前页。
+console.log('%c[家庭保障问答手册] 外壳模板 v2.25.4（零下载版）','color:#1F4E45;font-weight:700');
 </script>
 </body>
 </html>

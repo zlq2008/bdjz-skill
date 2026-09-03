@@ -1,6 +1,6 @@
 {
-  "version": "2.25.3",
-  "update_note": "v2.25.3 三项一体化升级：①问答手册按家庭命中的5个异议维度动态生成（顶梁柱责任/健康守护金/养老缺口/教育金缺口/已有保单缺口），未命中维度整章不出现，杜绝\"通用模板塞满每本手册\"；②外壳加 📄 另存 PDF 按钮（走 window.print() 让用户选 Microsoft Print to PDF）；③采集表 confirmResult() 取消自动下载 JSON 路径（消除 Windows 系统弹\"blob 链接\"对话框），改\"💾 备份采集数据\"保存为 HTML 副本（人工存档用，不作回传通道），主回传通道改为 v2.24.7 已固化的四级剪贴板保障复制回传串。",
+  "version": "2.25.4",
+  "update_note": "v2.25.4 三项紧急修复：①零下载铁律——v2.25.3 实测确认在受限浏览器下即使 type:text/html 的 Blob + <a download> 仍触发系统级「blob 链接」对话框，v2.25.4 起取消采集表「💾 备份采集数据」按钮 + 取消外壳「💾 另存为 HTML」按钮，采集表/外壳零下载。②交付物直接显示铁律——报告/手册 HTML 副本生成后必须立即 file_preview/open 让交付物显示在对话界面（artifact 卡片），禁止贴文件路径。③零询问加固——v2.25.4 用户实测仍出现「询问顶梁柱是谁」窗口，根因是用户本地专家包仍是 v2.12.0 旧版（与云端 8 文件 v2.25.3 并存），agent 跑 v2.12.0 旧路径；v2.25.4 同步升 agent 定义 + 强化「零询问」铁律到采集表自身。版本三元组同步升 v2.25.4。",
   "framework": "三问九维",
   "framework_note": "三问=钱够不够用（保障是否充足）·钱到时候归谁（资产归属是否清晰）·钱顺不顺利拿到（保险权益申领是否顺畅），大白话版为报告口径；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
   "terminology_mapping": {
@@ -1148,5 +1148,19 @@
       "v2.25.3 新增：异议应答中的数字必须从 report 中读取，禁止用其他案例数字替代"
     ],
     "internal_use_only": "本手册仅供服务人内部使用，不随报告交付客户"
+  },
+  "no_blob_download_v2_25_4": {
+    "rule": "采集表/手册外壳零下载",
+    "rationale": "v2.25.3 实测在受限浏览器（Edge / WorkBuddy iframe）下即使 type:text/html 的 Blob + <a download> 仍触发系统级「需要使用新应用以打开此 blob 链接」对话框。",
+    "removed_buttons": [
+      "采集表「💾 备份采集数据」按钮 → v2.25.4 删除",
+      "外壳「💾 另存为 HTML」按钮 → v2.25.4 删除"
+    ],
+    "verification": "采集表 + 外壳 grep -E '<a download|createObjectURL|new Blob' 应无任何匹配"
+  },
+  "delivery_display_v2_25_4": {
+    "rule": "交付物必须在对话界面直接显示",
+    "mandatory_action": "报告/手册 HTML 副本生成后必须立即调用 file_preview / open 工具打开",
+    "forbidden_action": "禁止只在对话里贴文件路径不调用 file_preview"
   }
 }
