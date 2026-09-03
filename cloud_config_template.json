@@ -20,8 +20,8 @@
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "qa_handbook_shell_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_shell.html",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.25.0",
-    "update_note": "v2.25.0：三项提速改造。①报告/问答手册改为脚本化生成（读模板原文→占位符替换→写副本→文件预览），禁止 agent 逐字输出 79KB HTML / 数十 KB markdown（耗时长根因）。②《问答手册》加是/否开关（默认否，省时长），qa_handbook_required 由「每份必生成」改按开关。③新增第 8 个内容文件 qa_handbook_shell.html（问答手册 A4 打印+另存为 HTML 外壳，URL 见本文件）。请同步上传以下 7 个内容文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / report_template.html / family_data_collection_form.html / qa_handbook_template.md / qa_handbook_shell.html。"
+    "latest_content_version": "2.25.1",
+    "update_note": "v2.25.1：紧急补丁·防「拉回旧版 v2.22.0 / 自创模板」复发。根因=agent 启动未走 Step 0.3 云端拉取，见工作区为空便凭印象自创带 v2.22.0 标识的采集表 HTML。修复：SKILL.md 新增 Step 0.3.5「禁止自创模板」铁律段 + Step 0.4 自检增「采集表页脚须含模板版本 v2.25.1」版本水印校验；diagnosis_rules.json 新增顶层 startup_self_check 启动守卫；agent 定义工作流程第 1 步强化为启动守卫（无条件拉 7 文件+自检+禁自创）。采集表页脚/console 版本水印升 v2.25.1。请同步上传：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / report_template.html / family_data_collection_form.html(水印升 v2.25.1) / qa_handbook_template.md / qa_handbook_shell.html。"
   },
   "usage_report": {
     "_说明": "使用数据回传：每次生成完整报告后，智能体会向该地址 POST 一条使用记录（员工工号/姓名/日期/保单数/风险数等）。可对接表单 webhook（金数据/问卷星/腾讯文档收集表）或自建接口。留空则只存本地待补传",
