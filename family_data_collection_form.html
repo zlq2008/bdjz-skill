@@ -172,7 +172,7 @@
         </div>
       </div>
       <div class="sub-section">
-        <div class="sub-title">子女信息（多子女家庭可逐个添加）</div>
+        <div class="sub-title">子女信息（多子女家庭可逐个添加）<span style="font-weight:400;color:#B45F4D;font-size:12px;margin-left:8px">请逐个子填写「年龄」与「性别」——教育金测算、责任年限与报告成员画像都依赖这两项</span></div>
         <div class="policy-header" style="grid-template-columns:2fr 1fr 1fr auto;">
           <span style="text-align:left;">子女姓名（选填）</span>
           <span>年龄</span>
@@ -415,12 +415,12 @@
 
   </div>
   <!-- v2.24.2 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
-  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.24.2</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b></div>
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.24.7</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b></div>
 </div>
 
 <script>
 // v2.24.2：控制台同步输出版本，便于技术侧核验
-console.log('%c[家庭数据采集表] 模板版本 v2.24.2','color:#B08A5A;font-weight:700');
+console.log('%c[家庭数据采集表] 模板版本 v2.24.7','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
@@ -732,10 +732,27 @@ function copyAllData() {
 }
 // v2.24.1：一键复制「确认并提交」生成的回传内容
 function copyConfirmLine(){
-  copyTextToClipboard(window.__LAST_COMPACT__ || '', '✓ 回传内容已复制，粘贴到对话中即可');
+  if(!(window.__LAST_COMPACT__||'').trim()){
+    // 未生成过回传串时，先生成一次再复制，避免「点了没反应」
+    try{ confirmResult(); }catch(e){}
+  }
+  return copyTextToClipboard(window.__LAST_COMPACT__ || '', '✓ 回传内容已复制，粘贴到对话中即可');
 }
 
 function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+// v2.24.7：备用复制区展开/收起——自动复制在受限环境失效时的 100% 可达通道
+function toggleCopyBackup(){
+  var box=document.getElementById('copyBackup');
+  var tg=document.getElementById('copyBackupToggle');
+  if(!box) return;
+  var open=(box.style.display==='none'||box.style.display==='');
+  box.style.display=open?'block':'none';
+  if(tg) tg.textContent=(open?'▾ 收起备用复制区':'▸ 展开备用复制区')+'（自动复制无效时点此，全选后按 Ctrl+C）';
+  if(open){
+    var ta=document.getElementById('copyBackupArea');
+    setTimeout(function(){ try{ ta.focus(); ta.select(); }catch(e){} },60);
+  }
+}
 
 function toggleResult(){
   var p=document.getElementById('resultPanel');
@@ -837,6 +854,17 @@ function _legacyCopy(text){
   }catch(e){ return false; }
 }
 function _manualCopyFallback(text){
+  // v2.24.7：优先复用确认框内已渲染的备用复制区，避免覆盖掉回传内容
+  var ta0=document.getElementById('copyBackupArea');
+  if(ta0){
+    var bx0=document.getElementById('copyBackup');
+    if(bx0){ bx0.style.display='block'; bx0.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+    var tg0=document.getElementById('copyBackupToggle');
+    if(tg0) tg0.textContent='▾ 收起备用复制区（自动复制无效时点此，全选后按 Ctrl+C）';
+    setTimeout(function(){ try{ ta0.focus(); ta0.select(); }catch(e){} },80);
+    showTip('⚠ 自动复制被浏览器拦截，已为您选中内容，请按 Ctrl+C 手动复制',true);
+    return false;
+  }
   var box=document.getElementById('confirmBox');
   if(box){
     box.style.display='block';
@@ -850,18 +878,49 @@ function _manualCopyFallback(text){
   showTip('⚠ 自动复制被浏览器拦截，已为您选中内容，请按 Ctrl+C 手动复制',true);
   return false;
 }
+// ===== v2.24.7：一键复制（四级保障，根治「点了没反应 / 假成功 / 复制不到」）=====
+// ① navigator.clipboard.writeText + 900ms 超时竞速——受限 iframe 内该 Promise 常「既不 resolve 也不 reject」，
+//    旧实现会永久挂起、连手动兜底都进不去，表现为点了完全没反应。
+// ② 同步 execCommand('copy')（仍在用户手势 5s 窗口内调用，file:// 主通道）
+// ③ 读回校验：execCommand 在受限 iframe 里会返回 true 但实际没写入（假成功），必须校验后才敢报成功
+// ④ 手动复制框（100% 可达兜底）
+function _clipboardWrite(text, ms){
+  if(!(navigator.clipboard && navigator.clipboard.writeText)) return Promise.reject(new Error('no-clipboard-api'));
+  var timer=null;
+  var timeout=new Promise(function(_resolve,reject){
+    timer=setTimeout(function(){ reject(new Error('clipboard-timeout')); }, ms||900);
+  });
+  return Promise.race([navigator.clipboard.writeText(text), timeout]).then(function(r){
+    clearTimeout(timer); return r;
+  }, function(e){ clearTimeout(timer); throw e; });
+}
 function copyTextToClipboard(text, okMsg){
   text = (text===undefined||text===null)?'':String(text);
   if(!text.trim()){ showTip('⚠ 暂无内容可复制',true); return Promise.resolve(false); }
-  var done=function(){ showTip(okMsg||'✓ 已复制到剪贴板，粘贴到对话中即可'); return true; };
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    return navigator.clipboard.writeText(text).then(done).catch(function(){
-      if(_legacyCopy(text)) return done();
-      return _manualCopyFallback(text);
-    });
-  }
-  if(_legacyCopy(text)) return Promise.resolve(done());
-  return Promise.resolve(_manualCopyFallback(text));
+  var done=function(verified){
+    // verified=false 时给条件式提示，绝不谎报成功；同时备用复制区始终可用
+    showTip((okMsg||'✓ 已复制到剪贴板，粘贴到对话中即可') + (verified?'':'　⚠ 若粘贴无内容，请展开「备用复制区」全选后按 Ctrl+C'), !verified);
+    return true;
+  };
+  // ① clipboard API（成功即为真实写入）
+  return _clipboardWrite(text, 900).then(function(){
+    return done(true);
+  }).catch(function(){
+    // ② 降级 execCommand（同步调用，仍在用户手势窗口内）
+    var ok=false;
+    try{ ok=_legacyCopy(text); }catch(e){ ok=false; }
+    if(ok){
+      // ③ 读回校验，防止 execCommand「假成功」
+      if(navigator.clipboard && navigator.clipboard.readText){
+        return navigator.clipboard.readText().then(function(got){
+          return done(String(got)===text);
+        }).catch(function(){ return done(false); });
+      }
+      return Promise.resolve(done(false));
+    }
+    // ④ 最终兜底
+    return Promise.resolve(_manualCopyFallback(text));
+  });
 }
 function confirmResult(){
   var data=buildCollectedData();
@@ -876,7 +935,14 @@ function confirmResult(){
     '（下方同时已自动下载数据文件，也可直接把它拖回对话发送）。<br>'+
     '<b>② 或</b>：口述要改的项（如「房贷余额50万、张立强年收入20万」）。</div>'+
     '<div style="margin:8px 0 6px"><button class="btn btn-secondary" style="padding:6px 14px;font-size:12.5px;cursor:pointer;border:none;border-radius:6px" onclick="copyConfirmLine()">📋 一键复制回传内容</button></div>'+
-    '<pre id="confirmLine">'+escapeHtml(compact)+'</pre>';
+    '<pre id="confirmLine">'+escapeHtml(compact)+'</pre>'+
+    // v2.24.7：备用复制区常驻（自动复制在受限 iframe 内可能失败，此处 100% 可达）
+    '<div style="margin:6px 0 4px">'+
+      '<span onclick="toggleCopyBackup()" id="copyBackupToggle" style="cursor:pointer;color:#5F8A72;font-size:12.5px;text-decoration:underline">▸ 展开备用复制区（自动复制无效时点此，全选后按 Ctrl+C）</span>'+
+      '<div id="copyBackup" style="display:none;margin-top:6px">'+
+        '<textarea id="copyBackupArea" readonly onclick="this.select()" style="width:100%;height:120px;box-sizing:border-box;font-size:12px;line-height:1.6;padding:8px;border:1px solid #D8CDBA;border-radius:6px;background:#fff;color:#3F4A57;">'+escapeHtml(compact)+'</textarea>'+
+      '</div>'+
+    '</div>';
   // 自动下载数据文件
   try{ downloadData(); }catch(e){}
   // v2.24.1：自动复制改用三级降级（原实现失败时无任何提示，用户以为没复制上）

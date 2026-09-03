@@ -1,6 +1,6 @@
 {
-  "version": "2.24.6",
-  "update_note": "v2.24.6：根治「识别后依旧口头询问、不弹采集表」。根因=规则库 data_quality_rules 残留 v2.24.1 的「识别后必须先输出'识别结果确认表'、复述姓名保单号请客户确认才进诊断」+ collection_form 残留「姓名确认后才弹表」门禁，与 SKILL.md v2.24.4/2.24.5 的零确认弹表铁律冲突，agent 运行时读到规则库即走确认分支。本次将 data_quality_rules 改为「姓名防错非阻断提示」（识别即弹表、易混字仅一句提示不列候选字），collection_form.overview/trigger 删除「姓名确认后」门禁改为「识别结束立即弹表零确认」，与 SKILL.md Step 2.6 完全对齐。",
+  "version": "2.24.7",
+  "update_note": "v2.24.7：修复采集表两大顽疾。①【复制不到剪贴板】根因=受限 iframe 内 navigator.clipboard.writeText 的 Promise 常「既不 resolve 也不 reject」→ 旧实现永久挂起、连手动兜底都进不去（点了完全没反应）；且 execCommand 在受限环境会返回 true 却不真正写入（假成功），代码被蒙蔽后永不降级。修复（模板侧四级保障）：clipboard API + 900ms 超时竞速 → 同步 execCommand（仍在用户手势窗口内）→ readText 读回校验防假成功 → 手动兜底；确认框新增常驻「备用复制区」（不依赖任何浏览器权限，100% 可达）；copyConfirmLine 补返回值并在无回传串时先自动生成。②【子女年龄/性别采不到】模板本体采集逻辑正常（实测三场景均通过），真根因=agent 未按 SKILL 铁律「读原文替换占位符」而是自行编写简化 HTML，导致 child-gender/child-age/copyTextToClipboard 一并丢失。修复（SKILL 侧）：新增「违规自识别信号」三条 + 违规后行为、自检由五项扩为六项（补 child-age）并要求未通过时停止弹表重做、字段映射表明确子女性别须尽量预填。另：子女区增加「请填写年龄与性别」醒目提示，模板版本水印升 v2.24.7。",
   "framework": "三问九维",
   "framework_note": "三问=钱够不够用（保障是否充足）·钱到时候归谁（资产归属是否清晰）·钱顺不顺利拿到（保险权益申领是否顺畅），大白话版为报告口径；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
   "terminology_mapping": {
