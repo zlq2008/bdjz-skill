@@ -18,6 +18,14 @@
   .tb-steps li b{color:#8A6D2F;}
   .tb-warn{font-size:12.5px;color:#A33A2A;background:#FDEDEC;border-radius:6px;padding:9px 12px;line-height:1.7;}
   .tb-warn b{color:#A33A2A;}
+  /* v2.25.0：《问答手册》生成开关 */
+  .opt-banner{background:#F0F6F4;border:1.5px solid #7FA694;border-radius:10px;padding:14px 20px;margin-bottom:18px;}
+  .opt-title{font-size:14.5px;font-weight:700;color:#1F4E45;margin-bottom:6px;}
+  .opt-desc{font-size:12.5px;color:#5A6B63;line-height:1.75;margin-bottom:9px;}
+  .opt-desc b{color:#1F4E45;}
+  .radio-group{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
+  .radio-group label{font-size:13.5px;font-weight:600;color:#3F4A57;display:flex;align-items:center;gap:6px;cursor:pointer;padding:6px 14px;border:1.5px solid #CFD8D4;border-radius:20px;background:#fff;}
+  .radio-group input[type=radio]{width:16px;height:16px;accent-color:#1F4E45;}
   .form-body{background:#fff;padding:28px 32px;border-radius:0 0 12px 12px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
   .section{margin-bottom:28px;}
   .section-title{font-size:15px;font-weight:700;color:#3F4A57;border-left:4px solid #B08A5A;padding-left:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
@@ -125,6 +133,16 @@
       <li><b>确认无误</b>：都填对了，直接在对话里回「确认」，智能体立即出报告。</li>
     </ol>
     <div class="tb-warn">⚠️ 本平台浏览器与对话不互通：仅在表内填写或点击「确认」，数据<b>不会</b>自动传给智能体，必须走上面任一步骤。</div>
+  </div>
+
+  <!-- v2.25.0：《问答手册》生成开关（默认否，不生成） -->
+  <div class="opt-banner">
+    <div class="opt-title">📘 是否同步生成《家庭保障问答手册》（服务人面谈话术 · 内部使用）</div>
+    <div class="opt-desc">与报告配套的面谈沟通话术（开场引导、三条异议应答、约见与跟进节奏、合规红线），<b>本手册内部使用、不随报告交付客户</b>。默认「否」——只出报告，生成更快；需要时改选「是」，出报告后额外生成一册（A4 可直接打印/另存）。</div>
+    <div class="radio-group">
+      <label><input type="radio" name="needHandbook" value="否" checked> 否（默认 · 只出报告）</label>
+      <label><input type="radio" name="needHandbook" value="是"> 是（额外生成问答手册）</label>
+    </div>
   </div>
 
   <div class="form-body">
@@ -415,12 +433,12 @@
 
   </div>
   <!-- v2.24.2 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
-  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.24.7</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b></div>
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.25.0</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制、手册开关等功能可能缺失，请重新生成</b></div>
 </div>
 
 <script>
 // v2.24.2：控制台同步输出版本，便于技术侧核验
-console.log('%c[家庭数据采集表] 模板版本 v2.24.7','color:#B08A5A;font-weight:700');
+console.log('%c[家庭数据采集表] 模板版本 v2.25.0','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
@@ -772,8 +790,15 @@ function buildCollectedData(){
     车贷:{有:document.getElementById('hasCarLoan').checked,贷款总额:num('carTotal')+'万',贷款年限:num('carYears')+'年',已还年限:num('carPaid')+'年',月供:num('carMonthly')+'元',剩余年限:(num('carYears')-num('carPaid'))+'年',剩余还款额度:(parseFloat(document.getElementById('carBalance').value)||0).toFixed(1)+'万'},
     其他收入:num('otherIncome')+'万/年',其他负债:num('otherDebt')+'万',
     教育:{路径:document.getElementById('educationPath').selectedOptions[0].text,教育金:document.getElementById('rEducation').textContent},
-    保单:getPolicyInfo()
+    保单:getPolicyInfo(),
+    // v2.25.0：问答手册生成开关（默认「否」= 只出报告，跳过手册以提速）
+    交付选项:{生成问答手册:getHandbookOpt()}
   };
+}
+// v2.25.0：读取手册开关值（radio 缺失时安全降级为「否」）
+function getHandbookOpt(){
+  var el=document.querySelector('input[name=needHandbook]:checked');
+  return (el && el.value==='是')?'是':'否';
 }
 function buildCalcResult(){
   return {年生活支出:document.getElementById('rAnnualExpense').textContent,责任年限:document.getElementById('rResponsibilityYears').textContent,房贷剩余还款:document.getElementById('rMortgage').textContent,车贷剩余还款:document.getElementById('rCarLoan').textContent,子女教育金:document.getElementById('rEducation').textContent,赡养预留:document.getElementById('rSupport').textContent,家庭责任总额:document.getElementById('rTotal').textContent,建议保额:document.getElementById('rSuggested').textContent};
@@ -803,6 +828,8 @@ function buildCompactLine(d,r){
   parts.push('其他负债'+d.其他负债);
   if(d.家庭成员.父母赡养.需要) parts.push('需赡养父母，年'+d.家庭成员.父母赡养.年赡养费+'，共'+d.家庭成员.父母赡养.年限);
   parts.push('家庭责任总额'+r.家庭责任总额+'，建议保额'+r.建议保额);
+  // v2.25.0：手册开关必须进回传串，否则 agent 看不到用户选择
+  parts.push((d.交付选项&&d.交付选项.生成问答手册==='是')?'需要生成问答手册':'不需要问答手册');
   return parts.join('；');
 }
 // 触发浏览器下载数据文件（用户拖回对话即可让智能体读取）

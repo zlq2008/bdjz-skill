@@ -1,6 +1,6 @@
 {
-  "version": "2.24.7",
-  "update_note": "v2.24.7：修复采集表两大顽疾。①【复制不到剪贴板】根因=受限 iframe 内 navigator.clipboard.writeText 的 Promise 常「既不 resolve 也不 reject」→ 旧实现永久挂起、连手动兜底都进不去（点了完全没反应）；且 execCommand 在受限环境会返回 true 却不真正写入（假成功），代码被蒙蔽后永不降级。修复（模板侧四级保障）：clipboard API + 900ms 超时竞速 → 同步 execCommand（仍在用户手势窗口内）→ readText 读回校验防假成功 → 手动兜底；确认框新增常驻「备用复制区」（不依赖任何浏览器权限，100% 可达）；copyConfirmLine 补返回值并在无回传串时先自动生成。②【子女年龄/性别采不到】模板本体采集逻辑正常（实测三场景均通过），真根因=agent 未按 SKILL 铁律「读原文替换占位符」而是自行编写简化 HTML，导致 child-gender/child-age/copyTextToClipboard 一并丢失。修复（SKILL 侧）：新增「违规自识别信号」三条 + 违规后行为、自检由五项扩为六项（补 child-age）并要求未通过时停止弹表重做、字段映射表明确子女性别须尽量预填。另：子女区增加「请填写年龄与性别」醒目提示，模板版本水印升 v2.24.7。",
+  "version": "2.25.0",
+  "update_note": "v2.25.0：三项提速改造。①【报告/问答手册耗时】根因=agent 把 79KB+ 报告 HTML、数十 KB 手册 markdown 逐字输出到对话（最大耗时元凶）。改为强制脚本化生成：读本地模板原文→占位符替换为实际数据→写独立副本 .html→文件预览，禁止逐字输出（SKILL Step 6/6.5 同步）。②【问答手册加开关】新增采集表「📘 是否生成问答手册」是/否开关（默认否，省时长）；qa_handbook_required 由「每份必生成」改为按开关（是才生成、否跳过且自检不算缺失）；仅用户明确口头要求才按是处理一次。③【问答手册一键另存/打印版】新增第 8 个内容文件 qa_handbook_shell.html（A4 打印版式+🖨打印/💾另存按钮+自带极简 markdown 渲染器），qa_handbook 段补 trigger 默认否 + delivery 用外壳脚本注入 markdown。版本三元组同步升 v2.25.0（SKILL.md tool_version / diagnosis_rules.json / cloud_config latest_content_version 三处对齐）。",
   "framework": "三问九维",
   "framework_note": "三问=钱够不够用（保障是否充足）·钱到时候归谁（资产归属是否清晰）·钱顺不顺利拿到（保险权益申领是否顺畅），大白话版为报告口径；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
   "terminology_mapping": {
@@ -918,7 +918,7 @@
         "测试vX.X"
       ],
       "watermark_rule": "内页可保留「由保障健康检查工具辅助生成」；禁止出现「测试版」水印或占位字样",
-      "qa_handbook_required": "每份客户报告必须同步生成《问答手册》，独立文档不并入报告，模板 templates/qa_handbook_template.md，六段式结构+联动校验"
+      "qa_handbook_required": "《问答手册》按采集表「📘 是否同步生成问答手册」开关生成——默认否不生成(省时长)；开关=是或用户明确要求时生成(独立文档不并入报告)。正文素材 templates/qa_handbook_template.md(六段式)，交付用 templates/qa_handbook_shell.html 外壳脚本注入 markdown(A4打印+另存按钮+自带markdown渲染器)，禁止逐字输出正文到对话；六段式结构+联动校验"
     },
     "self_check_list": [
       "数字口径全文一致、无自相矛盾",
@@ -930,7 +930,7 @@
       "术语首次出现均有白话解释",
       "全文语气为「非推销」",
       "文件名无「测试」字样",
-      "问答手册已同步生成",
+      "问答手册已按开关处理（开关=是→已生成 / 否→已跳过且不算缺失）",
       "家庭画像表与责任大数卡按采集表精算值填写且勾稽一致",
       "建议按先大人后孩子·先保障后储蓄两原则排序",
       "保额/保费/缴费节奏均为区间范围（无单一精确值）",
@@ -959,6 +959,8 @@
   },
   "qa_handbook": {
     "purpose": "让服务人拿着就能讲、问不倒、能成交",
+    "trigger": "默认不生成（采集表开关默认否，省时长）；仅当采集表开关=是或用户明确要求时生成；生成与否以开关值为准，不默认替用户生成",
+    "delivery": "用 templates/qa_handbook_shell.html 外壳模板脚本化生成：脚本读外壳原文→把 __QA_FAMILY__/__QA_DATE__/__QA_SCORE__/ 及 /*__QA_MARKDOWN__*/ 占位符替换为实际值(markdown正文JSON注入，外壳自带渲染器)→写独立副本.html再预览；禁止逐字把markdown/HTML打进对话",
     "style": "一页纸能放下的优先，话术口语化、可直接背",
     "structure": [
       "开场引导（3句话）",

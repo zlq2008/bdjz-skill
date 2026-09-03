@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>家庭保障问答手册 · __QA_FAMILY__</title>
+<style>
+  :root{
+    --ink:#3F4A57; --ink2:#5A6B63; --gold:#B08D57; --teal:#1F4E45;
+    --paper:#FAF8F3; --line:#E7E0D3; --warn:#B45F4D;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+    font-size:14.5px; line-height:1.85; padding:0 0 60px;
+  }
+  .sheet{max-width:860px; margin:0 auto; background:#fff; padding:34px 40px 48px;
+    box-shadow:0 2px 14px rgba(0,0,0,.06); border-radius:0 0 12px 12px;}
+  .doc-head{border-bottom:2.5px solid var(--teal); padding-bottom:14px; margin-bottom:22px;}
+  .doc-title{font-family:"Noto Serif SC",serif; font-size:23px; font-weight:700; color:var(--teal); letter-spacing:.5px;}
+  .doc-sub{font-size:12.5px; color:var(--ink2); margin-top:7px;}
+  .doc-meta{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px;}
+  .meta-chip{font-size:12.5px; background:#F0F6F4; color:var(--teal); border:1px solid #CFE0DA;
+    border-radius:16px; padding:3px 13px; font-weight:600;}
+  .internal-flag{background:#FDEDEC; color:var(--warn); border:1.5px solid #E8B4AC; border-radius:8px;
+    padding:9px 14px; font-size:12.5px; font-weight:600; margin-bottom:22px; line-height:1.7;}
+
+  /* ===== 渲染后的正文排版 ===== */
+  #qaBody h1{font-family:"Noto Serif SC",serif; font-size:20px; color:var(--teal);
+    border-left:4px solid var(--gold); padding-left:11px; margin:30px 0 14px;}
+  #qaBody h2{font-size:16.5px; color:var(--teal); margin:26px 0 11px; padding-bottom:6px;
+    border-bottom:1px solid var(--line);}
+  #qaBody h3{font-size:15px; color:#2C5F55; margin:20px 0 9px;}
+  #qaBody p{margin:9px 0;}
+  #qaBody strong{color:var(--teal); font-weight:700;}
+  #qaBody blockquote{margin:11px 0; padding:11px 16px; background:#F7F5EF;
+    border-left:3.5px solid var(--gold); border-radius:0 7px 7px 0; color:#4A5A50;}
+  #qaBody blockquote p{margin:5px 0;}
+  #qaBody hr{border:none; border-top:1px dashed var(--line); margin:24px 0;}
+  #qaBody ul,#qaBody ol{margin:9px 0; padding-left:24px;}
+  #qaBody li{margin:5px 0;}
+  #qaBody table{border-collapse:collapse; width:100%; margin:14px 0; font-size:13.5px;}
+  #qaBody th,#qaBody td{border:1px solid var(--line); padding:8px 11px; text-align:left;}
+  #qaBody th{background:#F0F6F4; color:var(--teal); font-weight:700;}
+  #qaBody code{background:#F2EFE7; padding:1px 6px; border-radius:4px; font-size:13px;}
+
+  /* ===== 浮动工具条（不打印）===== */
+  .toolbar{position:fixed; top:16px; right:16px; display:flex; flex-direction:column; gap:9px; z-index:99;}
+  .toolbar button{
+    font-family:inherit; font-size:13px; font-weight:600; cursor:pointer;
+    border:none; border-radius:22px; padding:10px 18px; color:#fff;
+    box-shadow:0 3px 10px rgba(31,78,69,.28); transition:transform .12s;
+  }
+  .toolbar button:hover{transform:translateY(-1px);}
+  .btn-print{background:var(--teal);}
+  .btn-save{background:var(--gold);}
+  .btn-top{background:#8A97A3;}
+  .tip{position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    background:rgba(31,78,69,.94); color:#fff; font-size:13px; padding:9px 20px;
+    border-radius:20px; opacity:0; transition:opacity .25s; pointer-events:none; z-index:99;}
+  .tip.show{opacity:1;}
+  .ver-stamp{max-width:860px; margin:14px auto 0; font-size:11.5px; color:#9AA3AC; text-align:center; line-height:1.7;}
+
+  /* ===== 打印：A4 ===== */
+  @page{size:A4; margin:14mm 13mm;}
+  @media print{
+    body{background:#fff; padding:0; font-size:11.5pt; line-height:1.7;}
+    .sheet{box-shadow:none; border-radius:0; padding:0; max-width:100%;}
+    .toolbar,.tip,.ver-stamp{display:none !important;}
+    #qaBody h1{page-break-after:avoid; margin-top:16pt;}
+    #qaBody h2,#qaBody h3{page-break-after:avoid;}
+    #qaBody blockquote,#qaBody table,#qaBody li{page-break-inside:avoid;}
+    .internal-flag{page-break-inside:avoid;}
+    .doc-head{page-break-after:avoid;}
+  }
+  @media (max-width:640px){
+    .sheet{padding:22px 18px 34px;}
+    .toolbar{top:auto; bottom:16px; right:12px; flex-direction:row;}
+    .toolbar button{padding:9px 14px; font-size:12.5px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button class="btn-print" onclick="doPrint()">🖨 打印 / 导出 PDF</button>
+  <button class="btn-save" onclick="doSave()">💾 另存为 HTML</button>
+  <button class="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 回到顶部</button>
+</div>
+<div class="tip" id="tip"></div>
+
+<div class="sheet">
+  <div class="doc-head">
+    <div class="doc-title">家庭保障问答手册</div>
+    <div class="doc-sub">服务人专用 · 与《家庭保障健康检查报告》逐章配套</div>
+    <div class="doc-meta">
+      <span class="meta-chip">客户家庭：__QA_FAMILY__</span>
+      <span class="meta-chip">报告日期：__QA_DATE__</span>
+      <span class="meta-chip">综合健康度：__QA_SCORE__</span>
+    </div>
+  </div>
+
+  <div class="internal-flag">
+    🔒 本手册<b>仅供服务人内部使用，不随报告交付客户</b>。打印后请妥善保管，避免遗落在客户处。
+  </div>
+
+  <div id="qaBody"></div>
+</div>
+
+<div class="ver-stamp">问答手册外壳模板 v2.25.0　|　看到本行＝手册由模板原文生成，打印与另存功能完整</div>
+
+<script>
+/* ===== v2.25.0：占位符（agent 用脚本替换，禁止手写本文件）=====
+   __QA_FAMILY__ / __QA_DATE__ / __QA_SCORE__ ：手册抬头信息
+   __QA_MARKDOWN__                            ：填好数据的手册正文（markdown 原文，JSON 字符串）
+   本文件自带极简 markdown 渲染器，agent 无需把 markdown 转成 HTML，
+   直接把原文注入即可 —— 既避免手写 HTML 出错，也大幅缩短生成耗时。
+=================================================================== */
+var QA_MARKDOWN = /*__QA_MARKDOWN__*/"";
+
+/* ---------- 极简 markdown 渲染器 ---------- */
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function inline(s){
+  s = esc(s);
+  s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+  s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  return s;
+}
+function renderMarkdown(md){
+  md = String(md || '').replace(/\r\n/g,'\n');
+  var lines = md.split('\n'), out = [], i = 0;
+  var inList = null; // 'ul' | 'ol' | null
+
+  function closeList(){
+    if(inList){ out.push('</' + inList + '>'); inList = null; }
+  }
+  function openList(tag){
+    if(inList !== tag){ closeList(); out.push('<' + tag + '>'); inList = tag; }
+  }
+
+  for(i = 0; i < lines.length; i++){
+    var ln = lines[i];
+    var t = ln.trim();
+
+    if(!t){ closeList(); continue; }
+
+    // 水平分割线
+    if(/^(-{3,}|\*{3,}|_{3,})$/.test(t)){ closeList(); out.push('<hr>'); continue; }
+
+    // 标题
+    var h = t.match(/^(#{1,6})\s+(.*)$/);
+    if(h){
+      closeList();
+      var lv = Math.min(h[1].length, 3);
+      out.push('<h' + lv + '>' + inline(h[2]) + '</h' + lv + '>');
+      continue;
+    }
+
+    // 引用块（合并连续 > 行）
+    if(/^>\s?/.test(t)){
+      closeList();
+      var buf = [];
+      while(i < lines.length && /^>\s?/.test(lines[i].trim())){
+        buf.push(inline(lines[i].trim().replace(/^>\s?/, '')));
+        i++;
+      }
+      i--;
+      out.push('<blockquote>' + buf.join('<br>') + '</blockquote>');
+      continue;
+    }
+
+    // 表格
+    if(/^\|/.test(t) && i + 1 < lines.length && /^\|[\s:|-]+\|?\s*$/.test(lines[i+1].trim())){
+      closeList();
+      var head = t.replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim();});
+      i += 2;
+      var rows = [];
+      while(i < lines.length && /^\|/.test(lines[i].trim())){
+        rows.push(lines[i].trim().replace(/^\||\|$/g,'').split('|').map(function(c){return c.trim();}));
+        i++;
+      }
+      i--;
+      var tb = '<table><thead><tr>' + head.map(function(c){return '<th>'+inline(c)+'</th>';}).join('') + '</tr></thead><tbody>';
+      rows.forEach(function(r){
+        tb += '<tr>' + r.map(function(c){return '<td>'+inline(c)+'</td>';}).join('') + '</tr>';
+      });
+      tb += '</tbody></table>';
+      out.push(tb);
+      continue;
+    }
+
+    // 无序列表
+    if(/^[-*+]\s+/.test(t)){
+      openList('ul');
+      out.push('<li>' + inline(t.replace(/^[-*+]\s+/, '')) + '</li>');
+      continue;
+    }
+
+    // 有序列表
+    if(/^\d+[.)]\s+/.test(t)){
+      openList('ol');
+      out.push('<li>' + inline(t.replace(/^\d+[.)]\s+/, '')) + '</li>');
+      continue;
+    }
+
+    // 普通段落
+    closeList();
+    out.push('<p>' + inline(t) + '</p>');
+  }
+  closeList();
+  return out.join('\n');
+}
+
+document.getElementById('qaBody').innerHTML = renderMarkdown(QA_MARKDOWN);
+
+/* ---------- 打印 / 另存 ---------- */
+var _tipTimer = null;
+function showTip(msg){
+  var t = document.getElementById('tip');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(_tipTimer);
+  _tipTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+}
+function doPrint(){
+  showTip('正在唤起打印窗口，目标选「另存为 PDF」即可导出电子版');
+  setTimeout(function(){ window.print(); }, 260);
+}
+function safeName(s){
+  return String(s || '家庭').replace(/[\\/:*?"<>|]/g, '').trim() || '家庭';
+}
+function doSave(){
+  try{
+    var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '家庭保障问答手册_' + safeName('__QA_FAMILY__') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+    showTip('✓ 已另存 HTML 文件，可双击打开后打印或转 PDF');
+  }catch(e){
+    showTip('⚠ 自动另存失败，请按 Ctrl+S（Mac ⌘+S）手动保存本页');
+  }
+}
+console.log('%c[家庭保障问答手册] 外壳模板 v2.25.0','color:#1F4E45;font-weight:700');
+</script>
+</body>
+</html>

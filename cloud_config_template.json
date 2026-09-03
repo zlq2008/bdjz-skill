@@ -12,15 +12,16 @@
     "_说明": "mode=all 不限名单，所有导入者可用；mode=whitelist 时仅 authorized_ids 列出的工号可用（把某人工号从列表删除或加入即实现单人停用/恢复）"
   },
   "content_sync": {
-    "_说明": "内容同步中心：把最新版 SKILL.md、diagnosis_rules.json、report_template.html、family_data_collection_form.html、manual_entry_form.md、qa_handbook_template.md 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新工作流、规则、报告模板、家庭数据采集表或问答手册模板只需替换云端文件，全团队下次运行即时生效，无需重新分发 zip。SKILL.md 改动下次运行生效（1次延迟），其余文件本次运行即时生效",
+    "_说明": "内容同步中心：把最新版 SKILL.md、diagnosis_rules.json、report_template.html、family_data_collection_form.html、manual_entry_form.md、qa_handbook_template.md、qa_handbook_shell.html 托管到可公开只读地址，填入下方 URL。智能体每次运行时自动拉取最新版——你日后更新工作流、规则、报告模板、家庭数据采集表或问答手册模板只需替换云端文件，全团队下次运行即时生效，无需重新分发 zip。SKILL.md 改动下次运行生效（1次延迟），其余文件本次运行即时生效",
     "skill_md_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/SKILL.md",
     "diagnosis_rules_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/diagnosis_rules.json",
     "report_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/report_template.html",
     "manual_entry_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/manual_entry_form.md",
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
+    "qa_handbook_shell_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_shell.html",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.24.7",
-    "update_note": "v2.24.7：修复采集表「复制不到剪贴板」与「子女年龄/性别采不到」。采集表模板：复制改四级保障（clipboard API+900ms超时竞速 → 同步 execCommand → readText 读回校验防假成功 → 手动兜底），确认框常驻「备用复制区」（不依赖浏览器权限，100% 可达）；子女区增加年龄/性别必填提示；模板版本水印升 v2.24.7。SKILL.md：预填铁律新增「违规自识别信号」与违规后行为（禁止自行编写采集表 HTML），自检五项扩为六项（补 child-age）并要求未通过即停止弹表重做，字段映射表明确子女性别须尽量预填（可从保单性别栏/称谓/身份证倒数第二位识别）。"
+    "latest_content_version": "2.25.0",
+    "update_note": "v2.25.0：三项提速改造。①报告/问答手册改为脚本化生成（读模板原文→占位符替换→写副本→文件预览），禁止 agent 逐字输出 79KB HTML / 数十 KB markdown（耗时长根因）。②《问答手册》加是/否开关（默认否，省时长），qa_handbook_required 由「每份必生成」改按开关。③新增第 8 个内容文件 qa_handbook_shell.html（问答手册 A4 打印+另存为 HTML 外壳，URL 见本文件）。请同步上传以下 7 个内容文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / report_template.html / family_data_collection_form.html / qa_handbook_template.md / qa_handbook_shell.html。"
   },
   "usage_report": {
     "_说明": "使用数据回传：每次生成完整报告后，智能体会向该地址 POST 一条使用记录（员工工号/姓名/日期/保单数/风险数等）。可对接表单 webhook（金数据/问卷星/腾讯文档收集表）或自建接口。留空则只存本地待补传",
