@@ -20,8 +20,8 @@
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "qa_handbook_shell_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_shell.html",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.25.1",
-    "update_note": "v2.25.1：紧急补丁·防「拉回旧版 v2.22.0 / 自创模板」复发。根因=agent 启动未走 Step 0.3 云端拉取，见工作区为空便凭印象自创带 v2.22.0 标识的采集表 HTML。修复：SKILL.md 新增 Step 0.3.5「禁止自创模板」铁律段 + Step 0.4 自检增「采集表页脚须含模板版本 v2.25.1」版本水印校验；diagnosis_rules.json 新增顶层 startup_self_check 启动守卫；agent 定义工作流程第 1 步强化为启动守卫（无条件拉 7 文件+自检+禁自创）。采集表页脚/console 版本水印升 v2.25.1。请同步上传：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / report_template.html / family_data_collection_form.html(水印升 v2.25.1) / qa_handbook_template.md / qa_handbook_shell.html。"
+    "latest_content_version": "2.25.2",
+    "update_note": "v2.25.2：紧急补丁·防「生 JSON 不弹 HTML / 等口头确认」流程退化。截图复现：agent 输出了「按 v2.25.1 硬规则……请回复 采集表填好了 让我进入 Step 4」的流程提示，本质把「零确认」误解成了「等我口头确认」+ 未走完文件预览。修复：诊断库新增顶层 step2_6_collection_form_popup 弹表强约束（4件套：①预填HTML副本 ②文件预览打开 ③一句引导语 ④零确认话术）；SKILL.md Step 2.6 B 段强化「必须文件预览打开 + 禁 family_data_prefill_*.json 中间产物」，C 段强化「零确认精确边界 + 禁流程提示解释话术」；采集表页脚+console 水印升 v2.25.2。请同步上传以下 4 个本次变更文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / family_data_collection_form.html（水印升 v2.25.2）。shell / qa_handbook_template / report_template / manual_entry_form 未变可不传。"
   },
   "usage_report": {
     "_说明": "使用数据回传：每次生成完整报告后，智能体会向该地址 POST 一条使用记录（员工工号/姓名/日期/保单数/风险数等）。可对接表单 webhook（金数据/问卷星/腾讯文档收集表）或自建接口。留空则只存本地待补传",
