@@ -54,6 +54,7 @@
   }
   .toolbar button:hover{transform:translateY(-1px);}
   .btn-print{background:var(--teal);}
+  .btn-pdf{background:#2E5E7E;}
   .btn-save{background:var(--gold);}
   .btn-top{background:#8A97A3;}
   .tip{position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
@@ -84,7 +85,8 @@
 <body>
 
 <div class="toolbar">
-  <button class="btn-print" onclick="doPrint()">🖨 打印 / 导出 PDF</button>
+  <button class="btn-print" onclick="doPrint()">🖨 打印</button>
+  <button class="btn-pdf" onclick="doPdf()">📄 另存 PDF</button>
   <button class="btn-save" onclick="doSave()">💾 另存为 HTML</button>
   <button class="btn-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ 回到顶部</button>
 </div>
@@ -108,10 +110,10 @@
   <div id="qaBody"></div>
 </div>
 
-<div class="ver-stamp">问答手册外壳模板 v2.25.0　|　看到本行＝手册由模板原文生成，打印与另存功能完整</div>
+<div class="ver-stamp">问答手册外壳模板 v2.25.3　|　看到本行＝手册由模板原文生成，PDF/打印/另存三项功能完整</div>
 
 <script>
-/* ===== v2.25.0：占位符（agent 用脚本替换，禁止手写本文件）=====
+/* ===== v2.25.3：占位符（agent 用脚本替换，禁止手写本文件）=====
    __QA_FAMILY__ / __QA_DATE__ / __QA_SCORE__ ：手册抬头信息
    __QA_MARKDOWN__                            ：填好数据的手册正文（markdown 原文，JSON 字符串）
    本文件自带极简 markdown 渲染器，agent 无需把 markdown 转成 HTML，
@@ -226,8 +228,15 @@ function showTip(msg){
   _tipTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
 }
 function doPrint(){
-  showTip('正在唤起打印窗口，目标选「另存为 PDF」即可导出电子版');
+  showTip('正在唤起打印窗口，目标选「Microsoft Print to PDF」即可导出 PDF');
   setTimeout(function(){ window.print(); }, 260);
+}
+/* ===== v2.25.3：单独「另存 PDF」按钮 ===== */
+function doPdf(){
+  // 走浏览器原生打印 → 用户在打印机下拉里选「Microsoft Print to PDF」即可保存为 .pdf
+  // 不集成 jsPDF 等二进制 PDF 库，避免体积膨胀；A4 高保真由 @page + @media print 保证
+  showTip('请在打印窗口的「目标」下拉里选「Microsoft Print to PDF」→ 选保存位置 → 点「打印」');
+  setTimeout(function(){ window.print(); }, 280);
 }
 function safeName(s){
   return String(s || '家庭').replace(/[\\/:*?"<>|]/g, '').trim() || '家庭';
@@ -249,7 +258,7 @@ function doSave(){
     showTip('⚠ 自动另存失败，请按 Ctrl+S（Mac ⌘+S）手动保存本页');
   }
 }
-console.log('%c[家庭保障问答手册] 外壳模板 v2.25.0','color:#1F4E45;font-weight:700');
+console.log('%c[家庭保障问答手册] 外壳模板 v2.25.3','color:#1F4E45;font-weight:700');
 </script>
 </body>
 </html>
