@@ -433,12 +433,12 @@
 
   </div>
   <!-- v2.25.3 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
-  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.25.4</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/<a download> 路径，根除受限浏览器「blob 链接」系统对话框）</div>
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.25.5</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/<a download> 路径，根除受限浏览器「blob 链接」系统对话框）</div>
 </div>
 
 <script>
 // v2.25.4：控制台同步输出版本，便于技术侧核验
-console.log('%c[家庭数据采集表] 模板版本 v2.25.4（零下载版）','color:#B08A5A;font-weight:700');
+console.log('%c[家庭数据采集表] 模板版本 v2.25.5（零下载版）','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
@@ -593,6 +593,9 @@ function bindBalanceOverride(inputId){
     if(!el.value){
       el.dataset.auto = 'true';
       el.classList.add('auto-calc');
+    } else {
+      el.dataset.auto = 'false';
+      el.classList.remove('auto-calc');
     }
   });
 }
@@ -743,7 +746,8 @@ function copyAllData() {
     房贷: {有: document.getElementById('hasMortgage').checked, 贷款总额: num('mortgageTotal')+'万', 贷款年限: num('mortgageYears')+'年', 已还年限: num('mortgagePaid')+'年', 月供: num('mortgageMonthly')+'元', 剩余年限: (num('mortgageYears')-num('mortgagePaid'))+'年', 剩余还款额度: (parseFloat(document.getElementById('mortgageBalance').value)||0).toFixed(1)+'万', 剩余还款: (parseFloat(document.getElementById('mortgageBalance').value)||0).toFixed(1)+'万'},
     车贷: {有: document.getElementById('hasCarLoan').checked, 贷款总额: num('carTotal')+'万', 贷款年限: num('carYears')+'年', 已还年限: num('carPaid')+'年', 月供: num('carMonthly')+'元', 剩余年限: (num('carYears')-num('carPaid'))+'年', 剩余还款额度: (parseFloat(document.getElementById('carBalance').value)||0).toFixed(1)+'万'},
     其他收入: num('otherIncome')+'万/年', 其他负债: num('otherDebt')+'万',
-    教育: {路径: document.getElementById('educationPath').selectedOptions[0].text, 教育金: document.getElementById('rEducation').textContent}
+    教育: {路径: document.getElementById('educationPath').selectedOptions[0].text, 教育金: document.getElementById('rEducation').textContent},
+    交付选项: {生成问答手册: getHandbookOpt()}
   };
   // v2.24.1：改用三级降级复制（原实现无 catch，file:// 下静默失败）
   copyTextToClipboard(JSON.stringify(data, null, 2), '✓ 采集数据已复制，粘贴到对话中即可');

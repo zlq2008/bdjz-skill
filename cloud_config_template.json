@@ -20,12 +20,26 @@
     "qa_handbook_template_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_template.md",
     "qa_handbook_shell_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/qa_handbook_shell.html",
     "data_collection_form_url": "https://gh-proxy.com/https://raw.githubusercontent.com/zlq2008/bdjz-skill/main/family_data_collection_form.html",
-    "latest_content_version": "2.25.4",
-    "update_note": "v2.25.4 三项紧急修复：①「零下载」铁律——v2.25.3 实测确认在受限浏览器（Edge / WorkBuddy iframe）下即使 type:text/html 的 Blob + <a download> 仍触发系统级「需要使用新应用以打开此 blob 链接」对话框，v2.25.4 起取消采集表「💾 备份采集数据」按钮 + 取消外壳「💾 另存为 HTML」按钮，采集表/外壳零下载（grep 不到 <a download> / createObjectURL / new Blob）。回传通道严格三种：①剪贴板自动复制回传串（主）②备用复制区全选复制（兜底，与主等价）③对话口述/粘贴数值。**不再有任何文件下载。**②「交付物直接显示」铁律——报告/手册 HTML 副本生成后必须立即调用 file_preview / open 工具打开让交付物显示在对话界面（artifact 卡片），禁止只在对话贴文件路径。③「零询问」加固——v2.25.4 用户实测仍出现「询问顶梁柱是谁」窗口，根因是用户本地专家包仍是 v2.12.0 旧版（与云端 8 文件 v2.25.3 并存），agent 跑 v2.12.0 旧路径；v2.25.4 同步升 agent 定义 + 强化「零询问」铁律到采集表自身。请同步上传以下 5 个本次变更文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / family_data_collection_form.html（水印升 v2.25.4）/ qa_handbook_shell.html（水印升 v2.25.4 + 去「💾 另存 HTML」按钮）。report_template / qa_handbook_template / manual_entry_form 未变可不传。**重要**：运行时真实源是 `~/.workbuddy/plugins/cache/my-experts/policy-health-advisor/{版本}/`（不是 marketplaces 目录），其中 `agents/*.md` 不会被云端拉新。用户必须重新安装 **policy-health-advisor-v2.25.4-完整专家包.zip**（含 .codebuddy-plugin/plugin.json + agents/，25 文件）让本地 agent 定义升 v2.25.4（否则仍跑旧路径出现「询问窗口」问题）。**切勿用 8 文件扁平包 bdjz-skill-v2.25.4.zip 安装**——缺 plugin.json 会被安装器判定损坏并生成 .orphaned_at。"
+    "latest_content_version": "2.25.5",
+    "update_note": "v2.25.5 更新：①报告模板「犹豫期」释义改写为「办完后的反悔期（一般10–15天，电子保单0费用，纸质保单10元工本费）可全额拿回」，补上客户最关心的退保成本细节；②采集表修复「手动填写数值后 auto-calc 自动计算标记未清除」的问题，手动改过的字段不再残留灰底；③采集表回传串新增「交付选项: {生成问答手册}」字段，服务人员在表里勾选的手册开关能可靠传给智能体；④报告模板行动清单精简，移除「更新全部保单预留手机号/地址/扣款账户」一条；⑤全家版本号统一升 2.25.5（SKILL tool_version / 规则库 version / 本文件 latest_content_version 三处对齐）。请同步上传变更文件到 GitHub main：SKILL.md / diagnosis_rules.json / cloud_config_template.json(本文件) / family_data_collection_form.html / qa_handbook_shell.html / report_template.html。qa_handbook_template 与 manual_entry_form 未变可不传。安装请用 policy-health-advisor-v2.25.5-完整专家包.zip（含 .codebuddy-plugin/plugin.json + agents/）；**切勿用 8 文件扁平包 bdjz-skill-v2.25.5.zip 安装**——缺 plugin.json 会被安装器判定损坏并生成 .orphaned_at。"
   },
   "usage_report": {
     "_说明": "使用记录回传（默认飞书表格，可换 Webhook / 腾讯文档 / 自有后端）",
     "webhook_url": "https://open.feishu.cn/open-apis/bitable/v1/apps/MVrqb2Fgva9m3fs1EMoca4F4nYb/tables/tblXkpX1KKD3xYqo/records?user_access_token=u-6qE.bHB6OVUF7JExVy9G4gy7ok4g5V5lIbcMa3Ag5D5aw_&ignore_consent=true",
-    "fields": ["timestamp", "employee_id", "employee_name", "branch", "content_version", "session_id", "step_reached", "elapsed_seconds", "has_policies", "family_size", "report_score", "generated_qa_handbook", "error_code"]
+    "fields": [
+      "timestamp",
+      "employee_id",
+      "employee_name",
+      "branch",
+      "content_version",
+      "session_id",
+      "step_reached",
+      "elapsed_seconds",
+      "has_policies",
+      "family_size",
+      "report_score",
+      "generated_qa_handbook",
+      "error_code"
+    ]
   }
 }
