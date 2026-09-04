@@ -44,7 +44,7 @@ a{color:var(--teal);text-decoration:none}
 .qv{font-size:18px;font-family:'Noto Serif SC',serif;text-align:right}
 .legend{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:18px 0 0;font-size:12px;color:var(--muted)}
 #chipCounts{text-align:center;font-size:13px;color:var(--muted);margin-top:10px}
-.covernote{max-width:560px;margin:18px auto 0;font-size:13.5px;color:#5c574c}
+.covernote{margin:18px 0 0;font-size:13.5px;color:#5c574c;text-align:justify}
 .svc-hide{display:none!important}
 .toc{margin-top:22px;font-size:12.5px;color:var(--muted);letter-spacing:1px}
 
@@ -402,34 +402,18 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
 </head>
 <body>
 <div class="page">
-
-<!-- ════════════════════════════════════════════════════════════════════════════════════
-  ★ 模板自适应声明（v2.24.5 · 生成报告时逐条照做，禁止机械复述）★
-  本文件整体是「李阳家庭」的示例数据（张伟 38 / 李芳 35 / 张一鸣 8、年收入 30 万、
-  家庭责任 440 万、P1–P5、200 万级托底等）。当为真实客户生成报告时：
-    1) 封面家庭成员、收入、责任测算、保单表 P1–Pn 全部替换为本次数据；
-    2) 以下标注「自适应」的叙事句/断言句，按本次数据重写或删除，
-       与真实客户不符的「肯定」一律不得保留；
-    3) 分数、分档、节奏、行动清单与 06/07 的逐条内容，随数据联动重算；
-    4) 只保留模板的版式、句式与语气，不保留任何示例家庭特有的数字与说法。
-  ★ 本节内各「自适应」注释即强制改写点；若拿不准该句是否适配当前客户，
-    宁可删除该句，也不得把示例事实当作真实客户情况照抄给客户。★
-════════════════════════════════════════════════════════════════════════════════════ -->
-
 <!-- ═══════ 封面 ═══════ -->
 <div class="topstrip">
   <span>FAMILY PROTECTION HEALTH CHECK</span>
   <span>增值服务 · 非销售要约 · 仅供参考</span>
 </div>
-
 <section class="cover">
   <div class="cover-en">FAMILY&nbsp;PROTECTION&nbsp;HEALTH&nbsp;CHECK</div>
   <h1 class="serif">家的三笔钱<small>家庭保障健康体检报告</small></h1>
   <div class="threeq">
     <span>① 钱够不够用</span><span>② 钱到时候归谁</span><span>③ 钱能否顺利拿到</span>
   </div>
-  <div class="meta">评估对象 <b class="ed" contenteditable="true">张伟家庭</b> ｜ 报告编号 <b contenteditable="true" id="reportNo">2026-HJ-001</b> ｜ 评估日期 <b contenteditable="true">2026年8月</b><br><span class="svc-hide">服务经理 <b contenteditable="true">［姓名·工号］</b> ｜ 联系电话 <b contenteditable="true">［联系电话］</b></span></div>
-
+  <div class="meta">评估对象 <b class="ed" contenteditable="true">［客户姓名］家庭</b> ｜ 报告编号 <b contenteditable="true" id="reportNo">［编号］</b> ｜ 评估日期 <b contenteditable="true">［　年　月　］</b><br><span class="svc-hide">服务经理 <b contenteditable="true">［姓名·工号］</b> ｜ 联系电话 <b contenteditable="true">［联系电话］</b></span></div>
   <div class="dash">
     <div>
       <svg viewBox="0 0 150 150" width="146" height="146">
@@ -447,8 +431,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
       <div class="qrow"><span class="qn">③ 钱能否顺利拿到</span><span class="qtrack"><i class="qfill band-amber" id="qbar3" style="width:55%"></i></span><b class="qv serif" id="qval3">55</b><span class="chip band-amber" id="qband3">可优化</span></div>
     </div>
   </div>
-
-  <!-- v2.19.0：九维概览（3×3 紧凑网格，进阶规划暂不评分） -->
+  <!-- 九维概览（3×3 紧凑网格，进阶规划暂不评分；评分为示例值，点击可直接修改） -->
   <div class="dimgrid">
     <div class="dcell"><div class="d-n">健康守护金</div><div class="d-s"><span data-score-dim="1">65</span><small> 分</small></div><span class="chip band-teal" data-band-dim="1">稳健</span></div>
     <div class="dcell"><div class="d-n">顶梁柱责任</div><div class="d-s"><span data-score-dim="2">40</span><small> 分</small></div><span class="chip band-orange" data-band-dim="2">优先完善</span></div>
@@ -460,187 +443,166 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="dcell"><div class="d-n">信息时效</div><div class="d-s"><span data-score-dim="8">60</span><small> 分</small></div><span class="chip band-teal" data-band-dim="8">稳健</span></div>
     <div class="dcell"><div class="d-n">期限匹配</div><div class="d-s"><span data-score-dim="9">55</span><small> 分</small></div><span class="chip band-amber" data-band-dim="9">可优化</span></div>
   </div>
-  <p class="score-note">评分说明：综合健康度为各项维度加权平均分（第一问「钱够不够用」占40%、第二问「钱到时候归谁」占30%、第三问「钱能否顺利拿到」占30%）；各大项分数为所属小项的算术平均分；进阶规划暂不评分、不计入综合分。</p>
+  <p class="score-note">评分说明：综合健康度为各项维度加权平均分（第一问「钱够不够用」占40%、第二问「钱到时候归谁」占30%、第三问「钱能否顺利拿到」占30%）；各大项分数为所属小项的算术平均分；进阶规划暂不评分、不计入综合分；第08部分「补充检视」六维为进阶话题，不纳入九维评分。</p>
   <div id="chipCounts">优先完善 2 项 · 可优化 2 项 · 稳健 2 项 · 安心 2 项 · 进阶规划暂不评分 1 项</div>
   <div class="legend">
     <span class="chip band-green">≥80 安心</span><span class="chip band-teal">60–79 稳健</span>
     <span class="chip band-amber">50–59 可优化</span><span class="chip band-orange">＜50 优先完善</span>
   </div>
-  <p class="covernote" style="margin-top:14px;text-align:justify">本报告旨在帮助您更清晰地了解现有保障情况，而非推销任何产品。我们以"保障是否充足 · 资产归属是否清晰 · 领取是否顺畅"三个核心问题为线索，对家庭现有保单做一次全面"体检"。这个分数不代表"办错了"——它说的是：<b>基础防线已立，还有从容完善的空间</b>。先看见已做对的，再一起看下一步怎么更周全。</p>
+  <p class="covernote" style="margin-top:14px;text-align:justify">本报告旨在帮助您更清晰地了解现有保障情况，而非推销任何产品。我们以"保障是否充足 · 资产归属是否清晰 · 领取是否顺畅"三个核心问题为线索，对家庭现有保单做一次全面"体检"。这个分数不代表"办错了"——它说的是：<b>先看见已做对的，再一起看下一步怎么更周全</b>。</p>
   <div class="toc">
-    <a href="#s1">01 家底盘点</a> · <a href="#s2">02 远见之择</a> · <a href="#s3">03 钱够不够</a> · <a href="#s4">04 钱归谁</a> · <a href="#s5">05 钱顺不顺</a> · <a href="#s6">06 综合诊断</a> · <a href="#s7">07 行动清单</a>
+    <a href="#s1">01 家底盘点</a> · <a href="#s2">02 远见之择</a> · <a href="#s3">03 钱够不够</a> · <a href="#s4">04 钱归谁</a> · <a href="#s5">05 钱顺不顺</a> · <a href="#s6">06 综合诊断</a> · <a href="#s7">07 行动清单</a> · <a href="#s8">08 补充检视</a>
   </div>
 </section>
-
 <!-- ═══════ 01 家底盘点 ═══════ -->
 <section id="s1" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">01</div><div class="sec-en">FAMILY &amp; POLICY PROFILE</div></div><h2>家底盘点 · 家庭与保单总览</h2></div>
-  <p class="sec-lead">先看清家底，后面每一项判断才有据可依。<span class="hint no-print">（示例数据，点击虚线处可改写为您的客户信息）</span></p>
-
+  <p class="sec-lead">先看清家底，后面每一项判断才有据可依。<span class="hint no-print">（数据来自您的采集表确认，点击虚线处可随时改写为最新信息）</span></p>
   <div class="card">
     <table>
-      <tr><th style="width:110px">家庭年收入</th><td contenteditable="true">30 万（工资为主 · 配偶兼职 · 较稳定）</td><th style="width:110px">家庭成员</th><td contenteditable="true">张伟 38 · 李芳 35 · 张一鸣 8</td></tr>
-      <tr><th>房贷</th><td contenteditable="true">月供 1 万 · 余额 150 万</td><th>其他负债</th><td contenteditable="true">50 万</td></tr>
-      <tr><th>年支出</th><td contenteditable="true">约 22 万（固定 12 万 + 浮动 10 万）</td><th>双方父母</th><td contenteditable="true">均在世 · 需赡养</td></tr>
+      <tr><th style="width:110px">家庭年收入</th><td contenteditable="true">［年收入合计及构成］</td><th style="width:110px">家庭成员</th><td contenteditable="true">［成员姓名 · 年龄］</td></tr>
+      <tr><th>房贷</th><td contenteditable="true">［月供 · 剩余年限 · 余额］</td><th>车贷</th><td contenteditable="true">［月供 · 剩余年限 · 余额］</td></tr>
+      <tr><th>年支出</th><td contenteditable="true">［年固定与浮动支出合计］</td><th>其他负债</th><td contenteditable="true">［金额］</td></tr>
+      <tr><th>双方父母</th><td contenteditable="true">［赡养情况请补充］</td><th>数据口径</th><td>以采集表确认值为准</td></tr>
     </table>
     <div class="bignum">
-      <div class="stat"><div class="n serif">140<span style="font-size:14px">万</span></div><div class="t">生活开销（责任期内）</div></div>
-      <div class="stat"><div class="n serif">150<span style="font-size:14px">万</span></div><div class="t">房贷余额</div></div>
-      <div class="stat"><div class="n serif">100<span style="font-size:14px">万</span></div><div class="t">子女教育金</div></div>
-      <div class="stat"><div class="n serif">50<span style="font-size:14px">万</span></div><div class="t">其他负债</div></div>
-      <div class="stat" style="border-color:#e6d9bd;background:#fdfaf2"><div class="n serif" style="color:#b08d57">440<span style="font-size:14px">万</span></div><div class="t"><b>家庭责任合计</b>（需托底总额）</div></div>
+      <div class="stat"><div class="n serif">［ ］</div><div class="t">生活开销（责任期N年）</div></div>
+      <div class="stat"><div class="n serif">［ ］</div><div class="t">房贷余额</div></div>
+      <div class="stat"><div class="n serif">［ ］</div><div class="t">子女教育金（规划口径）</div></div>
+      <div class="stat"><div class="n serif">［ ］</div><div class="t">车贷及其他负债</div></div>
+      <div class="stat" style="border-color:#e6d9bd;background:#fdfaf2"><div class="n serif" style="color:#b08d57">［ ］</div><div class="t"><b>家庭责任合计</b>（需托底总额）</div></div>
     </div>
-    <!-- v2.19.0：家庭责任测算明细（默认展开，可折叠） -->
     <details class="calcbox" open>
-      <summary><b>测算明细（规划视角，供讨论参考）</b></summary>
+      <summary><b>测算明细（规划视角，供讨论参考 · 示例口径）</b></summary>
       <div style="margin-top:6px">
-        · 生活开销 140 万 ＝ 年支出约 22 万 × 责任期约 6 年（至房贷大幅还清、子女经济独立的保守折算）<br>
-        · 房贷余额 150 万 ＝ 当前剩余本金（月供约 1 万）<br>
-        · 子女教育金 100 万 ＝ 按当前物价水平估算，覆盖从当前至大学毕业的教育支出（含学费、课外培训、生活补助），具体金额因子女年龄和教育规划而异<br>
-        · 其他负债 50 万 ＝ 其他借款剩余本金（以合同为准）<br>
-        · <b>合计 440 万 ＝ 以上四项相加</b><span contenteditable="true">（子女年龄待核实，教育金为估算值）</span>
+        · 生活开销 ＝ 年支出 × 责任期（按子女至经济独立的保守折算）<br>
+        · 房贷余额 ＝ 当前剩余本金<br>
+        · 子女教育金 ＝ 规划口径，覆盖子女当前至大学毕业的支出（具体因规划而异，以实际安排为准）<br>
+        · 车贷及其他负债 ＝ 剩余本金<br>
+        · <b>家庭责任合计 ＝ 以上各项相加</b>（各项以采集表确认为准，可随时更新）
       </div>
     </details>
+    <p style="font-size:12px;color:var(--muted);margin-top:8px">以上家庭画像以采集表确认值为准（信息来自服务人员与客户现场核实）。</p>
   </div>
-
   <div class="card">
     <b class="serif" style="color:var(--teal)">现有保单清单</b>
     <table>
-      <tr><th>编号</th><th>保障谁</th><th>管什么的</th><th>额度</th><th>年缴</th><th>节奏</th><th>已交</th><th>状态</th></tr>
-      <tr><td>P1</td><td>张伟</td><td contenteditable="true">健康守护金（休养期一次到账，轻度也含）</td><td>50万</td><td>约9,600元</td><td>20年</td><td>9年</td><td>领钱安排：法定 · 待指定</td></tr>
-      <tr><td>P2</td><td>张伟/李芳</td><td contenteditable="true">大额医疗（住院＋特需门诊报销）</td><td>400万</td><td>约1,600元</td><td>逐年</td><td>6年</td><td>领钱安排：法定 · 待指定</td></tr>
-      <tr><td>P3</td><td>子女</td><td contenteditable="true">少儿健康保障（一次到账）</td><td>20万</td><td>约2,000元</td><td>20年</td><td>7年</td><td>正常</td></tr>
-      <tr><td>P4</td><td>张一鸣</td><td contenteditable="true">健康守护金（少儿）</td><td>待核对</td><td>约3,200元</td><td>20年</td><td>3年</td><td style="color:#b5532f">缴费节点 2026-10-31</td></tr>
-      <tr><td>P5</td><td>李芳</td><td contenteditable="true">养老储备（退休后按年领）</td><td>待核对</td><td>约20,000元</td><td>10年</td><td>5年</td><td>领钱安排：法定 · 待指定</td></tr>
-      <tr class="note"><td colspan="8">缴费信息为示意口径（P4/P5 以保单原件为准）；五张保单的出钱人（投保人）均为张伟。</td></tr>
+      <tr><th>编号</th><th>保障谁</th><th>管什么的</th><th>额度</th><th>年缴</th><th>节奏</th><th>已交</th><th>领钱安排</th></tr>
+      <tr><td>P1</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
+      <tr><td>P2</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
+      <tr><td>P3</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
     </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:6px">已购保单权益以保险合同为准，保障效力不受影响；本次体检不是否定过去的配置，而是基于家庭责任变化做加法。个别识别/归属字段请在采集表核实后以保单原件为准。</p>
   </div>
-
   <div class="card" style="background:#e9f4ef;border-color:#bfe0d2">
-    <b>配置节奏点评：</b>✓ 先大人、后小孩　✓ 先保障、后储蓄——方向值得肯定。<b>目前有待完善的板块：顶梁柱责任托底</b>（见第一问量化测算）。
+    <b>配置节奏点评：</b>✓ 已有人开始为家人配置保障、且保单状态干净无质押——值得肯定。建议重点核对：<b>主要收入来源是否有"责任托底"与"大额医疗"</b>；同时评估全家年缴占收入比例是否合理（参考：宜控制在 20% 以内），新增强化需分阶段、以月缴小额高杠杆方向优先。
   </div>
-
-  <!-- v2.19.0：家庭保障配置节奏全景图 -->
   <div class="pace">
     <div class="pcard ok">
       <h4><span class="ico">✅</span>已配置 · 基础防线已立</h4>
-      张伟健康守护金 50 万（P1）＋ 子女健康保障 20 万（P3）＋ 夫妻大额医疗 400 万（P2）＋ 养老储备已起步（P5）＋ 五张保单干净无质押
+      ［记录本家庭已配置的保障与亮点：如健康守护金、指定受益人、终身型储蓄安排等］
     </div>
     <div class="pcard gap">
       <h4><span class="ico">⚠️</span>当前完善空间 · 建议优先关注</h4>
-      顶梁柱责任托底当前为 0（覆盖度约 0%，家庭责任 440 万）｜ P1/P2/P5 领钱安排仍为"法定"｜ P4 缴费节点 10月31日｜ 预留联系方式待更新
+      ［记录主要待完善点：责任托底覆盖不足 / 缺大额医疗 / 领钱安排待指定 / 缴费负担偏高等，逐项按实况填写］
     </div>
     <div class="pcard next">
       <h4><span class="ico">🧭</span>建议补充顺序 · 从容推进</h4>
-      <b>第一步</b>：免费确权（受益人改"指定"＋更新联系方式＋缴清 P4）<br>
-      <b>第二步</b>：高杠杆托底（200万级·定期型）<br>
-      <b>第三步</b>：按需加厚（守护金向 80 万靠拢）
+      <b>第一步</b>：免费确权（更新联系方式＋确认领钱安排）<br>
+      <b>第二步</b>：为主要收入来源补一份高杠杆的定期型责任托底（月缴百元级）<br>
+      <b>第三步</b>：视预算与年龄逐步补大额医疗与意外保障
     </div>
   </div>
 </section>
-
 <!-- ═══════ 02 远见之择 ═══════ -->
 <section id="s2" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">02</div><div class="sec-en">WHAT YOU DID RIGHT</div></div><h2>远见之择 · 您已经做对的事</h2></div>
   <p class="sec-lead">在任何建议之前，先为这些事点赞——很多家庭还没走到这一步。</p>
-  <!-- 自适应：以下肯定卡是「示例家庭做对的事」清单，逐条先核对本次数据——真实客户做了哪几件才保留哪几件，做了多少/保障谁/保到几岁一律以本次数据为准改写；数据不支持的肯定卡必须删除，不得保留「全家三口/夫妻俩/养老已起步」等与实际不符的说法。至少保留 ≥3 张（不足则从本次数据中提炼真正成立的肯定点）。 -->
-  <div class="card">✓ <b>全家三口都有健康守护金</b>——为每位家人建起第一道防线，这是很关键的一步。</div>
-  <div class="card">✓ <b>夫妻俩都有大额医疗兜底</b>——账单再大，都有机制接得住。</div>
-  <div class="card">✓ <b>养老储备已经起步</b>——提前布局退休后的现金流，眼光放得远。</div>
-  <div class="card">✓ <b>所有保单干净、无质押</b>——资产状态健康，权益完整。</div>
-  <div class="card">✓ <b>保障期覆盖责任较重的岁月</b>——主要保单保至60岁，与房贷、学业的高峰期基本匹配。</div>
-  <p class="sec-lead" style="margin-top:16px">小结：为家人提前筑起防线，本身就是一份沉甸甸的"远见之择"与爱的表达。接下来的完善，是<b>锦上添花</b>，不是否定过去。</p>
+  <div class="card">✓ <b>已开始为家人配置保障</b>——无论额度大小，迈出这一步本身就很关键，很多家庭还没开始。</div>
+  <div class="card">✓ <b>保单状态干净、无质押</b>——权益完整，没有额外牵绊。</div>
+  <div class="card">✓ <b>有长期规划与给家人留资产的意识</b>——如储蓄型、传承型产品的安排。</div>
+  <div class="card">✓ <b>领钱安排已指定给家人</b>——到时直接到账、省去繁琐程序（如有），这步做得省心。</div>
+  <p class="sec-lead" style="margin-top:16px">小结：为家人提前铺下防线，本身就是一份沉甸甸的"远见之择"。接下来要做的，是<b>把最要紧的"责任托底"补上</b>——它不是否定过去，而是让这份爱更周全。</p>
 </section>
-
 <!-- ═══════ 03 第一问 ═══════ -->
 <section id="s3" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">03</div><div class="sec-en">SUFFICIENCY</div></div><h2>第一问 · 钱够不够用</h2></div>
-  <div class="qcore">核心问题：万一家庭的节奏被打乱，现有的钱，<b>够不够让日子照常运转？</b></div>
-
+  <div class="qcore">核心问题：如果家庭的节奏被打乱，现有的钱，<b>够不够让日子照常运转？</b></div>
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">一</span>健康守护金覆盖</h3><p class="dim-sub">检查要点：一次到账的钱 vs 安心休养期所需</p></div>
       <div class="dim-right"><span class="dim-score"><b data-score-dim="1">65</b>分</span><span class="chip band-teal" data-band-dim="1">稳健</span><span class="ptag pt-q">本季度关注</span></div>
     </header>
-    <p style="font-size:13.5px">万一需要按下"暂停键"、安心休养三五年，这笔一次到账的钱，不是用来付账单的——是用来顶住这期间<b>家里一切照旧的开销</b>。</p>
+    <p style="font-size:13.5px">如果哪天需要按下"暂停键"、安心休养几年，这笔一次到账的钱，不是用来付账单的——是用来顶住这期间<b>家里一切照旧的开销</b>。</p>
     <div class="vs">
-      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:62%"></i></span><span class="vs-v">张伟 50 万</span></div>
-      <div class="vs-row"><span class="vs-l">建议</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">约 80 万（区间50–100万）</span></div>
+      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:40%"></i></span><span class="vs-v">［已有金额］</span></div>
+      <div class="vs-row"><span class="vs-l">建议</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">参考 30–50 万（按收入与责任）</span></div>
     </div>
-    <!-- 自适应：下方测算口径为示例（张伟80万/李芳50万/子女30万已有20万/全家约160万/已有约70万/可优化90万），生成时按本次数据重算主角姓名与各档建议额度；「区间50–100万/休养3年」等口径可保留。 -->
-    <p style="font-size:12.5px;color:var(--muted)">测算口径：按「主要收入来源者休养3年＋家庭开支照常」估算——主要收入来源者（张伟）建议健康守护金约80万（区间50–100万）；李芳作为配偶，建议补充至约50万级；子女建议30万级（已有20万＋待核对一份）。全家合计建议约160万，当前已有约70万，可优化空间约90万。建议分阶段推进，优先补足主要收入来源者。（具体以保险合同条款为准）</p>
-    <div class="dim-act">➔ 【加厚】为主要收入来源者补充至约80万级（月缴数百元量级）· 详见第07部分方向C</div>
+    <p style="font-size:12.5px;color:var(--muted)">测算口径：守护金主要用来覆盖"休养期的家庭开支"。若主要收入来源名下暂未见健康守护金，这一步的意义在于：家里的"顶梁柱"若需要休养，家庭现金流不至于一下断档。全家可分阶段、按预算从容补，不急于一次到位。（具体以保险合同条款为准）</p>
+    <div class="dim-act">➔ 【加厚/补齐】视预算优先为主要收入来源补一份健康守护金（可做储蓄+守护兼具的方向），有旧单的可酌情加厚 · 详见第07部分</div>
   </article>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">二</span>顶梁柱责任托底</h3><p class="dim-sub">检查要点：家庭责任总额是否有专属的一笔钱托底</p></div>
       <div class="dim-right"><span class="dim-score"><b data-score-dim="2">40</b>分</span><span class="chip band-orange" data-band-dim="2">优先完善</span><span class="ptag pt-m">本月可办</span></div>
     </header>
-    <p style="font-size:13.5px">这份保障管的是"责任"：如果有一段时间他需要休息，这份责任可以有人接棒——这笔钱会帮家里把<b>房贷、家用和孩子的学业继续担起来</b>，让家人的日子照常运转。业内一句话叫"留爱不留债"，说的就是它。</p>
+    <p style="font-size:13.5px">这份保障管的是"责任"：如果家里主要收入来源需要休息，这份责任可以有人接棒——这笔钱会帮家里把<b>房贷、家用和孩子的学业继续担起来</b>，让家人的日子照常运转。业内一句话叫"留爱不留债"，说的就是它。</p>
     <div class="vs">
-      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:0.5%"></i></span><span class="vs-v">0 万（暂无专属托底）</span></div>
-      <div class="vs-row"><span class="vs-l">需托底</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">440 万（责任合计）</span></div>
+      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:5%"></i></span><span class="vs-v">［已有托底金额］</span></div>
+      <div class="vs-row"><span class="vs-l">需托底</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">［家庭责任合计］</span></div>
     </div>
     <div class="cmp-wrap">
     <div class="cmp">
       <div class="cmp-card cmp-cur">
         <div class="cmp-lbl">当前托底</div>
-        <div class="cmp-num serif">0 万</div>
-        <div class="cmp-sub">覆盖约 0%</div>
+        <div class="cmp-num serif">［ ］</div>
+        <div class="cmp-sub">覆盖约 ［ ］%</div>
       </div>
       <div class="cmp-arrow">──▶</div>
       <div class="cmp-card cmp-sug">
         <div class="cmp-lbl">建议托底</div>
-        <div class="cmp-num serif">200 万</div>
-        <div class="cmp-sub">覆盖约 45%</div>
+        <div class="cmp-num serif">先从 40–50 万起步</div>
+        <div class="cmp-sub">按月缴百元级推进</div>
       </div>
     </div>
-    <div class="cmp-cta">每月约 600–800 元，托底比例从 0% 提升到 45%</div>
+    <div class="cmp-cta">按 12–24 个月分阶段，第一步月缴百元级，先托住房贷与责任较重的这几年</div>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin-top:2px">托底比例＝已有责任保障额度÷家庭责任总额（当前 0 万 ÷ 440 万＝0%，配置 200 万后 ÷ 440 万≈45%）；比例越高，意味着家庭责任被覆盖得越充分。<span style="color:#999">以上保费为估算参考，实际以保险公司核保结果为准。</span></p>
-    <!-- 自适应：下方场景段与测算比例为示例（张伟/30万/440万/0万/200万/45%/月缴600–800元），生成时按本次数据改写主角姓名、收入、责任总额、当前与建议托底额度及比例；「每月约600–800元/示例约700元」口径保留。 -->
-    <div class="scene hl"><b style="color:var(--teal)">顶梁柱责任：</b>张伟是家庭的主要收入来源（家庭年收入30万），一个人撑起家里的日常开销，身上的责任不轻。咱们做这份规划，不是说一定会发生什么，而是想让他在需要休息的时候，没有后顾之忧——房贷照还、孩子照上学、一家人的日子照常。200万的责任托底，就是在需要的时候，替他把这份责任接过来一段时间，让他能安心休养，不用急着回来工作。</div>
-    <p style="font-size:13px"><b>为什么先做它：</b>杠杆突出（每月约600–800元即可撬动两百万级）、决策压力较小、见效较快——先守住责任底线，再从容加厚守护金，节奏更从容。</p>
-    <div class="dim-act">➔ 【托底】配置200万级·定期型·保至60岁（月缴约600–800元量级，示例约700元/月）</div>
+    <p style="font-size:12px;color:var(--muted);margin-top:2px">托底比例＝已有责任保障额度÷家庭责任总额。若当前明显偏低、且家庭现有缴费负担已偏高，一次性补到很高的托底会挤占日常现金流——因此建议<b>分阶段、月缴小额、优先高杠杆的定期型责任托底</b>，先把"责任最重的这几年"托住，之后随收入增长再从容加厚。<span style="color:#999">以上为方向与量级参考，实际以保险公司核保结果为准。</span></p>
+    <div class="scene hl"><b style="color:var(--teal)">顶梁柱责任：</b>主要收入来源的家人一旦需要休养，房贷、家用、孩子的学费大多会失去支撑。做这份规划不是说一定会发生什么，而是想让他/她若需要休养时没有后顾之忧。用"月缴几百元"撬动几十万的责任托底，是这笔预算里能撬动保障量最大的方向之一——先守住责任底线，节奏更从容。</div>
+    <p style="font-size:13px"><b>为什么先做它：</b>对收入有限、又暂无责任托底的家庭，这是"先把底托住"的高性价比一步；不追求一步到位，而是分阶段稳稳推进。</p>
+    <div class="dim-act">➔ 【托底】为主要收入来源配置定期型责任托底（保至责任期结束，月缴百元级，先 40–50 万量级）· 详见第07部分方向A</div>
   </article>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">三</span>大额医疗兜底</h3><p class="dim-sub">检查要点：大额开销是否有接得住的机制</p></div>
-      <div class="dim-right"><span class="dim-score"><b data-score-dim="3">80</b>分</span><span class="chip band-green" data-band-dim="3">安心</span><span class="ptag pt-k">保持</span></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="3">80</b>分</span><span class="chip band-green" data-band-dim="3">安心</span><span class="ptag pt-q">本季度关注</span></div>
     </header>
+    <p style="font-size:13.5px">住院这类开销，几万到几十万不等，靠的是"能报销大额医疗账单"的机制来接住。若全家保单里暂未看到这类大额医疗保障，这是目前<b>最需要补的一块基石</b>——尤其主要收入来源与孩子。</p>
     <div class="vs">
-      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:100%"></i></span><span class="vs-v">400 万（住院＋特需门诊）</span></div>
-      <div class="vs-row"><span class="vs-l">通行口径</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">400 万 —— 已达标 ✓</span></div>
+      <div class="vs-row"><span class="vs-l">已有</span><span class="vs-track"><i class="vs-have" style="width:30%"></i></span><span class="vs-v">［已识别额度］</span></div>
+      <div class="vs-row"><span class="vs-l">通行口径</span><span class="vs-track"><i class="vs-need" style="width:100%"></i></span><span class="vs-v">百万级（人人需要）</span></div>
     </div>
-    <div class="dim-act">➔ 【保持】每年续期时核对条款即可；可评估补充日常门诊，覆盖小额高频的就医开销</div>
+    <div class="dim-act">➔ 【补齐】优先为主要收入来源与孩子补充百万级大额医疗保障（月缴数十至百元级，家庭成员可分阶段办）</div>
   </article>
-
   <div class="card" style="background:#ecf2f0;border-color:#c3d8d3">
-    <b>两条原则：</b>① 先大人、后孩子——优先守护家庭收入来源；② 先托底、后加厚——先守住责任底线，再从容加厚守护金。<br>
-    <span style="font-size:12px;color:var(--muted)">测算口径：440万采用"责任叠加法"（开销＋房贷＋教育＋负债），交叉参照双十原则（总保额≈年收入10倍，即约300万）与家庭需求法；张伟38岁、责任期长，单用倍数法易低估，故以责任叠加为主（具体以保险合同条款为准）。</span>
+    <b>两条原则：</b>① 先大人、后孩子——优先守护家庭主要收入来源；② 先托底、后加厚——先守住责任底线，再从容加厚守护金。<br>
+    <span style="font-size:12px;color:var(--muted)">测算口径：家庭责任合计采用"责任叠加法"（生活开销＋房贷＋车贷＋子女教育金等），供规划参考；因家庭收入有限、负担率可能偏高，所有新增均建议 12–24 个月分阶段、单笔不超过年收入 3–5%（具体以保险合同条款为准）。</span>
   </div>
-
   <div class="selfcheck">
-    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户，让TA自己勾：自己勾出来的"不确定"才有触动</span></div>
-    <div class="sc-row"><span>1. 万一需要按下"暂停键"、安心休养几年，一次到账的钱够家里这几年的开销吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
-    <div class="sc-row"><span>2. 家里顶梁柱的责任（房贷150万＋学业100万＋…），有专门的一笔钱托底吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
-    <div class="sc-row"><span>3. 万一住院开销特别大，有兜底机制吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
-    <div class="sc-row"><span>4. 万一住院花费超过1万，有百万级的大额医疗兜底吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
-    <div class="sc-row"><span>5. 将来养老的钱，开始准备了吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户，让TA自己勾</span></div>
+    <div class="sc-row"><span>1. 如果需要休养几年，一次到账的钱够家里这几年的开销吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>2. 家里顶梁柱的责任（房贷＋孩子学业等），有专门的一笔钱托底吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>3. 如果住院开销特别大，有能报销大额账单的机制吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
   </div>
 </section>
-
 <!-- ═══════ 04 第二问 ═══════ -->
 <section id="s4" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">04</div><div class="sec-en">OWNERSHIP</div></div><h2>第二问 · 钱到时候归谁</h2></div>
   <div class="qcore">核心问题：需要把钱交到家人手上时，能不能<b>准确、完整、按您的意愿到位？</b></div>
-
   <div class="card">
     <b class="serif" style="color:var(--teal)">一张图看懂"钱怎么流"</b>
     <div class="flow">
-      <div class="flow-node"><b>投保人</b><br>出钱的人·保单主人<br><small>（本例：张伟）</small></div>
+      <div class="flow-node"><b>投保人</b><br>出钱的人·保单主人<br><small>（谁出钱办的，谁打理保单）</small></div>
       <div class="flow-arrow">──订立合同──▶</div>
       <div class="flow-node"><b>保险公司</b><br>承保</div>
       <div class="flow-arrow">──提供保障──▶</div>
@@ -652,46 +614,41 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
       </div>
     </div>
     <div class="rights">
-      <div class="card"><h4>投保人 · 出钱的人</h4><p style="font-size:12.5px;color:#5c574c"><!-- 自适应：「本例P1–P5均为张伟——资产集中在顶梁柱名下」是示例句，须按本次数据改写（实际投保人是谁、是否集中于顶梁柱名下依数据而定），不得对真实客户照抄「均为张伟」。 -->保单的主人，拥有退保、变更、领现金价值等权利。本例P1–P5均为张伟——资产集中在顶梁柱名下，属常见安排，知悉即可。</p></div>
+      <div class="card"><h4>投保人 · 出钱的人</h4><p style="font-size:12.5px;color:#5c574c">保单的主人，拥有中途退掉、变更、领出保单里攒下的钱等权利。由谁出钱、谁打理，属常见家庭安排，但建议心里有数。</p></div>
       <div class="card"><h4>被保险人 · 受保障的人</h4><p style="font-size:12.5px;color:#5c574c">以TA的身体和寿命为保障对象；就医报销、健康守护金这类钱，直接给TA本人。</p></div>
-      <div class="card"><h4>受益人 · 到时候领钱的人</h4><p style="font-size:12.5px;color:#5c574c">"留给家人的钱"由谁领取、按什么顺序和份额——由受保障的人（或出钱人）指定。<b>P1/P2/P5目前均为"法定"，尚未指定——本问核心。</b></p></div>
+      <div class="card"><h4>受益人 · 到时候领钱的人</h4><p style="font-size:12.5px;color:#5c574c">"留给家人的钱"由谁领取、按什么顺序和份额——由受保障的人（或出钱人）指定。<b>若仍有保单为"法定 / 待核对"，建议本问一并理顺。</b></p></div>
     </div>
     <p class="lawfoot">相关法律依据：《保险法》第10条（投保人）、第12条/第18条（被保险人）、第39条（受益人指定）。</p>
     <table>
       <tr><th>保单</th><th>出钱的人</th><th>保障谁</th><th>"留给家人的钱"给谁</th><th>诊断</th></tr>
-      <tr><td>P1</td><td>张伟</td><td>张伟</td><td>法定 → 按遗产程序办</td><td style="color:#b5532f">建议指定</td></tr>
-      <tr><td>P2</td><td>张伟</td><td>张伟/李芳</td><td>法定 → 按遗产程序办</td><td style="color:#b5532f">建议指定</td></tr>
-      <tr><td>P3</td><td>张伟</td><td>子女</td><td>待核对</td><td>以原件为准</td></tr>
-      <tr><td>P4</td><td>张伟</td><td>张一鸣</td><td>待核对</td><td>以原件为准</td></tr>
-      <tr><td>P5</td><td>张伟</td><td>李芳</td><td>法定 → 按遗产程序办</td><td style="color:#b5532f">建议指定</td></tr>
+      <tr><td>P1</td><td contenteditable="true">［投保人］</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［法定 / 指定 / 待核对］</td><td contenteditable="true">［建议指定 / 已妥当 / 以原件为准］</td></tr>
+      <tr><td>P2</td><td contenteditable="true">［投保人］</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［法定 / 指定 / 待核对］</td><td contenteditable="true">［建议指定 / 已妥当 / 以原件为准］</td></tr>
+      <tr><td>P3</td><td contenteditable="true">［投保人］</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［法定 / 指定 / 待核对］</td><td contenteditable="true">［建议指定 / 已妥当 / 以原件为准］</td></tr>
     </table>
   </div>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">四</span>爱的传递安排（受益人）</h3><p class="dim-sub">检查要点：是否明确指定、顺位与份额是否设定</p></div>
       <div class="dim-right"><span class="dim-score"><b data-score-dim="4">45</b>分</span><span class="chip band-orange" data-band-dim="4">优先完善</span><span class="ptag pt-m">本月可办·免费</span></div>
     </header>
-    <p style="font-size:13.5px">每张保单里，都有一笔"留给家人的钱"。它到时候<b>给谁、按什么顺序、多快到账</b>，取决于"受益人"的设置。现在花15分钟设好，将来家人省心省事——这是实实在在的守护。</p>
+    <p style="font-size:13.5px">每张保单里，都有一笔"留给家人的钱"。它到时候<b>给谁、按什么顺序、多快到账</b>，取决于"领钱的人"怎么写。已设好的值得点赞；仍是"法定 / 待核对"的，花十几分钟理顺，将来家人更省心——这是实实在在的守护。</p>
     <table>
       <tr><th></th><th>✓ 指定受益人</th><th>✗ 维持"法定"</th></tr>
       <tr><td><b>到账</b></td><td>按您设定的顺序与份额，直接打款</td><td>按遗产程序：全体继承人配合、办理公证，周期长</td></tr>
       <tr><td><b>手续</b></td><td>材料精简，家人办理省心</td><td>环节多，关键时刻添麻烦</td></tr>
-      <tr><td><b>归属</b></td><td>不作为遗产，清晰无争议</td><td>按继承分配，存在分歧可能</td></tr>
+      <tr><td><b>归属</b></td><td>不作为遗产，归属清晰</td><td>按继承分配，存在分歧可能</td></tr>
     </table>
-    <div class="dim-act">➔ 【确权】P1/P2/P5 领钱安排：按照您的意愿进行安排即可（免费 · 本月可办）</div>
+    <div class="dim-act">➔ 【确权】"法定 / 待核对"的领钱安排：按您的意愿指定即可（免费 · 本月可办）</div>
     <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第39条：领钱的人由受保障的人（或出钱的人）指定，出钱人指定须经受保障的人同意｜第40条：可指定一人或多人，并约定顺序与份额，未约定的均分｜第41条：可变更，书面通知公司即生效｜第42条：没有指定或指定不明确的，这笔钱按遗产程序处理。以上为便于理解的大白话转述；变更以保险公司核定为准，具体以保险合同条款为准。</div>
   </article>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">五</span>保单资产状态</h3><p class="dim-sub">检查要点：是否存在贷款、质押影响保单资产</p></div>
       <div class="dim-right"><span class="dim-score"><b data-score-dim="5">90</b>分</span><span class="chip band-green" data-band-dim="5">安心</span><span class="ptag pt-k">保持</span></div>
     </header>
-    <p style="font-size:13.5px">✓ 全部保单无贷款质押——资产状态干净健康，权益完整，无需额外关注。</p>
-    <div class="dim-act">➔ 【保持】维持无质押的健康状态即可</div>
+    <p style="font-size:13.5px">✓ 已核对全部保单的贷款 / 质押状态——若干净无质押，则资产状态健康、权益完整，无需额外关注。</p>
+    <div class="dim-act">➔ 【保持】维持无质押的健康状态即可；如未来办理保单贷款，注意及时还清</div>
   </article>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">六</span>进阶规划空间</h3><p class="dim-sub">检查要点：未来资产增长后是否需要定向传递与隔离工具</p></div>
@@ -700,30 +657,25 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <p style="font-size:13.5px">当前家庭阶段以基础保障为主，保险金信托等进阶工具属于资产规模扩大后的规划选项，现阶段无需关注。待家庭金融资产达到一定规模后，可再与专业机构沟通评估。</p>
     <div class="dim-act">➔ 【未来关注】暂不行动，基础保障完善后再评估</div>
   </article>
-
   <div class="selfcheck">
     <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户</span></div>
     <div class="sc-row"><span>1. 每张保单"留给家人的钱"到时候给谁——写的是具体名字，还是"法定"？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>2. 家里结构有变化（结婚/添丁），领钱的安排需要更新吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>3. 每张保单是谁出钱办的？出钱的人清楚保单里的钱算谁的吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
-    <div class="sc-row"><span>4. 万一需要家人来办手续，他们知道保单放在哪、找谁办吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
   </div>
 </section>
-
 <!-- ═══════ 05 第三问 ═══════ -->
 <section id="s5" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">05</div><div class="sec-en">READINESS</div></div><h2>第三问 · 钱能否顺利拿到</h2></div>
   <div class="qcore">核心问题：需要申领的时候，每一张保单都能<b>顺利、及时兑现</b>吗？</div>
-
   <article class="card">
     <header class="dim-hd">
-      <div><h3><span class="dim-no serif">七</span>缴费连续性</h3><p class="dim-sub">检查要点：是否按时缴费、保单效力是否稳定</p></div>
-      <div class="dim-right"><span class="dim-score"><b data-score-dim="7">50</b>分</span><span class="chip band-amber" data-band-dim="7">可优化</span><span class="ptag pt-m">本月可办</span></div>
+      <div><h3><span class="dim-no serif">七</span>缴费连续性</h3><p class="dim-sub">检查要点：是否按时缴费、缴费负担是否合理</p></div>
+      <div class="dim-right"><span class="dim-score"><b data-score-dim="7">50</b>分</span><span class="chip band-amber" data-band-dim="7">可优化</span><span class="ptag pt-q">本季度关注</span></div>
     </header>
-    <p style="font-size:13.5px">保单跟车一样，得按时"加油"。<b style="color:#b5532f">P4 已进入60天缓冲期（保障依然有效），节点是 10月31日</b>——过了这个节点，这份守护会暂时"打盹"，要走流程才能唤醒。本月内缴清，它就一直醒着。另需留意节奏：全家年缴合计约3.6万，占家庭年收入30万的约12%，已超过10%的合理参考线——后续新增强化时，务必优先选择月缴、高杠杆的产品方向，避免总负担进一步升高。</p>
-    <div class="dim-act">➔ 【守护】10月31日前缴清P4保费，可顺便变更顺手的扣款卡；新增方案优先选月缴小额方向，总负担率控制在15%以内</div>
+    <p style="font-size:13.5px">保单跟车一样，得按时"加油"。目前各保单的缴费是否按时、以实际状态为准。需要留意的是<b>缴费节奏</b>：全家年缴占家庭年收入的比例（负担率）若已偏高，后续新增强化时务必优先选择月缴、高杠杆的方向，把总负担率稳在 15% 上下、不突破 20%，不挤占日常现金流。</p>
+    <div class="dim-act">➔ 【节奏】梳理缴费账户，确保自动扣款顺畅；新增方案优先月缴小额、控制总负担率</div>
   </article>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">八</span>信息时效</h3><p class="dim-sub">检查要点：预留联系方式是否为当前常用信息</p></div>
@@ -732,125 +684,175 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <p style="font-size:13.5px">手机号、地址如有更换，公司到时候才找得到您、通知才不漏——更新全部保单预留信息，免费，约10分钟。</p>
     <div class="dim-act">➔ 【保全】更新全部保单预留手机号 / 地址 / 扣款账户（免费 · 约10分钟）</div>
   </article>
-
   <article class="card">
     <header class="dim-hd">
       <div><h3><span class="dim-no serif">九</span>期限匹配</h3><p class="dim-sub">检查要点：保障期限与家庭责任期、退休规划是否匹配</p></div>
       <div class="dim-right"><span class="dim-score"><b data-score-dim="9">55</b>分</span><span class="chip band-amber" data-band-dim="9">可优化</span><span class="ptag pt-q">本季度关注</span></div>
     </header>
-    <p style="font-size:13.5px">P1/P2 保障至60岁，与责任较重的阶段基本匹配 ✓。如考虑退休后的就医开销，可评估补充长期医疗保障。</p>
-    <div class="dim-act">➔ 【评估】退休后就医场景下，评估长期医疗保障的必要性</div>
+    <p style="font-size:13.5px">房贷、孩子成长到经济独立，这十几年通常是责任较重的阶段。若现有保单缺少一份"与责任期匹配的定期托底"，可补一份保障到责任期结束的定期型责任托底，让责任最重的岁月有专属托底。</p>
+    <div class="dim-act">➔ 【评估】为主要收入来源评估责任期的定期托底，补齐责任匹配的那一块</div>
   </article>
-
   <div class="selfcheck">
     <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户</span></div>
     <div class="sc-row"><span>1. 每张保单都在正常状态吗？有没有临近缴费节点的？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
     <div class="sc-row"><span>2. 手机号、地址是最新的吗？公司能第一时间找到您吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
     <div class="sc-row"><span>3. 当初办理时，健康情况都如实说清楚了吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
     <div class="sc-row"><span>4. 平时就医的医院，保障认吗？（一般认二级及以上公立医院）</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
-    <div class="sc-row"><span>5. 需要申领时，家人知道第一时间打哪个电话吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
   </div>
 </section>
-
 <!-- ═══════ 06 综合诊断 ═══════ -->
 <section id="s6" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">06</div><div class="sec-en">DIAGNOSIS</div></div><h2>综合诊断 · 九维一览</h2></div>
-  <p class="sec-lead">九项维度放在同一张图上，一眼看清"哪里稳、哪里值得完善"。<span class="hint no-print">（下表评分可直接修改，仪表盘与雷达图自动联动）</span></p>
-
+  <p class="sec-lead">九项维度放在同一张图上，一眼看清"哪里稳、哪里值得完善"。<span class="hint no-print">（下表评分为示例值，可直接修改，仪表盘与雷达图自动联动）</span></p>
   <div style="display:flex;gap:26px;flex-wrap:wrap;align-items:center">
     <div style="flex:1.2;min-width:320px">
       <table>
         <tr><th>维度</th><th>评分</th><th>分档</th><th>节奏</th><th>一句话建议</th></tr>
-        <tr><td>一 健康守护金</td><td><input class="dim-input" data-dim="1" type="number" value="65" min="0" max="100"></td><td><span class="chip band-teal" data-band-dim="1">稳健</span></td><td>本季度</td><td>加厚至约80万级</td></tr>
-        <tr><td>二 顶梁柱责任</td><td><input class="dim-input" data-dim="2" type="number" value="40" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="2">优先完善</span></td><td>本月</td><td>200万级托底</td></tr>
-        <tr><td>三 大额医疗</td><td><input class="dim-input" data-dim="3" type="number" value="80" min="0" max="100"></td><td><span class="chip band-green" data-band-dim="3">安心</span></td><td>保持</td><td>已达标·续期核对</td></tr>
-        <tr><td>四 爱的传递</td><td><input class="dim-input" data-dim="4" type="number" value="45" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="4">优先完善</span></td><td>本月</td><td>改"指定"并设顺位</td></tr>
+        <tr><td>一 健康守护金</td><td><input class="dim-input" data-dim="1" type="number" value="65" min="0" max="100"></td><td><span class="chip band-teal" data-band-dim="1">稳健</span></td><td>本季度</td><td>补齐主要收入来源守护金</td></tr>
+        <tr><td>二 顶梁柱责任</td><td><input class="dim-input" data-dim="2" type="number" value="40" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="2">优先完善</span></td><td>本月</td><td>定期托底40-50万起步</td></tr>
+        <tr><td>三 大额医疗</td><td><input class="dim-input" data-dim="3" type="number" value="80" min="0" max="100"></td><td><span class="chip band-green" data-band-dim="3">安心</span></td><td>本月</td><td>补百万级医疗</td></tr>
+        <tr><td>四 爱的传递</td><td><input class="dim-input" data-dim="4" type="number" value="45" min="0" max="100"></td><td><span class="chip band-orange" data-band-dim="4">优先完善</span></td><td>本月</td><td>法定改指定</td></tr>
         <tr><td>五 资产状态</td><td><input class="dim-input" data-dim="5" type="number" value="90" min="0" max="100"></td><td><span class="chip band-green" data-band-dim="5">安心</span></td><td>保持</td><td>干净无质押</td></tr>
         <tr><td>六 进阶规划</td><td>—</td><td><span class="chip na">暂不评分</span></td><td>未来</td><td>资产规模扩大后再评估</td></tr>
-        <tr><td>七 缴费连续</td><td><input class="dim-input" data-dim="7" type="number" value="50" min="0" max="100"></td><td><span class="chip band-amber" data-band-dim="7">可优化</span></td><td>本月</td><td>10/31前缴清P4</td></tr>
+        <tr><td>七 缴费连续</td><td><input class="dim-input" data-dim="7" type="number" value="50" min="0" max="100"></td><td><span class="chip band-amber" data-band-dim="7">可优化</span></td><td>本季度</td><td>控负担率≤15-20%</td></tr>
         <tr><td>八 信息时效</td><td><input class="dim-input" data-dim="8" type="number" value="60" min="0" max="100"></td><td><span class="chip band-teal" data-band-dim="8">稳健</span></td><td>本季度</td><td>更新联系方式</td></tr>
-        <tr><td>九 期限匹配</td><td><input class="dim-input" data-dim="9" type="number" value="55" min="0" max="100"></td><td><span class="chip band-amber" data-band-dim="9">可优化</span></td><td>本季度</td><td>评估长期医疗</td></tr>
+        <tr><td>九 期限匹配</td><td><input class="dim-input" data-dim="9" type="number" value="55" min="0" max="100"></td><td><span class="chip band-amber" data-band-dim="9">可优化</span></td><td>本季度</td><td>补责任期托底</td></tr>
       </table>
     </div>
     <div style="flex:1;min-width:300px;text-align:center">
       <svg id="radar" viewBox="0 0 460 400" width="100%" style="max-width:430px"></svg>
       <p style="font-size:12px;color:var(--muted);margin-top:6px">八维雷达 · 离圆心越远越健康｜绿色区域已是扎实防线，金色区域是投入产出比突出的两步</p>
-      <p class="radar-legend">🟢 绿色＝已安心（资产状态/期限匹配）｜🟡 金色＝优先完善且投入产出比突出（顶梁柱责任/爱的传递）｜⚪ 灰色＝其他待完善项</p>
+      <p class="radar-legend">🟢 绿色＝已安心（资产状态）｜🟡 金色＝优先完善且投入产出比突出（顶梁柱责任/爱的传递）｜⚪ 灰色＝其他待完善项</p>
     </div>
   </div>
-
-  <!-- v2.19.0：客户自评优先级互动区 -->
   <div class="pickbox">
     <div class="pk-t">请您勾选：以下九项中，您目前优先关心、希望先解决的是哪三项？</div>
     <label>☐ 健康守护金（安心休养的钱）</label><label>☐ 顶梁柱责任（家庭责任托底）</label><label>☐ 大额医疗（住院大额开销）</label><label>☐ 爱的传递（受益人指定）</label><label>☐ 资产状态（保单有无贷款）</label><label>☐ 缴费连续（保费负担合理）</label><label>☐ 信息时效（联系方式最新）</label><label>☐ 期限匹配（保障期够不够）</label><label>☐ 进阶规划（未来再看）</label>
     <div style="margin-top:8px;color:var(--muted)">您的选择将帮助我们确定沟通重点，不勾选也没关系，我们可以一起讨论。</div>
+    <p style="font-size:12px;color:var(--muted);margin-top:4px">补充：除上述九维外，另见第 08 部分「补充检视」六维（家庭动态 / 缴费可持续 / 理赔可操作 / 合规守护 / 闭环复诊 / 税优联动）——进阶话题，不纳入本表评分。</p>
   </div>
-
   <div class="findings">
-    <!-- 自适应：以下「壹/贰/叁 核心发现」是示例家庭结论，逐条按本次数据重算重写——责任空间金额、已办事项数量、缴费节点/负担率等均不得照抄示例（440万/3张/10月31日/约3.6万等均为示例值）。 -->
-    <div class="card find"><div class="fn serif">壹</div><div><b>主要的"责任空间"：</b>440万家庭责任，目前还没有专属托底。建议用"每月约700元锁定200万级"的高杠杆方向先行，一年内视预算从容加厚。</div></div>
-    <div class="card find"><div class="fn serif">贰</div><div><b>划算的"免费完善"：</b>3张保单的领钱安排可由"法定"改为"指定"——免费、约15分钟，让这笔钱到时候直接、按意愿到家人手上。</div></div>
-    <div class="card find"><div class="fn serif">叁</div><div><b>需要把控的"节奏"：</b>P4 缴费节点是10月31日（已进入60天缓冲期，本月内缴清即可）。同时全家年缴约3.6万、负担率约12%，已超过10%参考线——新增强化建议<b>分阶段、单选先行</b>：优先高杠杆的定期责任托底（方向A，月缴数百元量级），守护金加厚视预算在6–12个月后逐步补充；每一步新增后总负担率控制在15%以内，不挤占日常现金流。另请提前更新保单预留联系方式（免费·约10分钟），关键时刻不卡壳。</div></div>
+    <div class="card find"><div class="fn serif">壹</div><div><b>最要紧的"责任空间"：</b>［按实况填写：家庭责任总额 vs 已有托底，建议先以月缴百元级定期型托住责任较重的这几年，之后随收入从容加厚。］</div></div>
+    <div class="card find"><div class="fn serif">贰</div><div><b>划算的"免费完善"：</b>［按实况填写：领钱安排由"法定 / 待核对"改为"指定"——免费、约十几分钟，让这笔钱到时候直接、按意愿到家人手上。］</div></div>
+    <div class="card find"><div class="fn serif">叁</div><div><b>需要补上的"基石"：</b>［按实况填写：缺大额医疗则按主要收入来源、配偶、孩子的顺序分阶段补齐百万级；同时核对缴费负担率，新增强化务必分阶段、单选先行、控制总负担率不突破 20%；另请更新保单预留联系方式（免费·约10分钟）。］</div></div>
   </div>
 </section>
-
 <!-- ═══════ 07 行动清单 ═══════ -->
 <section id="s7" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">07</div><div class="sec-en">NEXT STEPS</div></div><h2>行动清单 · 从免费小事开始</h2></div>
   <p class="sec-lead">三步走：先办免费的、再谈规划的、最后做长期的——节奏从容，不必同时启动。</p>
-
-  <!-- 自适应：本节勾选项、缴费节点（P4/10月31日）、保单项（P1/P2/P5）与预算试算均为示例家庭数据——生成时按本次数据替换保单编号/金额/节点/负担率，方向A/B/C 的额度口径与「月缴约600–800元/示例约700元」可保留为通用参考。 -->
   <div class="steps">
     <div class="step step1">
-      <h4>① 本月 · 免费优先</h4><div class="st">合计约40分钟 · 零费用</div>
-      <label>□ 缴清 P4 保费（10月31日前，可顺便换扣款卡）</label>
-      <label>□ P1/P2/P5 领钱安排：按照您的意愿进行安排即可</label>
-      <label>□ 更新全部保单预留手机号/地址/账户（约10分钟）</label>
+      <h4>① 本月 · 免费优先</h4><div class="st">合计约 30 分钟 · 零费用</div>
+      <label>□ 领钱安排：按您的意愿指定（由"法定 / 待核对"改"指定"）</label>
+      <label>□ 更新全部保单预留手机号/地址/扣款账户（约10分钟）</label>
+      <label>□ 核对缴费账户，确保自动扣款顺畅</label>
     </div>
     <div class="step step2">
       <h4>② 本季度 · 从容规划</h4><div class="st">方向与量级参考 · 不涉及具体产品</div>
-      <label>□ 细聊"顶梁柱责任托底"方向（200万级·定期·月缴约700元量级）</label>
-      <label>□ 视预算评估守护金加厚（向80万靠拢）与资产规划工具</label>
+      <label>□ 细聊为主要收入来源补"定期型责任托底"（先 40–50 万级 · 月缴百元级 · 保至责任期结束）</label>
+      <label>□ 评估为主要收入来源与孩子补"百万级大额医疗"（月缴数十至百元级，可分阶段）</label>
     </div>
     <div class="step step3">
       <h4>③ 年度 · 持续体检</h4><div class="st">每年一次 · 越来越好</div>
       <label>□ 年度保单复查（状态/续期条款/期限匹配）</label>
-      <label>□ 次年复测九维健康度，目标进入"稳健"区间</label>
+      <label>□ 次年复测九维健康度，随收入增长再从容加厚守护金</label>
     </div>
   </div>
-
   <div class="dirs">
-    <div class="dir first"><b>方向A · 责任托底（优先）</b>200万级·定期型·保至60岁，月缴数百元量级——先守住责任底线，杠杆突出。</div>
-    <div class="dir"><b>方向B · 责任加厚</b>在A之上提高额度，覆盖更长责任期——预算允许时分阶段推进。</div>
-    <div class="dir"><b>方向C · 守护金加厚</b>向80万目标靠拢，覆盖全面（含中度、轻度情况），月缴两三百元级——可与A并行。</div>
+    <div class="dir first"><b>方向A · 责任托底（优先）</b>为主要收入来源配定期型·保至责任期结束·先40–50万级·月缴百元级——先守住责任底线，杠杆突出。</div>
+    <div class="dir"><b>方向B · 责任加厚</b>在A之上，随收入增长分阶段提高额度，覆盖更长责任期。</div>
+    <div class="dir"><b>方向C · 医疗基石＋守护金</b>为全家分阶段补齐百万级大额医疗，再视预算为主要收入来源补健康守护金——可与A分阶段推进。</div>
   </div>
-
-  <!-- v2.19.0：预算试算表 -->
   <div class="card">
-    <b class="serif" style="color:var(--teal)">预算试算参考（基于家庭年收入30万元）</b>
+    <b class="serif" style="color:var(--teal)">预算试算参考（基于家庭年收入合计，按实况填写）</b>
     <table>
       <tr><th>配置方案</th><th>新增年缴（约）</th><th>总年缴（约）</th><th>总负担率</th><th>建议</th></tr>
-      <tr><td>当前（仅已有5份）</td><td>—</td><td>3.6 万</td><td>约12%</td><td>已超10%参考线，新增需克制</td></tr>
-      <tr><td>＋ 方向A（责任托底200万级）</td><td>8,400 元（月缴700元级）</td><td>4.5 万</td><td>约15%</td><td>⚠️ 达上限，建议月缴分摊压力</td></tr>
-      <tr><td>＋ 方向A＋C（守护金加厚）</td><td>1.2–1.6 万</td><td>4.8–5.2 万</td><td>16–17%</td><td>⚠️ 偏高，建议仅A先行、C延后</td></tr>
-      <tr><td>＋ 方向B（责任加厚）</td><td>在A之上</td><td>＞5 万</td><td>＞17%</td><td>⚠️ 预算充裕时再评估</td></tr>
+      <tr><td>当前（已有保单）</td><td>—</td><td>［ ］</td><td>［ ］%</td><td>［ ］</td></tr>
+      <tr><td>＋ 方向A（定期责任托底40-50万）</td><td>约 2,000 元（月缴百多元）</td><td>［ ］</td><td>［ ］%</td><td>⚠️ 单笔不宜再叠加其他新增</td></tr>
+      <tr><td>＋ 方向C 大额医疗（2-3人）</td><td>约 1,500–2,500 元</td><td>［ ］</td><td>［ ］%</td><td>⚠️ 超出参考线，须分期错开月份</td></tr>
     </table>
-    <p class="budget-note">以上为估算值，实际保费以保险公司核保结果为准；月缴可显著降低单次支付压力。</p>
-    <p style="font-size:13px;margin-top:4px"><b>建议：本月先办免费确权与P4缴费，本季度优先配置方向A（责任托底），守护金加厚视预算情况在6–12个月后逐步补充，不必同时启动。</b></p>
+    <p class="budget-note">以上为估算值，实际保费以保险公司核保结果为准；月缴可显著降低单次支付压力。家庭收入有限时，新增务必 12–24 个月分阶段、每一步不超年收入 3–5%，宁可慢、不可挤占日常现金流。</p>
+    <p style="font-size:13px;margin-top:4px"><b>建议：本月先办免费确权与缴费梳理；本季度优先做"方向A责任托底（小额启动）"，大额医疗在之后 6–12 个月按人分阶段补上；守护金加厚视收入增长从容推进。</b>以上方向可按预算任选其一先行，不必同时启动。</p>
   </div>
-
-  <!-- v2.19.0：下一步预约/促成引导 -->
   <div class="cta">
     <h4>下一步 · 您可以这样开始</h4>
-    <label>□ <b>本周内</b>：缴清 P4 保费（10月31日前，守护不断档）＋ 预约免费办理 P1/P2/P5 领钱安排变更（由"法定"改"指定"，约15分钟，零费用）</label>
-        <label>□ <b>两周内</b>：预约1对1保障方案详谈，重点沟通顶梁柱责任托底（方向A）的具体方案（约30分钟）</label>
+    <label>□ <b>本周内</b>：预约免费办理领钱安排（由"法定 / 待核对"改"指定"，约15分钟，零费用）</label>
+    <label>□ <b>两周内</b>：预约1对1保障方案详谈，重点沟通为主要收入来源补"定期型责任托底"（方向A）的具体方案（约30分钟）</label>
   </div>
-
   <p style="font-size:12px;color:var(--muted)">以上为方向与量级参考；具体以保险合同条款为准。</p>
-
-  <div class="quote">温馨提示：这份报告不是让您"治病"的体检单。它更像一面镜子，帮您看清已经为家人筑起了哪些防线，以及下一块砖、下一片瓦可以添在哪里。保障的意义，不在多贵，而在需要的时候，钱能准时到位。咱们从本月省心的免费小事开始，一步步来，不着急。</div>
+  <div class="quote">温馨提示：这份报告不是让您"治病"的体检单。它更像一面镜子，帮您看清已经为家人筑起了哪些防线，以及下一块砖、下一片瓦可以添在哪里。保障的意义，不在多贵，而在需要的时候，钱能准时到位。咱们从本月省心的免费小事开始，一步步来，不着急、也不必一次到位，按您的节奏来。</div>
 </section>
-
+<!-- ═══════ 08 补充检视 · 六个新增维度 ═══════ -->
+<section id="s8" class="brk">
+  <div class="sec-head"><div><div class="sec-no serif">08</div><div class="sec-en">SUPPLEMENTAL REVIEW</div></div><h2>补充检视 · 六个更周全的维度</h2></div>
+  <p class="sec-lead">回答完"三笔钱"之后，还有六件让保障更周全的小事，一并放进来供您参考。<b>它们属于进阶话题，不纳入前面的综合评分，也不急于第一次就全部看完</b>——您可以带回家慢慢对照，或在家庭有变化时随时翻出来。核心结论与行动清单仍以第 07 部分为准，本部分更像一张"备用检查单"。</p>
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">十</span>家庭动态适配</h3><p class="dim-sub">检查要点：家里"添丁 / 结婚 / 离婚 / 家人变动 / 赡养"变了，保单的"钱归谁、保障谁"是否还跟得上</p></div>
+      <div class="dim-right"><span class="chip na">补充维度</span><span class="ptag pt-m">家庭变化时</span></div>
+    </header>
+    <p style="font-size:13.5px">保单不是办完就一劳永逸。家里添了新成员、婚姻关系有变化、或者有人需要被照顾时，"留给家人的钱"该给谁、保障该覆盖谁，都要重新对一遍——否则关键时刻，钱可能到不了您心里想给的那个人。</p>
+    <div class="scene">举个例子：离婚后如果没变更受益人，真有需要时，"留给家人的钱"仍可能按旧约定给到前配偶；添了二胎，保额没跟上，家庭责任需要托底的地方也在悄悄变大。这些都不是"办错了"，只是需要跟着生活节奏更新一下。</div>
+    <div class="dim-act">➔ 【动态检视】家庭结构变化后 30 天内，把"领钱的人 / 保障对象"重新核对一遍（免费 · 本人可办，约15分钟）</div>
+    <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第41条——领钱的人可以变更，书面通知公司即生效，出钱的人变更须经受保障的人同意｜《保险法司法解释（三）》第9条——只写了"配偶 / 子女"这类身份、而身份关系已经变化的，按"未指定受益人"处理。大白话：家里关系变了，领钱安排要同步更新，钱才到得了您想让TA收到的人手上。</div>
+  </article>
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">十一</span>缴费可持续</h3><p class="dim-sub">检查要点：不只"现在交没交"，更看"未来几年交不交得起"——缴费中断、垫缴、恢复窗口倒计时</p></div>
+      <div class="dim-right"><span class="chip na">补充维度</span><span class="ptag pt-q">本季度关注</span></div>
+    </header>
+    <p style="font-size:13.5px">保单要持续"加油"才一直有效。现在都在正常缴费是好事，还要一起看"未来两三年这笔钱顺不顺"：收入有波动、开支变大的时候，会不会有缴费中断？中断后 60 天宽限期一过，保障会暂时"暂停"；暂停后 2 年内补交能恢复，超期就可能被解除、只退回保单里攒下的钱。提前看到，才能提前安排。</p>
+    <p style="font-size:13px;margin-top:8px"><b>结合本家情况：</b>［按实况填写：全家年缴合计与负担率；若已偏高，新增务必控住总负担率、不突破 20%；如果缴费有压力，可优先考虑"年缴转月缴"或调整缴费频率，别让缴费悄悄断档。］</p>
+    <div class="dim-act">➔ 【前瞻】核对各保单缴费日期与扣款账户，评估未来 2–3 年缴费压力；如需调整缴费频率（如年缴转月缴），免费可办</div>
+    <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第36条——当期保费没交，宽限期约 60 天，期间保障仍有效；超过宽限期，合同效力中止｜第37条——中止后 2 年内可以申请恢复（补交保费），满 2 年未达成协议的，公司可解除合同｜《保险法司法解释（三）》第8条——复效有保护性规定。大白话：缴费是保单的"生命线"，提前排好，关键时刻才不断档。</div>
+  </article>
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">十二</span>理赔可操作</h3><p class="dim-sub">检查要点：真到用的时候，流程清不清楚、材料留没留、就医方式对不对</p></div>
+      <div class="dim-right"><span class="chip na">补充维度</span><span class="ptag pt-q">本季度关注</span></div>
+    </header>
+    <p style="font-size:13.5px">条款写得再好，也要"用得到"。三件小事提前理顺：<b>① 就医习惯</b>——一般认二级及以上公立医院，就医前心里有数；<b>② 材料习惯</b>——病历、发票、出院小结随手收好，理赔时不抓瞎；<b>③ 联系通道</b>——用到保障时及时联系公司（一般建议 10 日内），保存好服务经理联系方式，有人帮您惦记着。</p>
+    <div class="dim-act">➔ 【服务】确认各保单的理赔流程与材料清单；就医前可先问一句服务经理，材料留对、理赔更顺</div>
+    <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第21条——需要理赔时"及时通知"公司｜第22条——理赔时提供能提供的证明和资料｜第23条——公司一般 30 日内核定、达成协议后 10 日内给钱｜第24、25条——不予赔付的，3 日内书面说明理由；60 日内定不下来的，先按能确定的部分支付。大白话：把流程和材料理顺，这笔钱到时候才能"顺顺当当"拿得到。</div>
+  </article>
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">十三</span>合规与信息守护</h3><p class="dim-sub">检查要点：每一笔保障都办得"干净合规"，您的信息被妥善保护</p></div>
+      <div class="dim-right"><span class="chip na">补充维度</span><span class="ptag pt-k">日常守护</span></div>
+    </header>
+    <p style="font-size:13.5px">这份体检本身就是增值服务，不推销任何产品。我们有三条承诺：<b>① 健康告知如实</b>——当初办的时候怎么填的、现在有没有需要补充的，如实最安心；<b>② 本人办理</b>——投保、变更都由本人签字，不代签；<b>③ 信息守护</b>——您的家庭信息仅用于本次服务，报告脱敏、不外泄、不他用。</p>
+    <div class="dim-act">➔ 【守护】核对历史保单是否本人办理、健康告知是否完整；您的信息我们按《个人信息保护法》守护</div>
+    <div class="lawbox"><b>法律依据（转述版）：</b>《保险法》第16条——办理时对健康询问要如实回答，这是理赔顺不顺的关键｜第116条——公司及人员不得阻碍、诱导不如实告知｜《个人信息保护法》——处理您的个人信息要合法、正当、必要并取得同意。</div>
+  </article>
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">十四</span>行动闭环与复诊</h3><p class="dim-sub">检查要点：体检之后怎么落地、什么时候再查一次</p></div>
+      <div class="dim-right"><span class="chip na">补充维度</span><span class="ptag pt-m">本月约定</span></div>
+    </header>
+    <p style="font-size:13.5px">体检不是看完就结束。接下来三步：<b>① 落地</b>——把第 07 部分的行动清单带回家商量，先从免费小事办起；<b>② 细聊</b>——您圈出的"不确定"项，我们约时间 1 对 1 细聊；<b>③ 复诊</b>——定一个下次复查的时间，建议一年一次，或家里有变化（添丁 / 换工作 / 收入变化）随时来，保障永远跟着生活走。</p>
+    <div class="dim-act">➔ 【闭环】约定下次复诊时间（建议一年，或家庭结构变化时随时）；这份报告我帮您建档，有政策 / 服务变化第一时间告诉您</div>
+  </article>
+  <article class="card">
+    <header class="dim-hd">
+      <div><h3><span class="dim-no serif">十五</span>税优与资产联动</h3><p class="dim-sub">检查要点：保单之外的"延伸价值"——省税、资金周转、资产安排</p></div>
+      <div class="dim-right"><span class="chip na">补充维度</span><span class="ptag pt-q">按需了解</span></div>
+    </header>
+    <p style="font-size:13.5px">保单除了保障，还有几项"隐藏技能"，按需了解即可：<b>① 税优健康险 / 个人养老金</b>——符合条件可享个税优惠，还能为养老多存一笔；<b>② 保单贷款</b>——临时用钱时可周转，一般不影响保障；<b>③ 资产安排</b>——未来资产扩大后，保险在"定向传递、债务隔离"上有专门工具（如保险金信托），现阶段了解即可。</p>
+    <div class="dim-act">➔ 【延伸】视收入与政策，按需了解税优健康险与个人养老金；资产规模扩大后再评估进阶工具</div>
+    <div class="lawbox"><b>提示（转述版）：</b>税优政策以国家最新规定为准（税优健康险、个人养老金均有年度额度与条件）；另需提醒：保单现金价值并非"绝对隔离"，作为债务人时可能被强制执行（《民事诉讼法》第253条）——有疑问可咨询专业意见。</div>
+  </article>
+  <div class="selfcheck">
+    <div class="sc-head">随手自查 · 六件小事<span class="hint no-print">　——把笔递给客户，让TA自己勾</span></div>
+    <div class="sc-row"><span>1. 家里近几年有"添丁 / 结婚 / 离婚"吗？领钱安排更新过吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>2. 未来两三年，每份保单的保费都"交得动"吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+    <div class="sc-row"><span>3. 真到用钱的时候，知道先联系谁、要准备什么材料吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
+    <div class="sc-row"><span>4. 当初办保单，健康情况都如实说了吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
+    <div class="sc-row"><span>5. 这份报告看完，您希望我先帮您办哪件免费小事？</span><span class="sc-opts">☐ 已圈出　☐ 一起商量</span></div>
+    <div class="sc-row"><span>6. 咱们约个什么时间，再一起复查一次？</span><span class="sc-opts">☐ 定好了　☐ 再约</span></div>
+  </div>
+  <p style="font-size:12px;color:var(--muted)">说明：以上六维为本次新增的进阶检视维度，与第 03–05 部分"九维评分"互为补充、不重复计分；仅作参考，具体以保险合同与监管规定为准。</p>
+</section>
 <!-- ═══════ 附一 · 小词典 ═══════ -->
 <section id="gl" class="brk">
   <div class="sec-head"><div><div class="sec-no serif">附</div><div class="sec-en">GLOSSARY</div></div><h2>随身小词典 · 大白话版</h2></div>
@@ -862,9 +864,9 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div><dt>受益人</dt><dd>到时候替家人领"留给家人的钱"的人</dd></div>
     <div><dt>法定受益人</dt><dd>没写具体名字，到时按遗产程序办，周期较长</dd></div>
     <div><dt>指定受益人</dt><dd>写清名字和份额，到时直接到账，不走继承</dd></div>
-    <div><dt>健康守护金</dt><dd>万一需要按下暂停键安心休养，一次到账、随您安排的钱</dd></div>
+    <div><dt>健康守护金</dt><dd>如果哪天需要按下暂停键安心休养，一次到账、随您安排的钱</dd></div>
     <div><dt>大额医疗保障</dt><dd>住院花销超过门槛的部分，由它兜住</dd></div>
-    <div><dt>顶梁柱责任保障</dt><dd>万一责任需要接棒，替您继续守护家人的那笔钱</dd></div>
+    <div><dt>顶梁柱责任保障</dt><dd>如果责任需要有人接棒，替您继续守护家人的那笔钱</dd></div>
     <div><dt>现金价值</dt><dd>中途不要这份保单了，能拿回来的钱</dd></div>
     <div><dt>养老年金</dt><dd>到约定年龄后按年/月发钱，像发工资一样</dd></div>
     <div><dt>等待期</dt><dd>刚办完的观察期（一般90–180天），期间内还用不上</dd></div>
@@ -873,16 +875,21 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div><dt>健康告知</dt><dd>办理前把健康情况如实说清楚——关系到申领顺不顺</dd></div>
     <div><dt>免赔额</dt><dd>公司不报的"起步门槛"（如1万以内自己承担）</dd></div>
     <div><dt>保全</dt><dd>地址、电话、扣款卡等资料的变更服务，多免费</dd></div>
+    <div><dt>复效</dt><dd>保单"中止"后，2 年内补交保费把它"救活"、恢复保障</dd></div>
+    <div><dt>垫交</dt><dd>忘交保费时，公司先用保单的现金价值帮忙垫着，之后要补还</dd></div>
+    <div><dt>税优健康险</dt><dd>符合条件可享个税优惠的商业健康保险，省税又添保障</dd></div>
+    <div><dt>个人养老金</dt><dd>自己为养老存钱、享个税优惠的个人账户制度</dd></div>
+    <div><dt>现金价值贷款</dt><dd>临时用钱时，用保单现金价值向公司周转，一般不影响保障</dd></div>
+    <div><dt>保险金信托</dt><dd>资产规模较大时，把保险金交给信托打理、按意愿分年给付的进阶工具</dd></div>
   </div>
 </section>
-
 <!-- ═══════ 附二 · 内部手册（打印自动隐藏） ═══════ -->
 <section class="no-print">
   <details class="internal" open>
     <summary>附二 · 服务人员手册（内部 · 客户版打印时自动隐藏本页）</summary>
     <p style="font-size:13px;margin-top:10px"><b>定位：</b>增值服务工具，不是销售工具。全程"三不讲"——<b>不讲产品、不报价格、不催决定</b>。让客户自己勾出"不确定"，比您指出来效果好十倍。</p>
     <div class="script"><b>开场（照着说）：</b>"X哥/X姐，今天占用您20分钟，帮咱家做一次'保障健康体检'——跟车要年检、身体要体检一个道理。今天不聊任何新产品，只看三件事：钱够不够用、钱到时候归谁、钱能否顺利拿到。一页一页过，您随时打断我。"</div>
-    <div class="script"><b>第一问过渡：</b>"第一笔钱，看够不够花——万一节奏被打乱、需要用钱的关键时刻，给的钱够不够撑住咱家的正常日子。我先说好：够用就踏实，有空间也只是心里有个数，补不补您说了算，今天量个体温而已。"</div>
+    <div class="script"><b>第一问过渡：</b>"第一笔钱，看够不够花——如果节奏被打乱、需要用钱的关键时刻，给的钱够不够撑住咱家的正常日子。我先说好：够用就踏实，有空间也只是心里有个数，补不补您说了算，今天量个体温而已。"</div>
     <div class="script"><b>第二问过渡：</b>"第二笔钱，看归谁。跟提前安排家事一个道理——现在理清楚，将来家里人省心，也免得一家人因为钱伤和气。这不是忌讳事，恰恰是对家里人负责任的安排。"</div>
     <div class="script"><b>第三问过渡：</b>"第三笔钱，看顺不顺。保单不是办完就一劳永逸，几个小细节到位，关键时刻才不卡壳。咱们提前把'堵点'排掉。"</div>
     <div class="script"><b>收尾（关键）：</b>"盘完了：安心的有X项，您之前规划底子是真不错；可优化的都是小事，要打的电话、要带的资料我写在纸上了；建议优先完善的X项——今天不催您定。回头我把行动清单整理好发您，您跟家里商量着看。要办，咱约时间细聊；不急，留着当备忘。我这个电话，随时打得通。"</div>
@@ -893,26 +900,25 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
       <li><b>所有建议落到纸面</b>——当场不定≠不成交，客户带走的是可以回家商量的凭据；</li>
       <li><b>结束必留一句</b>："您家情况我都建档了，有政策、服务变化我第一时间告诉您。"</li>
       <li><b>用词口径</b>：本模板已全程使用暖心说法（关键时刻／安心休养／留给家人的钱／守护不断档），现场请保持同一口径，不要脱口而出行业词。</li>
+      <li><b>第08部分定位</b>：六维补充检视是"二次沟通 / 家庭变化时"的进阶话题，第一次健诊不要一次抛完，避免信息过载；客户圈出的"不确定"项，就是下次见面的自然由头。</li>
+      <li><b>合规红线</b>：不诱导隐瞒如实告知、不代签名、不承诺收益、不违规返佣；线下关键环节遵守录音录像等可回溯要求；客户信息按《个人信息保护法》脱敏、不外泄、不他用。</li>
+      <li><b>复诊闭环</b>：当场定"复诊时间"（建议一年，或家庭结构变化时随时），建档登记下次联系；有政策 / 服务变化第一时间告知客户，这是长期黏性与转介绍的来源。</li>
     </ul>
+    <div class="script"><b>第08部分使用场景：</b>"X哥/X姐，今天三笔钱的核心咱们看完了。报告最后我还放了一份'补充检视'——是六件更周全的小事，不急着现在全看，您带回去有空翻一翻；等家里有变化（比如添丁、换工作、收入变化）的时候，咱们再随时拿出来对一遍。您要是现在就想知道哪一件，我先给您讲一个。"——用第08部分做二次触点，不硬推。</div>
   </details>
 </section>
-
 <div class="foot">
   免责声明：本报告基于客户提供的保单信息与家庭情况整理，属增值服务参考，不构成任何产品销售要约；测算属规划视角，不代表对任何情况的预测；具体保障责任、费率与核保结果以保险公司及合同条款为准；涉及领钱安排的说明不构成法律意见，变更须书面通知保险公司并以核定为准。<br>
-  报告编号 2026-HJ-001 · 服务经理：［姓名·工号］ · 联系电话：［联系电话］ · 家庭保障健康体检工具辅助生成
+  报告编号 ［编号］ · 服务经理：［姓名·工号］ · 联系电话：［联系电话］ · 家庭保障健康体检工具辅助生成
 </div>
-
-<!-- v2.23.0：打印页脚（每页重复；浏览器自带日期/网址需在打印对话框取消勾选"页眉和页脚"）。v2.23.0 起：删除每页页眉，仅保留页脚 -->
-<div class="print-ftr">报告编号 <span id="printReportNo">2026-HJ-001</span> · 家庭保障健康体检</div>
-
+<!-- 打印页脚（每页重复；浏览器自带日期/网址需在打印对话框取消勾选"页眉和页脚"） -->
+<div class="print-ftr">报告编号 <span id="printReportNo">［编号］</span> · 家庭保障健康体检</div>
 </div>
-
 <div class="toolbar no-print">
   📝 点击虚线文字可修改为客户信息；调整各项评分，封面仪表盘与雷达图自动联动。<br>
   🖨️ 打印时请在打印对话框中<b>取消勾选「页眉和页脚」</b>（去除浏览器自带的日期与网址），报告自带每页页脚。
   <button onclick="window.print()">打印 / 存为PDF（自动隐藏内部内容）</button>
 </div>
-
 <script>
 const BANDS=[
   {min:80,name:'安心',cls:'band-green',phrase:'已完善',color:'#41937a'},
@@ -1001,7 +1007,7 @@ function update(){
 (function(){
   const rn=document.getElementById('reportNo'),prn=document.getElementById('printReportNo');
   if(!rn||!prn)return;
-  const sync=()=>{prn.textContent=rn.textContent.trim()||'2026-HJ-001';};
+  const sync=()=>{prn.textContent=rn.textContent.trim()||'［编号］';};
   rn.addEventListener('input',sync);sync();
 })();
 document.querySelectorAll('.dim-input').forEach(i=>i.addEventListener('input',update));
