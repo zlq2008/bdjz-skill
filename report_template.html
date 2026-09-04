@@ -462,7 +462,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <table>
       <tr><th style="width:110px">家庭年收入</th><td contenteditable="true">［年收入合计及构成］</td><th style="width:110px">家庭成员</th><td contenteditable="true">［成员姓名 · 年龄］</td></tr>
       <tr><th>房贷</th><td contenteditable="true">［月供 · 剩余年限 · 余额］</td><th>车贷</th><td contenteditable="true">［月供 · 剩余年限 · 余额］</td></tr>
-      <tr><th>年支出</th><td contenteditable="true">［年固定与浮动支出合计］</td><th>其他负债</th><td contenteditable="true">［金额］</td></tr>
+      <tr><th>年支出</th><td contenteditable="true" colspan="3">［年固定与浮动支出合计（含房贷月供和车贷月供）］</td></tr>
       <tr><th>双方父母</th><td contenteditable="true">［赡养情况请补充］</td><th>数据口径</th><td>以采集表确认值为准</td></tr>
     </table>
     <div class="bignum">
@@ -487,10 +487,10 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
   <div class="card">
     <b class="serif" style="color:var(--teal)">现有保单清单</b>
     <table>
-      <tr><th>编号</th><th>保障谁</th><th>管什么的</th><th>额度</th><th>年缴</th><th>节奏</th><th>已交</th><th>领钱安排</th></tr>
-      <tr><td>P1</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
-      <tr><td>P2</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
-      <tr><td>P3</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
+      <tr><th>编号</th><th>险种名称</th><th>投保人</th><th>被保险人</th><th>管什么的</th><th>额度</th><th>年交多少钱</th><th>交几年</th><th>已交</th><th>领钱安排</th></tr>
+      <tr><td>P1</td><td contenteditable="true">［险种名称］</td><td contenteditable="true">［投保人］</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
+      <tr><td>P2</td><td contenteditable="true">［险种名称］</td><td contenteditable="true">［投保人］</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
+      <tr><td>P3</td><td contenteditable="true">［险种名称］</td><td contenteditable="true">［投保人］</td><td contenteditable="true">［被保险人］</td><td contenteditable="true">［险种与作用］</td><td contenteditable="true">［保额］</td><td contenteditable="true">［年缴］</td><td contenteditable="true">［缴费期］</td><td contenteditable="true">［已交年］</td><td contenteditable="true">［指定 / 法定 / 待核对］</td></tr>
     </table>
     <p style="font-size:12px;color:var(--muted);margin-top:6px">已购保单权益以保险合同为准，保障效力不受影响；本次体检不是否定过去的配置，而是基于家庭责任变化做加法。个别识别/归属字段请在采集表核实后以保单原件为准。</p>
   </div>
@@ -589,7 +589,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <span style="font-size:12px;color:var(--muted)">测算口径：家庭责任合计采用"责任叠加法"（生活开销＋房贷＋车贷＋子女教育金等），供规划参考；因家庭收入有限、负担率可能偏高，所有新增均建议 12–24 个月分阶段、单笔不超过年收入 3–5%（具体以保险合同条款为准）。</span>
   </div>
   <div class="selfcheck">
-    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户，让TA自己勾</span></div>
+    <div class="sc-head">随手自查<span class="hint no-print">　让TA自己勾</span></div>
     <div class="sc-row"><span>1. 如果需要休养几年，一次到账的钱够家里这几年的开销吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>2. 家里顶梁柱的责任（房贷＋孩子学业等），有专门的一笔钱托底吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>3. 如果住院开销特别大，有能报销大额账单的机制吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
@@ -658,7 +658,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="dim-act">➔ 【未来关注】暂不行动，基础保障完善后再评估</div>
   </article>
   <div class="selfcheck">
-    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户</span></div>
+    <div class="sc-head">随手自查<span class="hint no-print">　让TA自己勾</span></div>
     <div class="sc-row"><span>1. 每张保单"留给家人的钱"到时候给谁——写的是具体名字，还是"法定"？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>2. 家里结构有变化（结婚/添丁），领钱的安排需要更新吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>3. 每张保单是谁出钱办的？出钱的人清楚保单里的钱算谁的吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
@@ -693,7 +693,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="dim-act">➔ 【评估】为主要收入来源评估责任期的定期托底，补齐责任匹配的那一块</div>
   </article>
   <div class="selfcheck">
-    <div class="sc-head">随手自查<span class="hint no-print">　——把笔递给客户</span></div>
+    <div class="sc-head">随手自查<span class="hint no-print">　让TA自己勾</span></div>
     <div class="sc-row"><span>1. 每张保单都在正常状态吗？有没有临近缴费节点的？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
     <div class="sc-row"><span>2. 手机号、地址是最新的吗？公司能第一时间找到您吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
     <div class="sc-row"><span>3. 当初办理时，健康情况都如实说清楚了吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
@@ -729,10 +729,10 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="pk-t">请您勾选：以下九项中，您目前优先关心、希望先解决的是哪三项？</div>
     <label>☐ 健康守护金（安心休养的钱）</label><label>☐ 顶梁柱责任（家庭责任托底）</label><label>☐ 大额医疗（住院大额开销）</label><label>☐ 爱的传递（受益人指定）</label><label>☐ 资产状态（保单有无贷款）</label><label>☐ 缴费连续（保费负担合理）</label><label>☐ 信息时效（联系方式最新）</label><label>☐ 期限匹配（保障期够不够）</label><label>☐ 进阶规划（未来再看）</label>
     <div style="margin-top:8px;color:var(--muted)">您的选择将帮助我们确定沟通重点，不勾选也没关系，我们可以一起讨论。</div>
-    <p style="font-size:12px;color:var(--muted);margin-top:4px">补充：除上述九维外，另见第 08 部分「补充检视」六维（家庭动态 / 缴费可持续 / 理赔可操作 / 合规守护 / 闭环复诊 / 税优联动）——进阶话题，不纳入本表评分。</p>
+    <p style="font-size:12px;color:var(--muted);margin-top:4px">补充：除上述九维外，另见第 08 部分「补充检视」六维（家庭动态 / 缴费可持续 / 理赔可操作 / 合规守护 / 闭环复诊 / 税优联动），不纳入本表评分。</p>
   </div>
   <div class="findings">
-    <div class="card find"><div class="fn serif">壹</div><div><b>最要紧的"责任空间"：</b>［按实况填写：家庭责任总额 vs 已有托底，建议先以月缴百元级定期型托住责任较重的这几年，之后随收入从容加厚。］</div></div>
+    <div class="card find"><div class="fn serif">壹</div><div><b>最要紧的"责任空间"：</b>［按实况填写：家庭责任总额 vs 已有托底，建议优先考虑，这笔钱会替您继续撑起车贷、房贷、家用和孩子的学业，让家人的日子照常运转。］</div></div>
     <div class="card find"><div class="fn serif">贰</div><div><b>划算的"免费完善"：</b>［按实况填写：领钱安排由"法定 / 待核对"改为"指定"——免费、约十几分钟，让这笔钱到时候直接、按意愿到家人手上。］</div></div>
     <div class="card find"><div class="fn serif">叁</div><div><b>需要补上的"基石"：</b>［按实况填写：缺大额医疗则按主要收入来源、配偶、孩子的顺序分阶段补齐百万级；同时核对缴费负担率，新增强化务必分阶段、单选先行、控制总负担率不突破 20%；另请更新保单预留联系方式（免费·约10分钟）。］</div></div>
   </div>
@@ -765,7 +765,6 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="dir"><b>方向C · 医疗基石＋守护金</b>为全家分阶段补齐百万级大额医疗，再视预算为主要收入来源补健康守护金——可与A分阶段推进。</div>
   </div>
   <div class="card">
-    <b class="serif" style="color:var(--teal)">预算试算参考（基于家庭年收入合计，按实况填写）</b>
     <table>
       <tr><th>配置方案</th><th>新增年缴（约）</th><th>总年缴（约）</th><th>总负担率</th><th>建议</th></tr>
       <tr><td>当前（已有保单）</td><td>—</td><td>［ ］</td><td>［ ］%</td><td>［ ］</td></tr>
@@ -843,7 +842,7 @@ details.internal summary{font-weight:700;color:#7a6233;cursor:pointer}
     <div class="lawbox"><b>提示（转述版）：</b>税优政策以国家最新规定为准（税优健康险、个人养老金均有年度额度与条件）；另需提醒：保单现金价值并非"绝对隔离"，作为债务人时可能被强制执行（《民事诉讼法》第253条）——有疑问可咨询专业意见。</div>
   </article>
   <div class="selfcheck">
-    <div class="sc-head">随手自查 · 六件小事<span class="hint no-print">　——把笔递给客户，让TA自己勾</span></div>
+    <div class="sc-head">随手自查 · 六件小事<span class="hint no-print">　让TA自己勾</span></div>
     <div class="sc-row"><span>1. 家里近几年有"添丁 / 结婚 / 离婚"吗？领钱安排更新过吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
     <div class="sc-row"><span>2. 未来两三年，每份保单的保费都"交得动"吗？</span><span class="sc-opts">☐ 没问题　☐ 不确定</span></div>
     <div class="sc-row"><span>3. 真到用钱的时候，知道先联系谁、要准备什么材料吗？</span><span class="sc-opts">☐ 清楚　☐ 不确定</span></div>
