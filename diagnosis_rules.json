@@ -1,5 +1,5 @@
 {
-  "version": "2.26.1",
+  "version": "2.26.2",
   "update_note": "v2.25.4 三项紧急修复：①零下载铁律——v2.25.3 实测确认在受限浏览器下即使 type:text/html 的 Blob + <a download> 仍触发系统级「blob 链接」对话框，v2.25.4 起取消采集表「💾 备份采集数据」按钮 + 取消外壳「💾 另存为 HTML」按钮，采集表/外壳零下载。②交付物直接显示铁律——报告/手册 HTML 副本生成后必须立即 file_preview/open 让交付物显示在对话界面（artifact 卡片），禁止贴文件路径。③零询问加固——v2.25.4 用户实测仍出现「询问顶梁柱是谁」窗口，根因是用户本地专家包仍是 v2.12.0 旧版（与云端 8 文件 v2.25.3 并存），agent 跑 v2.12.0 旧路径；v2.25.4 同步升 agent 定义 + 强化「零询问」铁律到采集表自身。版本三元组同步升 v2.25.4。｜v2.26.0：报告模板替换为「豆包通用正式版」——新增第 08 章「补充检视·六个更周全的维度」（十~十五，进阶话题、不纳入九维评分、不联动仪表盘）；报告字段绑定由 contenteditable 改为全角方括号 `［...］` 填空占位 + 8 个 dim-input（维度六「进阶规划」标记暂不评分，共 8 个评分输入）；SKILL.md 报告生成章节同步改写。版本三元组同步升 2.26.0。",
   "framework": "三问九维",
   "framework_note": "三问=钱够不够用（保障是否充足）·钱到时候归谁（资产归属是否清晰）·钱顺不顺利拿到（保险权益申领是否顺畅），大白话版为报告口径；九维分属三问，先肯定已有保障（远见之择），再量化可优化空间",
@@ -411,7 +411,36 @@
     "dimension_score_rule": "每维度由用户在 0-100 直接打分（九宫格/雷达/表格共用同一输入）；维度六「规划空间」标记「暂不评分」不参与综合分计算；综合分 = Q1平均分×40% + Q2平均分×30%（仅维度四五，维度六排除）+ Q3平均分×30%；大项（Q1/Q2/Q3）分数为其所属非排除小项的算术平均分。模板 JS 自动按 BANDS 分档联动封面仪表盘/三问进度条/九宫格/雷达图。",
     "exclude_from_total": [
       "六 进阶规划空间"
-    ]
+    ],
+    "compute": {
+      "note": "综合健康度由模板 JS 自动计算；agent 只填 8 个维度分，禁止手算",
+      "excluded_dims": [
+        6
+      ],
+      "groups": {
+        "Q1": [
+          1,
+          2,
+          3
+        ],
+        "Q2": [
+          4,
+          5
+        ],
+        "Q3": [
+          7,
+          8,
+          9
+        ]
+      },
+      "weights": {
+        "Q1": 0.4,
+        "Q2": 0.3,
+        "Q3": 0.3
+      },
+      "formula": "Q1=avg(d1,d2,d3); Q2=avg(d4,d5); Q3=avg(d7,d8,d9); 总分=round(Q1*0.4+Q2*0.3+Q3*0.3)",
+      "bands_source": "沿用本节点 scoring.bands（>=80安心 / 60-79稳健 / 50-59可优化 / <50优先完善）"
+    }
   },
   "member_role_requirements": {
     "note": "成员角色保障需求基准表（诊断核心依据，输出用去保险化措辞）",
@@ -1212,5 +1241,96 @@
         "focus": "保单之外延伸价值——省税/资金周转/资产安排"
       }
     ]
-  }
+  },
+  "field_definitions": {
+    "monthly_fixed_variable": {
+      "includes_mortgage_car_loan": false,
+      "note": "月固定/月浮动支出为日常家用口径，不含房贷车贷月供；房贷车贷单列"
+    },
+    "annual_expense": {
+      "formula": "(月固定 + 月浮动) × 12",
+      "note": "报告 01 章年支出采用本口径，与采集表一致，不得改写为含月供口径"
+    },
+    "mortgage_remaining": {
+      "formula": "月供 × 剩余月数",
+      "basis": "含利息的剩余应还总额",
+      "note": "高于贷款总额属正常；如按剩余本金呈现须注明以银行对账单为准"
+    },
+    "total_responsibility": {
+      "formula": "年支出 × 责任年限 + 房贷剩余 + 车贷剩余 + 教育金 + 赡养 + 其他负债",
+      "note": "各项不得重复计入"
+    }
+  },
+  "conflict_resolution": {
+    "rule": "命中即锁定，禁止推理 / 估算 / 追问；裁决口径写入测算明细",
+    "cases": [
+      {
+        "id": "mortgage_zero_balance",
+        "condition": "房贷余额=0 或空 且 月供>0",
+        "resolution": "剩余年限>0 取 月供×剩余月数；剩余年限缺失取 贷款总额",
+        "report_note": "按还款结构折算，最终以银行对账单为准"
+      },
+      {
+        "id": "car_missing_balance",
+        "condition": "车贷月供>0 且 未填剩余额度",
+        "resolution": "按 0 计入，采集表提示补填",
+        "report_note": "单元格留空，禁止写「待核实」"
+      },
+      {
+        "id": "expense_exceeds_income",
+        "condition": "年支出 > 年总收入",
+        "resolution": "不调整数据，照实呈现",
+        "report_note": "作为家庭现金流紧张的客观发现写入 06 章"
+      },
+      {
+        "id": "ocr_vs_form_name",
+        "condition": "OCR 投保人姓名与采集表家庭成员不符",
+        "resolution": "以采集表家庭成员为准",
+        "report_note": "不写入 OCR 值，不加自造说明文字"
+      },
+      {
+        "id": "missing_remaining_years",
+        "condition": "缺剩余年限 但 总年限与已还年限完整",
+        "resolution": "剩余年限 = 总年限 − 已还年限",
+        "report_note": "直接计算，不标注估算"
+      }
+    ]
+  },
+  "self_check": [
+    {
+      "id": "zero_residue",
+      "assert": "报告正文不得残留任何 ［...］ 占位",
+      "severity": "block"
+    },
+    {
+      "id": "row_count",
+      "assert": "01 章保单清单行数 = 识别保单数；04 章归属表行数一致",
+      "severity": "block"
+    },
+    {
+      "id": "dim_filled",
+      "assert": "06 章 8 个 dim-input 均有 value 且为 0-100 整数",
+      "severity": "block"
+    },
+    {
+      "id": "no_example_names",
+      "assert": "不得残留模板示例客户姓名（模板应已清零）",
+      "severity": "block"
+    },
+    {
+      "id": "no_placeholder_text",
+      "assert": "动态表缺项留空，不得出现「待补录」「待核实」",
+      "severity": "warn"
+    },
+    {
+      "id": "five_card_consistency",
+      "assert": "生活开销+房贷+教育金+车贷 = 家庭责任合计，五项勾稽一致",
+      "severity": "block"
+    },
+    {
+      "id": "no_estimate_words",
+      "assert": "采集表权威值不得标注「估算值（可修改）」",
+      "severity": "block"
+    }
+  ]
 }

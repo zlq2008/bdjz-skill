@@ -433,12 +433,12 @@
 
   </div>
   <!-- v2.25.3 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
-  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.26.1</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/&lt;a download&gt; 路径，根除受限浏览器「blob 链接」系统对话框）</div>
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.26.2</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/&lt;a download&gt; 路径，根除受限浏览器「blob 链接」系统对话框）</div>
 </div>
 
 <script>
 // v2.25.4：控制台同步输出版本，便于技术侧核验
-console.log('%c[家庭数据采集表] 模板版本 v2.26.1（零下载版）','color:#B08A5A;font-weight:700');
+console.log('%c[家庭数据采集表] 模板版本 v2.26.2（零下载版）','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
@@ -634,7 +634,14 @@ function calculate() {
     const mortgagePaid = num('mortgagePaid');
     const balanceInput = document.getElementById('mortgageBalance');
     const remainingMonths = Math.max(0, (mortgageYears - mortgagePaid) * 12);
-    const autoCalc = mortgageMonthly * remainingMonths / 10000; // 万元
+    let autoCalc = mortgageMonthly * remainingMonths / 10000; // 万元
+    // v2.26.2 兜底：缺「贷款年限/已还年限」→ 剩余月数=0 → 原逻辑静默产出 0，与「月供>0」直接矛盾
+    // 新口径：月供>0 而剩余月数=0 时，用「贷款总额」兜底并标记待核对，禁止静默 0
+    window.__MORTGAGE_FALLBACK__ = '';
+    if (autoCalc <= 0 && mortgageMonthly > 0) {
+      const _total = num('mortgageTotal');
+      if (_total > 0) { autoCalc = _total; window.__MORTGAGE_FALLBACK__ = '缺贷款年限/已还年限，剩余额度按贷款总额暂计，需核对'; }
+    }
     // 一致性警示：自动值远超贷款总额（>2.5倍）说明月供与总额/年限组合矛盾，提示手动填手机银行剩余本金
     // 阈值依据：等额本息总还款/本金 正常范围约1.4~2.1倍（30年房贷上限约2.1），2.5倍以上必为输入矛盾
     const mortgageWarn = document.getElementById('mortgageBalanceWarn');
@@ -834,6 +841,12 @@ function buildCompactLine(d,r){
   parts.push('家庭责任总额'+r.家庭责任总额+'，建议保额'+r.建议保额);
   // v2.25.0：手册开关必须进回传串，否则 agent 看不到用户选择
   parts.push((d.交付选项&&d.交付选项.生成问答手册==='是')?'需要生成问答手册':'不需要问答手册');
+  // v2.26.2 口径声明 + 需核对项：随回传串一起给出，智能体无需再推理口径
+  parts.push('口径：月固定/月浮动支出<b>不含</b>房贷车贷月供（房贷车贷单列）；房贷剩余额度=月供×剩余月数，含利息');
+  if(window.__MORTGAGE_FALLBACK__) parts.push('房贷剩余口径：'+window.__MORTGAGE_FALLBACK__);
+  if(window.__CROSS_CHECK__&&window.__CROSS_CHECK__.length){
+    parts.push('需核对'+window.__CROSS_CHECK__.length+'项：'+window.__CROSS_CHECK__.map(function(x,i){return (i+1)+')'+x.replace(/<[^>]+>/g,'');}).join(' '));
+  }
   return parts.join('；');
 }
 // v2.25.4：取消「💾 备份采集数据」按钮与 downloadData() 函数——实测在受限浏览器（Edge/iframe）下即使 type:text/html 的 Blob + <a download> 仍会触发系统级「blob 链接」对话框。
@@ -942,7 +955,37 @@ function copyTextToClipboard(text, okMsg){
     return Promise.resolve(_manualCopyFallback(text));
   });
 }
+// ===== v2.26.2 提交前勾稽校验：把矛盾在采集端暴露，避免智能体在生成阶段反复推理空转 =====
+function crossCheck(){
+  var w=[];
+  var mMonthly=num('mortgageMonthly');
+  var mBal=parseFloat(document.getElementById('mortgageBalance').value)||0;
+  var mYears=num('mortgageYears'), mPaid=num('mortgagePaid'), mTotal=num('mortgageTotal');
+  if(document.getElementById('hasMortgage').checked){
+    if(mMonthly>0 && mBal<=0){
+      w.push('房贷月供>0 但剩余还款额度为 0：请补填「贷款年限/已还年限」，或按手机银行剩余本金手动填写');
+    } else if(mMonthly>0 && mYears<=0){
+      w.push('房贷缺「贷款年限」，剩余额度只能按贷款总额暂计，建议补填');
+    }
+    if(mTotal>0 && mBal>mTotal){
+      w.push('房贷剩余额度('+mBal+'万)高于贷款总额('+mTotal+'万)：本表口径为「含利息的剩余应还总额」，属正常；若报告按剩余本金呈现需另核银行对账单');
+    }
+  }
+  var cMonthly=num('carMonthly'), cBal=parseFloat(document.getElementById('carBalance').value)||0;
+  if(document.getElementById('hasCarLoan').checked && cMonthly>0 && cBal<=0){
+    w.push('车贷月供>0 但未填剩余还款额度：请按贷款APP显示的剩余本金填写');
+  }
+  var inc=(num('clientIncome')||0)+(num('spouseIncome')||0)+(num('otherIncome')||0);
+  var exp=(num('monthlyFixed')+num('monthlyVariable'))*12/10000;
+  if(inc>0 && exp>0 && exp>inc){
+    w.push('年支出('+exp.toFixed(1)+'万)高于年总收入('+inc.toFixed(1)+'万)：请核对「月固定/月浮动」是否已含房贷车贷月供（本表口径为<b>不含</b>，房贷车贷在第三、四部分单列）');
+  }
+  window.__CROSS_CHECK__=w;
+  return w;
+}
+
 function confirmResult(){
+  var _warns=crossCheck();  // v2.26.2：先做勾稽校验，结果并入结果面板与回传串
   var data=buildCollectedData();
   var result=buildCalcResult();
   var payload={source:'family_data_collection_form',type:'confirm',data:data,result:result,time:new Date().toISOString()};
@@ -950,7 +993,8 @@ function confirmResult(){
   var box=document.getElementById('confirmBox');
   window.__LAST_COMPACT__=compact;
   box.style.display='block';
-  box.innerHTML='<div class="cb-title">✅ 已采集完成，请按下面任一步骤交回智能体：</div>'+
+  box.innerHTML=(_warns.length?'<div style="margin-bottom:8px;padding:8px 10px;background:#FDF3EF;border:1px solid #E8C4B4;border-radius:6px;color:#B45F4D;font-size:12.5px;line-height:1.7"><b>⚠ 提交前请核对 '+_warns.length+' 项</b><br>'+_warns.map(function(x,i){return (i+1)+'. '+x;}).join('<br>')+'</div>':'')+
+    '<div class="cb-title">✅ 已采集完成，请按下面任一步骤交回智能体：</div>'+
     '<div class="cb-body"><b>① 推荐</b>：点击下面「📋 一键复制回传内容」，<b>粘贴到对话发送</b>，智能体直接读取出报告<br>'+
     '（v2.25.4 起零下载，不再触发「blob 链接」系统对话框；如需本地存档，用「📋 复制采集数据」把内容粘贴到记事本）<br>'+
     '<b>② 或</b>：口述要改的项（如「房贷余额50万、张立强年收入20万」）。</div>'+
