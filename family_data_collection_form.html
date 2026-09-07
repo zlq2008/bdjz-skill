@@ -609,7 +609,7 @@ function calculate() {
   }
 
   // 车贷剩余还款额度（v2.23.1 起不再自动计算：车贷计息结构复杂，月供×剩余月数与实际剩余本金偏差大，
-  // 统一由人工按手机银行/贷款APP显示的剩余应还本金填写；未填则按 0 计入，不影响房贷的自动计算）
+  // 统一由人工按手机银行/贷款APP显示的剩余应还本金填写；未填则按 0 计入）
   let carLoanRemaining = 0;
   if (document.getElementById('hasCarLoan').checked) {
     carLoanRemaining = num('carBalance');
