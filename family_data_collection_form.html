@@ -286,12 +286,11 @@
           </div>
           <div class="field">
             <label>剩余还款额度</label>
-            <div class="unit"><input type="number" id="mortgageBalance" data-auto="true" class="auto-calc" placeholder=""><span>万元</span></div>
-            <div class="note" id="mortgageBalanceWarn" style="display:none;color:#B45F4D;">注意：自动算出的剩余额度明显高于贷款总额，月供与贷款总额/年限可能不匹配，请核对；建议以手机银行显示的剩余本金为准手动填入</div>
-            <div class="note">含利息，= 月供 × 剩余月数；如手机银行显示剩余本金，可手动输入覆盖</div>
+            <div class="unit"><input type="number" id="mortgageBalance" placeholder=""><span>万元</span></div>
+            <div class="note">请按手机银行 / 贷款 APP 显示的「剩余应还本金」如实填写（v2.26.3 起不再自动计算）</div>
           </div>
         </div>
-        <div class="note">剩余还款总额 = 月供 × 剩余月数（含利息），比剩余本金更真实反映客户负债</div>
+        <div class="note">房贷与车贷的「剩余还款额度」均为人工填写字段，口径＝手机银行 / 贷款 APP 显示的剩余应还本金</div>
       </div>
     </div>
 
@@ -433,12 +432,12 @@
 
   </div>
   <!-- v2.25.3 版本水印：用于确认当前使用的确实是模板原文（智能体若自行改写表单，此处会丢失） -->
-  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.26.2</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/&lt;a download&gt; 路径，根除受限浏览器「blob 链接」系统对话框）</div>
+  <div class="ver-stamp" id="verStamp">家庭数据采集表 · 模板版本 <b>v2.26.3</b>　|　看到本行版本号＝表单为模板原文，功能完整；<b>若无此行，说明表单被改写，子女性别/年龄、一键复制等功能可能缺失，请重新生成</b>　|　v2.25.4 起零下载（取消所有 Blob/&lt;a download&gt; 路径，根除受限浏览器「blob 链接」系统对话框）</div>
 </div>
 
 <script>
 // v2.25.4：控制台同步输出版本，便于技术侧核验
-console.log('%c[家庭数据采集表] 模板版本 v2.26.2（零下载版）','color:#B08A5A;font-weight:700');
+console.log('%c[家庭数据采集表] 模板版本 v2.26.3（零下载版）','color:#B08A5A;font-weight:700');
 window.__PREFILL__ = /*__PREFILL_JSON__*/null;
 // 保单清单管理
 let policyCount = 0;
@@ -556,9 +555,8 @@ document.getElementById('needSupport').addEventListener('change', function() {
 });
 document.getElementById('hasMortgage').addEventListener('change', function() {
   document.getElementById('mortgageFields').style.display = this.checked ? 'block' : 'none';
-  const bal = document.getElementById('mortgageBalance');
-  if(!this.checked){ bal.value=''; bal.dataset.auto='true'; bal.classList.add('auto-calc'); document.getElementById('mortgageBalanceWarn').style.display='none'; } // 取消勾选：清空并恢复自动模式
-  calculate(); // 重新勾选后自动恢复计算值
+  if(!this.checked){ document.getElementById('mortgageBalance').value=''; } // 取消勾选：清空手输值
+  calculate();
 });
 document.getElementById('hasCarLoan').addEventListener('change', function() {
   document.getElementById('carLoanFields').style.display = this.checked ? 'block' : 'none';
@@ -576,31 +574,8 @@ document.querySelectorAll('input, select').forEach(function(el) {
   el.addEventListener('change', calculate);
 });
 
-// 剩余还款额度：手动覆盖交互（仅房贷；车贷 v2.23.1 起为人工填写字段，不自动计算）
-// 仅当用户真正键入数值 → 转手动模式（白底深色，不再被自动计算覆盖）；
-// 清空 → 恢复自动模式（浅灰金底），calculate() 重新填入；
-// 注意：focus 不解除自动模式（否则点一下字段就冻结，之后改月供/年限不再联动）
-function bindBalanceOverride(inputId){
-  const el = document.getElementById(inputId);
-  if(!el) return;
-  // beforeinput：键入意图发生（值变化前）→ 立即转手动模式，防止 calculate() 同轮回填覆盖用户键入
-  el.addEventListener('beforeinput', function(){
-    el.dataset.auto = 'false';
-    el.classList.remove('auto-calc');
-  });
-  // input：清空 → 恢复自动模式（calculate() 会重新填入计算值）
-  el.addEventListener('input', function(){
-    if(!el.value){
-      el.dataset.auto = 'true';
-      el.classList.add('auto-calc');
-    } else {
-      el.dataset.auto = 'false';
-      el.classList.remove('auto-calc');
-    }
-  });
-}
-bindBalanceOverride('mortgageBalance');
-// 车贷不再绑定自动覆盖逻辑（v2.23.1：由人工填写）
+// v2.26.3：房贷 / 车贷「剩余还款额度」均为人工填写字段，不再绑定自动覆盖交互，
+// 也不再有自动计算回填（原房贷 auto-calc 与兜底逻辑已于 v2.26.3 一并移除）
 
 function num(id) {
   const v = parseFloat(document.getElementById(id).value);
@@ -626,38 +601,11 @@ function calculate() {
   document.getElementById('childCountDisplay').textContent = childCountNum;
   document.getElementById('minChildAgeDisplay').textContent = childCountNum > 0 && minChildAge > 0 ? minChildAge : '—';
 
-  // 房贷剩余还款额度（含利息，自动计算，可手动覆盖）
+  // 房贷剩余还款额度（v2.26.3 起不再自动计算，统一人工填写）
+  // 口径：手机银行 / 贷款 APP 显示的「剩余应还本金」，与车贷一致
   let mortgageRemaining = 0;
   if (document.getElementById('hasMortgage').checked) {
-    const mortgageMonthly = num('mortgageMonthly');
-    const mortgageYears = num('mortgageYears');
-    const mortgagePaid = num('mortgagePaid');
-    const balanceInput = document.getElementById('mortgageBalance');
-    const remainingMonths = Math.max(0, (mortgageYears - mortgagePaid) * 12);
-    let autoCalc = mortgageMonthly * remainingMonths / 10000; // 万元
-    // v2.26.2 兜底：缺「贷款年限/已还年限」→ 剩余月数=0 → 原逻辑静默产出 0，与「月供>0」直接矛盾
-    // 新口径：月供>0 而剩余月数=0 时，用「贷款总额」兜底并标记待核对，禁止静默 0
-    window.__MORTGAGE_FALLBACK__ = '';
-    if (autoCalc <= 0 && mortgageMonthly > 0) {
-      const _total = num('mortgageTotal');
-      if (_total > 0) { autoCalc = _total; window.__MORTGAGE_FALLBACK__ = '缺贷款年限/已还年限，剩余额度按贷款总额暂计，需核对'; }
-    }
-    // 一致性警示：自动值远超贷款总额（>2.5倍）说明月供与总额/年限组合矛盾，提示手动填手机银行剩余本金
-    // 阈值依据：等额本息总还款/本金 正常范围约1.4~2.1倍（30年房贷上限约2.1），2.5倍以上必为输入矛盾
-    const mortgageWarn = document.getElementById('mortgageBalanceWarn');
-    if (mortgageWarn) {
-      const mortgageTotal = num('mortgageTotal');
-      mortgageWarn.style.display = (autoCalc > 0 && mortgageTotal > 0 && autoCalc > mortgageTotal * 2.5 && balanceInput.dataset.auto === 'true') ? 'block' : 'none';
-    }
-    // 自动填入计算值（仅当用户未手动覆盖时）
-    if (balanceInput.dataset.auto === 'true' || !balanceInput.value) {
-      balanceInput.value = autoCalc > 0 ? autoCalc.toFixed(1) : '';
-      balanceInput.dataset.auto = 'true';
-      balanceInput.classList.add('auto-calc'); // 自动模式统一样式（浅灰底金字）
-    }
-    // 家庭责任计算：用户手动值优先，否则用自动计算值
-    const manualVal = num('mortgageBalance');
-    mortgageRemaining = manualVal > 0 ? manualVal : autoCalc;
+    mortgageRemaining = num('mortgageBalance');
   }
 
   // 车贷剩余还款额度（v2.23.1 起不再自动计算：车贷计息结构复杂，月供×剩余月数与实际剩余本金偏差大，
@@ -708,7 +656,7 @@ function calculate() {
   document.getElementById('calcDetail').innerHTML =
     `年支出 = (${monthlyFixed}+${monthlyVariable})×12 = <b>${annualExpense.toFixed(1)}万</b>；` +
     `责任年限 = max(${yearsToChildIndependent}, ${yearsTo60}) = <b>${responsibilityYears}年</b><br>` +
-    `${document.getElementById('mortgageBalance').dataset.auto === 'true' ? `房贷剩余 = ${num('mortgageMonthly')}×${Math.max(0,(num('mortgageYears')-num('mortgagePaid'))*12)}期 = <b>${mortgageRemaining.toFixed(1)}万</b>（含利息）` : `房贷剩余（手动输入）= <b>${mortgageRemaining.toFixed(1)}万</b>（含利息）`}；` +
+    `房贷剩余（人工填写）= <b>${mortgageRemaining.toFixed(1)}万</b>；` +
     `车贷剩余（人工填写，按手机银行/贷款APP剩余本金）= <b>${carLoanRemaining.toFixed(1)}万</b><br>` +
     `教育金 = ${eduPerChild}万×${childCountNum}孩 = <b>${educationTotal}万</b>；` +
     `赡养预留 = <b>${supportTotal}万</b><br>` +
@@ -842,8 +790,7 @@ function buildCompactLine(d,r){
   // v2.25.0：手册开关必须进回传串，否则 agent 看不到用户选择
   parts.push((d.交付选项&&d.交付选项.生成问答手册==='是')?'需要生成问答手册':'不需要问答手册');
   // v2.26.2 口径声明 + 需核对项：随回传串一起给出，智能体无需再推理口径
-  parts.push('口径：月固定/月浮动支出<b>不含</b>房贷车贷月供（房贷车贷单列）；房贷剩余额度=月供×剩余月数，含利息');
-  if(window.__MORTGAGE_FALLBACK__) parts.push('房贷剩余口径：'+window.__MORTGAGE_FALLBACK__);
+  parts.push('口径：月固定/月浮动支出<b>不含</b>房贷车贷月供（房贷车贷单列）；房贷/车贷剩余额度均为人工填写，口径＝手机银行或贷款APP显示的剩余应还本金（v2.26.3 起不再自动计算）');
   if(window.__CROSS_CHECK__&&window.__CROSS_CHECK__.length){
     parts.push('需核对'+window.__CROSS_CHECK__.length+'项：'+window.__CROSS_CHECK__.map(function(x,i){return (i+1)+')'+x.replace(/<[^>]+>/g,'');}).join(' '));
   }
@@ -963,12 +910,10 @@ function crossCheck(){
   var mYears=num('mortgageYears'), mPaid=num('mortgagePaid'), mTotal=num('mortgageTotal');
   if(document.getElementById('hasMortgage').checked){
     if(mMonthly>0 && mBal<=0){
-      w.push('房贷月供>0 但剩余还款额度为 0：请补填「贷款年限/已还年限」，或按手机银行剩余本金手动填写');
-    } else if(mMonthly>0 && mYears<=0){
-      w.push('房贷缺「贷款年限」，剩余额度只能按贷款总额暂计，建议补填');
+      w.push('房贷月供>0 但未填剩余还款额度：请按手机银行 / 贷款 APP 显示的剩余应还本金填写');
     }
     if(mTotal>0 && mBal>mTotal){
-      w.push('房贷剩余额度('+mBal+'万)高于贷款总额('+mTotal+'万)：本表口径为「含利息的剩余应还总额」，属正常；若报告按剩余本金呈现需另核银行对账单');
+      w.push('房贷剩余额度('+mBal+'万)高于贷款总额('+mTotal+'万)：请核对（v2.26.3 口径为「剩余应还本金」，不应高于贷款总额）');
     }
   }
   var cMonthly=num('carMonthly'), cBal=parseFloat(document.getElementById('carBalance').value)||0;
@@ -1066,14 +1011,7 @@ function applyPrefill(){
   set('mortgageTotal',d.mortgageTotal);set('mortgageYears',d.mortgageYears);set('mortgagePaid',d.mortgagePaid);set('mortgageMonthly',d.mortgageMonthly);set('mortgageBalance',d.mortgageBalance);
   if(d.hasCarLoan!==undefined){chk('hasCarLoan',d.hasCarLoan); document.getElementById('carLoanFields').style.display=d.hasCarLoan?'block':'none';}
   set('carTotal',d.carTotal);set('carYears',d.carYears);set('carPaid',d.carPaid);set('carMonthly',d.carMonthly);set('carBalance',d.carBalance);
-  // 预填的房贷剩余额度视为手动输入值（白底深色，不被自动计算覆盖）；未预填则保持自动模式
-  // 车贷 v2.23.1 起为人工填写字段，预填值直接生效，无自动标记
-  (function(){
-    const el=document.getElementById('mortgageBalance');
-    if(!el) return;
-    if(el.value){el.dataset.auto='false'; el.classList.remove('auto-calc');}
-    else{el.dataset.auto='true'; el.classList.add('auto-calc');}
-  })();
+  // v2.26.3：房贷剩余额度与车贷一致，预填值直接生效，无自动标记
   if(d.educationPath!==undefined){const sel=document.getElementById('educationPath'); if(sel){sel.value=d.educationPath; document.getElementById('customEduField').style.display=d.educationPath==='custom'?'block':'none';}}
   set('customEdu',d.customEdu);
   set('otherIncome',d.otherIncome); set('otherDebt',d.otherDebt);
